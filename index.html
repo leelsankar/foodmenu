@@ -3254,7 +3254,7 @@ function buildWeekPlanImage() {
     const PW = 400;
     const HDR_H = 58;
     const ROW_H = isChild ? 72 : 62;
-    const FTR_H = 28;
+    const FTR_H = 44;
     const PH = HDR_H + DAYS.length * ROW_H + FTR_H;
     const COL_W = 52;
 
@@ -3331,15 +3331,19 @@ function buildWeekPlanImage() {
         });
     });
 
-    // Footer
+    // Footer CTA
     const fy = HDR_H + DAYS.length * ROW_H;
-    ctx.fillStyle = SECONDARY;
+    ctx.fillStyle = PRIMARY;
     ctx.fillRect(0, fy, PW, FTR_H);
+    // CTA line 1
     ctx.fillStyle = '#fff';
-    ctx.font = '9px system-ui,sans-serif';
+    ctx.font = 'bold 11px system-ui,sans-serif';
     ctx.textAlign = 'center';
-    ctx.globalAlpha = 0.85;
-    ctx.fillText('leelsankar.github.io/foodmenu · Family Menu Planner', PW / 2, fy + 17);
+    ctx.fillText('🍛 Plan your family meals free!', PW / 2, fy + 16);
+    // CTA line 2 — bold URL
+    ctx.font = 'bold 10px system-ui,sans-serif';
+    ctx.globalAlpha = 0.9;
+    ctx.fillText('leelsankar.github.io/foodmenu', PW / 2, fy + 32);
     ctx.globalAlpha = 1;
 
     return canvas;
