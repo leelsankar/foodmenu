@@ -103,6 +103,13 @@
         body.dark .pantry-qty[data-status="Empty"] { background: #2a0a0a; border-color: #c0392b; color: #fc8181; }
         body.dark .pantry-del:hover { background: #3a0a0a; color: #fc8181; }
         body.dark .pantry-cat-hdr { color: var(--p2); border-color: var(--border); }
+        body.dark .cook-share-row { background: #0f2010; border-color: #1e4a28; }
+        body.dark .cook-share-row .hint { color: #6abf77; }
+        body.dark .cook-item-row { background: var(--card); border-color: var(--border); }
+        body.dark .cook-item-btn { background: var(--cream); border-color: var(--border); color: var(--text-muted); }
+        body.dark .cook-item-btn.sel-full  { background: #0f2a18; border-color: #3a7a4a; color: #6abf77; }
+        body.dark .cook-item-btn.sel-low   { background: #2a1e08; border-color: #a07020; color: #f9c74f; }
+        body.dark .cook-item-btn.sel-empty { background: #2a0a0a; border-color: #c0392b; color: #fc8181; }
         /* Note pill with content */
         body.dark .note-pill.has-note { background: #2a1608; border-color: var(--p2); color: var(--p2); }
         /* Menu catalog tags */
@@ -560,6 +567,29 @@
         .pantry-del:hover { background:#fee2e2; color:#c0392b; }
         .pantry-add { display:flex; gap:.4rem; margin-top:.65rem; flex-wrap:wrap; }
         .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); }
+        /* ── Cook share row ──────────────────────────────── */
+        .cook-share-row { display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; padding:.6rem .75rem; background:linear-gradient(135deg,#e8f5e9,#f0faf0); border:1px solid #a8d5b5; border-radius:10px; margin-bottom:.75rem; }
+        .cook-share-row .hint { flex:1; margin:0; font-size:.75rem; color:#1b4332; }
+        /* ── Cook Mode Overlay (full-page, for the cook's phone) ─ */
+        .cook-mode-overlay { position:fixed; inset:0; z-index:9999; background:var(--bg); overflow-y:auto; display:flex; flex-direction:column; }
+        .cook-mode-wrap { max-width:520px; margin:0 auto; padding:1.25rem 1rem 7rem; width:100%; }
+        .cook-mode-hdr { text-align:center; padding:.75rem 0 1rem; }
+        .cook-mode-hdr .cook-icon { font-size:2.5rem; line-height:1; }
+        .cook-mode-hdr h2 { font-size:1.35rem; margin:.4rem 0 .2rem; }
+        .cook-mode-hdr p { color:var(--text-muted); font-size:.82rem; }
+        .cook-item-row { display:flex; align-items:center; gap:.5rem; padding:.5rem .45rem; border-radius:8px; border:1px solid var(--border); margin-bottom:.3rem; background:var(--card); }
+        .cook-item-name { flex:1; font-size:.85rem; font-weight:500; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .cook-item-btns { display:flex; gap:.3rem; flex-shrink:0; }
+        .cook-item-btn { padding:.28rem .48rem; border-radius:6px; font-size:.72rem; font-weight:700; border:1.5px solid var(--border); cursor:pointer; background:var(--bg); color:var(--text-muted); transition:all .15s; }
+        .cook-item-btn.sel-full  { background:#e8f5e9; border-color:#6abf77; color:#1b4332; }
+        .cook-item-btn.sel-low   { background:#fff8e1; border-color:#f9a825; color:#7a5000; }
+        .cook-item-btn.sel-empty { background:#fdecea; border-color:#e57373; color:#7f1010; }
+        .cook-mode-footer { position:fixed; bottom:0; left:0; right:0; padding:.85rem 1rem; background:var(--bg); border-top:1px solid var(--border); display:flex; flex-direction:column; align-items:center; gap:.3rem; box-shadow:0 -2px 12px rgba(0,0,0,.08); }
+        .btn-wide { width:100%; max-width:420px; padding:.75rem 1rem; font-size:1rem; border-radius:12px; }
+        /* ── Pantry Import Banner (top of screen when cook link opens) ─ */
+        .pantry-import-banner { position:fixed; top:0; left:0; right:0; z-index:1200; background:#1b4332; color:#fff; padding:.7rem 1rem; display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; box-shadow:0 2px 12px rgba(0,0,0,.15); }
+        .pantry-import-banner p { flex:1; margin:0; font-size:.82rem; min-width:180px; }
+        .pantry-import-acts { display:flex; gap:.5rem; margin-left:auto; }
         /* Mobile: one card per day — no horizontal scroll */
         .week-cards { display:none; flex-direction:column; gap:.65rem; padding:.65rem; }
         .day-card {
@@ -894,6 +924,32 @@
         <div class="modal-foot" style="justify-content:center">
             <button type="button" class="btn btn-p" style="min-width:140px" id="closeInstallTipFooter">Got it, I'll install it!</button>
         </div>
+    </div>
+</div>
+
+<!-- Pantry import banner — shown when user opens a cook-update link -->
+<div class="pantry-import-banner" id="pantryImportBanner" style="display:none">
+    <p id="pantryImportMsg">🍳 Cook's update received</p>
+    <div class="pantry-import-acts">
+        <button type="button" class="btn btn-s" style="background:#fff;color:#1b4332" id="pantryImportApply">✓ Apply</button>
+        <button type="button" class="btn btn-s" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)" id="pantryImportDismiss">✕</button>
+    </div>
+</div>
+
+<!-- Cook Mode Overlay — full-page view shown when cook opens a shared link -->
+<div class="cook-mode-overlay" id="cookModeOverlay" style="display:none">
+    <div class="cook-mode-wrap">
+        <div class="cook-mode-hdr">
+            <div class="cook-icon">🍳</div>
+            <h2 id="cookModeTitle">Kitchen Check</h2>
+            <p id="cookModeSubtitle">Mark items that are empty or running low</p>
+        </div>
+        <div id="cookItemsList"></div>
+        <div style="height:5rem"></div>
+    </div>
+    <div class="cook-mode-footer">
+        <button type="button" class="btn btn-p btn-wide" id="cookSendUpdateBtn">📲 Send Update via WhatsApp</button>
+        <p class="hint" style="font-size:.72rem;margin:0;text-align:center">Your update will be sent as a WhatsApp message</p>
     </div>
 </div>
 
@@ -3894,7 +3950,11 @@ function renderPantry(el) {
         return `<select class="pantry-qty" data-pk="${k}" data-status="${status}" title="Change quantity">${QTY_OPTS_HTML}${customOpt}</select>`;
     }
 
-    let html = `<div class="pantry-top-acts">
+    let html = `<div class="cook-share-row">
+        <span class="hint">👩‍🍳 Share pantry with your cook — she can mark what's empty and send back an update</span>
+        <button type="button" class="btn btn-p btn-s" id="shareCookBtn">📱 Share with Cook</button>
+    </div>
+    <div class="pantry-top-acts">
         <p class="hint">${inStockCount} of ${items.length} items in stock · Tap ✓/○ to toggle · Change qty with dropdown</p>
         <button class="btn btn-s" id="pantryMarkAll">✓ All in</button>
         <button class="btn btn-s" id="pantryClearAll">✗ All out</button>
@@ -4003,6 +4063,19 @@ function renderPantry(el) {
     };
     document.getElementById('pantryAddBtn')?.addEventListener('click', doAdd);
     document.getElementById('pantryNewName')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
+
+    document.getElementById('shareCookBtn')?.addEventListener('click', () => {
+        const url = generateCookUrl();
+        const profile = getProfile();
+        const name = (profile.plannerName || 'Family').split(' ')[0];
+        const msg = `Hi! ${name} shared the kitchen pantry checklist with you.\n\nPlease check which items are empty or running low, then tap "Send Update" — it will notify ${name} automatically.\n\n👉 ${url}`;
+        if (navigator.share) {
+            navigator.share({ title: 'Kitchen Pantry Check', text: msg }).catch(() => {});
+        } else {
+            const wa = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+            window.open(wa, '_blank');
+        }
+    });
 }
 
 function renderShopping() {
@@ -4231,9 +4304,175 @@ Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     renderMenuCatalog();
     renderShopping();
     maybeShowInstallBanner();
+    checkCookHash();
 }).catch(() => {
     alert('Could not load menus.json or ingredients.json. Run: python3 start_server.py then open http://localhost:8000/');
 });
+
+// ── COOK SHARE: share pantry with cook via URL encoding (no backend needed) ──
+
+function b64enc(str) {
+    return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+function b64dec(str) {
+    const s = str.replace(/-/g,'+').replace(/_/g,'/');
+    const pad = s.length % 4 ? s + '=='.slice(0, 4 - s.length % 4) : s;
+    try { return decodeURIComponent(escape(atob(pad))); } catch { return null; }
+}
+
+function generateCookUrl() {
+    const pantry = loadPantry();
+    const profile = getProfile();
+    const userName = (profile.plannerName || 'Family').split(' ')[0];
+    const items = Object.entries(pantry.items)
+        .map(([k, v]) => ({ k, name: v.name, qty: v.qty || (v.inStock !== false ? 'Full' : 'Empty') }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+    const payload = { v: 1, user: userName, items };
+    const base = location.href.split('#')[0];
+    return `${base}#cook=${b64enc(JSON.stringify(payload))}`;
+}
+
+function initCookMode(encoded) {
+    const raw = b64dec(encoded);
+    if (!raw) return;
+    let data;
+    try { data = JSON.parse(raw); } catch { return; }
+    if (!data || !data.items) return;
+
+    const overlay = document.getElementById('cookModeOverlay');
+    if (!overlay) return;
+
+    document.getElementById('cookModeTitle').textContent = `${data.user}'s Kitchen Check`;
+    document.getElementById('cookModeSubtitle').textContent = `Tap ✓ have it · ⚠ running low · ✗ all done/need to buy`;
+
+    // State: key → 'Full'|'Low'|'Empty'
+    const state = {};
+    data.items.forEach(it => {
+        state[it.k] = it.qty === 'Empty' ? 'Empty' : it.qty === 'Low' ? 'Low' : 'Full';
+    });
+
+    function buildCookList() {
+        const list = document.getElementById('cookItemsList');
+        const groups = new Map();
+        GROCERY_CATS.forEach(c => groups.set(c.label, []));
+        groups.set('🛍️ Other', []);
+        data.items.forEach(it => {
+            const cat = categoryForIngredient(it.name);
+            (groups.get(cat) || groups.get('🛍️ Other')).push(it);
+        });
+        let html = '';
+        [...groups.entries()].forEach(([cat, its]) => {
+            if (!its.length) return;
+            html += `<div class="pantry-cat-hdr" style="margin-top:.8rem">${cat}</div>`;
+            [...its].sort((a,b)=>a.name.localeCompare(b.name)).forEach(it => {
+                const s = state[it.k] || 'Full';
+                html += `<div class="cook-item-row" data-ck="${it.k}">
+                    <span class="cook-item-name">${it.name}</span>
+                    <div class="cook-item-btns">
+                        <button type="button" class="cook-item-btn${s==='Full'?' sel-full':''}" data-ck="${it.k}" data-st="Full" title="Have it (Full)">✓</button>
+                        <button type="button" class="cook-item-btn${s==='Low'?' sel-low':''}" data-ck="${it.k}" data-st="Low" title="Running low">⚠</button>
+                        <button type="button" class="cook-item-btn${s==='Empty'?' sel-empty':''}" data-ck="${it.k}" data-st="Empty" title="Empty / need to buy">✗</button>
+                    </div>
+                </div>`;
+            });
+        });
+        list.innerHTML = html;
+
+        list.querySelectorAll('.cook-item-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const k = btn.dataset.ck, st = btn.dataset.st;
+                state[k] = st;
+                const row = list.querySelector(`.cook-item-row[data-ck="${k}"]`);
+                if (row) {
+                    row.querySelectorAll('.cook-item-btn').forEach(b => {
+                        b.classList.toggle('sel-full',  b.dataset.st === 'Full'  && st === 'Full');
+                        b.classList.toggle('sel-low',   b.dataset.st === 'Low'   && st === 'Low');
+                        b.classList.toggle('sel-empty', b.dataset.st === 'Empty' && st === 'Empty');
+                    });
+                }
+            });
+        });
+    }
+
+    buildCookList();
+    overlay.style.display = '';
+    // Prevent scroll on body while overlay is shown
+    document.body.style.overflow = 'hidden';
+    overlay.style.overflowY = 'auto';
+
+    document.getElementById('cookSendUpdateBtn')?.addEventListener('click', () => {
+        const emptyKeys = Object.entries(state).filter(([,s])=>s==='Empty').map(([k])=>k);
+        const lowKeys   = Object.entries(state).filter(([,s])=>s==='Low').map(([k])=>k);
+        const emptyNames = emptyKeys.map(k => data.items.find(i=>i.k===k)?.name || k);
+        const lowNames   = lowKeys.map(k => data.items.find(i=>i.k===k)?.name || k);
+
+        const updatePayload = { v: 1, user: data.user, empty: emptyKeys, low: lowKeys };
+        const base = location.href.split('#')[0];
+        const updateUrl = `${base}#pantry-update=${b64enc(JSON.stringify(updatePayload))}`;
+
+        let msg = `Hi ${data.user}! 🍳 Here's today's kitchen update:\n`;
+        if (emptyNames.length) msg += `\n🔴 *Need to buy:* ${emptyNames.join(', ')}`;
+        if (lowNames.length)   msg += `\n🟡 *Running low:* ${lowNames.join(', ')}`;
+        if (!emptyNames.length && !lowNames.length) msg += '\n✅ Everything is well stocked — nothing needed!';
+        msg += `\n\n👉 Tap to update your app automatically:\n${updateUrl}`;
+
+        const wa = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(wa, '_blank');
+    });
+}
+
+function initPantryImport(encoded) {
+    const raw = b64dec(encoded);
+    if (!raw) return;
+    let data;
+    try { data = JSON.parse(raw); } catch { return; }
+    if (!data) return;
+
+    history.replaceState(null, '', location.pathname + (location.search || ''));
+
+    const emptyKeys = data.empty || [];
+    const lowKeys   = data.low   || [];
+    if (!emptyKeys.length && !lowKeys.length) return;
+
+    const parts = [];
+    if (emptyKeys.length) parts.push(`🔴 ${emptyKeys.length} item${emptyKeys.length>1?'s':''} to buy`);
+    if (lowKeys.length)   parts.push(`🟡 ${lowKeys.length} running low`);
+
+    const banner = document.getElementById('pantryImportBanner');
+    const msg    = document.getElementById('pantryImportMsg');
+    if (!banner || !msg) return;
+
+    const who = data.user ? `${data.user}'s cook` : 'Your cook';
+    msg.innerHTML = `🍳 <strong>${who} sent an update:</strong> ${parts.join(' · ')}`;
+    banner.style.display = '';
+
+    document.getElementById('pantryImportApply')?.addEventListener('click', () => {
+        const pantry = loadPantry();
+        emptyKeys.forEach(k => {
+            if (pantry.items[k]) { pantry.items[k].inStock = false; pantry.items[k].qty = 'Empty'; }
+            else pantry.items[k] = { name: k, inStock: false, qty: 'Empty' };
+        });
+        lowKeys.forEach(k => {
+            if (pantry.items[k]) { pantry.items[k].inStock = true; pantry.items[k].qty = 'Low'; }
+            else pantry.items[k] = { name: k, inStock: true, qty: 'Low' };
+        });
+        savePantry(pantry);
+        banner.style.display = 'none';
+        document.querySelector('.tab-btn[data-tab="shop"]')?.click();
+        document.querySelector('.shop-view-tab[data-shopview="pantry"]')?.click();
+    }, { once: true });
+
+    document.getElementById('pantryImportDismiss')?.addEventListener('click', () => {
+        banner.style.display = 'none';
+    }, { once: true });
+}
+
+// Detect cook/import hash on load — runs after app init promise resolves
+function checkCookHash() {
+    const h = location.hash;
+    if (h.startsWith('#cook=')) initCookMode(h.slice(6));
+    else if (h.startsWith('#pantry-update=')) initPantryImport(h.slice(15));
+}
 
 // Register service worker — network-first HTML means updates land on next open.
 // The controllerchange listener auto-reloads the page once when the new SW
