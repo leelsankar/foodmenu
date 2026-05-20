@@ -2,7 +2,7 @@
   "name": "Family Menu Planner",
   "short_name": "Menu Planner",
   "description": "South Indian weekly meal planner — plan meals, track ingredients, build shopping lists.",
-  "start_url": "/",
+  "start_url": "/foodmenu/",
   "display": "standalone",
   "background_color": "#fff9f2",
   "theme_color": "#8b3a2a",

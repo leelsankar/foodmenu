@@ -1,6 +1,6 @@
 // Service worker — cache-first for app shell, network-first for JSON data
 const CACHE = 'family-menu-v1';
-const APP_SHELL = ['/', '/index.html', '/menus.json', '/ingredients.json'];
+const APP_SHELL = ['/foodmenu/', '/foodmenu/index.html', '/foodmenu/menus.json', '/foodmenu/ingredients.json'];
 
 self.addEventListener('install', e => {
     e.waitUntil(
