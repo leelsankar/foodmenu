@@ -89,10 +89,7 @@
         }
         .tab-btn.active { background: var(--bg); color: var(--p); box-shadow: 0 -2px 8px rgba(0,0,0,.06); }
         main { max-width: 1020px; margin: 0 auto; padding: .85rem .75rem 2rem; }
-        footer.app-foot {
-            text-align: center; font-size: .7rem; color: var(--muted);
-            padding: 1rem; margin-top: .5rem;
-        }
+        footer.app-foot { margin-top:.5rem; }
         .panel { display:none; } .panel.active { display:block; }
         .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.45rem; margin-bottom:.6rem; }
         .toolbar-nav { display:flex; align-items:center; gap:.4rem; }
@@ -535,6 +532,24 @@
         /* Dark mode toggle */
         .btn-dark { background:rgba(255,255,255,.15); border:none; color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; }
         .btn-dark:hover { background:rgba(255,255,255,.25); }
+        /* Footer backup bar */
+        .app-foot { padding:.55rem 1rem; text-align:center; font-size:.72rem; color:var(--muted); border-top:1px solid var(--border); }
+        .foot-main { margin-bottom:.25rem; }
+        .foot-backup { display:flex; align-items:center; justify-content:center; gap:.4rem; flex-wrap:wrap; }
+        .foot-sep { color:var(--border); }
+        .btn-text-link { background:none; border:none; color:var(--p2); font-size:.72rem; cursor:pointer; padding:0; font-family:inherit; }
+        .btn-text-link:hover { text-decoration:underline; color:var(--p); }
+        /* Install steps */
+        .install-steps { display:flex; flex-direction:column; gap:.55rem; }
+        .install-step { display:flex; align-items:flex-start; gap:.6rem; font-size:.82rem; line-height:1.5; }
+        .install-num { background:var(--p); color:#fff; border-radius:50%; width:1.25rem; height:1.25rem; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:800; flex-shrink:0; margin-top:.1rem; }
+        /* Install nudge banner */
+        .install-banner { position:fixed; bottom:0; left:0; right:0; z-index:200; background:var(--p); color:#fff; padding:.6rem .9rem; display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; font-size:.78rem; box-shadow:0 -2px 12px rgba(0,0,0,.18); }
+        .install-banner.hidden { display:none; }
+        .install-banner span { flex:1; line-height:1.4; }
+        .install-banner-how { background:rgba(255,255,255,.25); border:none; color:#fff; font-size:.72rem; padding:.3rem .65rem; border-radius:8px; cursor:pointer; white-space:nowrap; }
+        .install-banner-how:hover { background:rgba(255,255,255,.38); }
+        .install-banner-close { background:none; border:none; color:rgba(255,255,255,.8); font-size:1rem; cursor:pointer; padding:.1rem .3rem; }
         /* Share week overlay */
         .share-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:300; display:flex; align-items:flex-start; justify-content:center; overflow-y:auto; padding:1rem; }
         .share-overlay.hidden { display:none; }
@@ -686,7 +701,46 @@
     </div>
 </div>
 
-<footer class="app-foot" id="appFoot">Family Menu · Plans stay on your device</footer>
+<footer class="app-foot" id="appFoot">
+    <div class="foot-main">Family Menu · Plans stay on your device</div>
+    <div class="foot-backup">
+        <button type="button" class="btn-text-link" id="backupBtn">📦 Backup data</button>
+        <span class="foot-sep">·</span>
+        <label class="btn-text-link" id="restoreLabel">📥 Restore
+            <input type="file" id="restoreInput" accept=".json" style="display:none">
+        </label>
+        <span class="foot-sep">·</span>
+        <button type="button" class="btn-text-link" id="installTipBtn">📲 Install app</button>
+    </div>
+</footer>
+
+<!-- Install / PWA tip modal -->
+<div class="overlay hidden" id="installTipOverlay">
+    <div class="modal" style="max-width:360px;padding:1.4rem 1.2rem">
+        <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;margin-bottom:.6rem">📲 Install for reliable storage</h3>
+        <p style="font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem">
+            Safari can clear website data when you close the browser.
+            <strong>Installing the app</strong> gives it a permanent storage space that Safari never wipes automatically.
+        </p>
+        <div class="install-steps">
+            <div class="install-step"><span class="install-num">1</span><span>Tap the <strong>Share</strong> button <span style="font-size:1.1em">⎋</span> at the bottom of Safari</span></div>
+            <div class="install-step"><span class="install-num">2</span><span>Scroll down and tap <strong>"Add to Home Screen"</strong></span></div>
+            <div class="install-step"><span class="install-num">3</span><span>Tap <strong>Add</strong> — the app icon appears on your home screen</span></div>
+            <div class="install-step"><span class="install-num">4</span><span>Open from the home screen icon — your data is now <strong>always saved</strong> ✅</span></div>
+        </div>
+        <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem;padding:.5rem .6rem;background:var(--cream);border-radius:8px;line-height:1.5">
+            💡 On Android: tap the browser menu → <strong>Add to Home Screen</strong> or <strong>Install app</strong>
+        </p>
+        <button type="button" class="btn btn-p" style="width:100%;margin-top:1rem" id="closeInstallTip">Got it</button>
+    </div>
+</div>
+
+<!-- iOS install nudge banner (shown once when Safari is detected, not installed) -->
+<div class="install-banner hidden" id="installBanner">
+    <span>📌 Add to Home Screen to keep your data safe across sessions</span>
+    <button type="button" class="btn btn-s install-banner-how" id="installBannerHow">How?</button>
+    <button type="button" class="btn-icon install-banner-close" id="installBannerClose">✕</button>
+</div>
 
 <div class="overlay setup-force" id="setupOverlay">
     <div class="modal setup-modal">
@@ -3220,6 +3274,72 @@ function closeShareWeek() {
     document.body.style.overflow = '';
 }
 
+// ─── BACKUP / RESTORE ────────────────────────────────────────────────────────
+const BACKUP_KEYS_RE = /^familyMenu_/;
+
+function exportAllData() {
+    const out = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (BACKUP_KEYS_RE.test(k)) out[k] = localStorage.getItem(k);
+    }
+    if (!Object.keys(out).length) { alert('Nothing to backup yet — set up the app first.'); return; }
+    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const today = new Date().toISOString().slice(0, 10);
+    a.href = url; a.download = `family-menu-backup-${today}.json`; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+function importAllData(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            const keys = Object.keys(data).filter(k => BACKUP_KEYS_RE.test(k));
+            if (!keys.length) { alert('This file does not look like a Family Menu backup.'); return; }
+            if (!confirm(`Restore ${keys.length} data entries from backup?\nThis will replace your current data.`)) return;
+            keys.forEach(k => localStorage.setItem(k, data[k]));
+            alert('✅ Data restored! The app will reload now.');
+            location.reload();
+        } catch { alert('Could not read the backup file. Make sure it is a valid JSON backup.'); }
+    };
+    reader.readAsText(file);
+}
+
+// ─── INSTALL / PWA NUDGE ─────────────────────────────────────────────────────
+const INSTALL_DISMISSED_KEY = 'familyMenu_installDismissed_v1';
+
+function isRunningAsInstalled() {
+    return window.navigator.standalone === true ||
+           window.matchMedia('(display-mode: standalone)').matches ||
+           window.matchMedia('(display-mode: fullscreen)').matches;
+}
+function isIosSafari() {
+    return /iP(hone|ad|od)/.test(navigator.userAgent) &&
+           /WebKit/.test(navigator.userAgent) &&
+           !/CriOS|FxiOS|EdgiOS/.test(navigator.userAgent);
+}
+function maybeShowInstallBanner() {
+    if (isRunningAsInstalled()) return;
+    const dismissed = localStorage.getItem(INSTALL_DISMISSED_KEY);
+    if (dismissed && Date.now() - Number(dismissed) < 7 * 24 * 60 * 60 * 1000) return;
+    // Show on iOS Safari always; on other browsers show only if data exists
+    if (isIosSafari() || hasExistingData()) {
+        document.getElementById('installBanner').classList.remove('hidden');
+    }
+}
+function openInstallTip() {
+    document.getElementById('installTipOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+function closeInstallTipModal() {
+    document.getElementById('installTipOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
 // ─── SHARE SHOPPING LIST ─────────────────────────────────────────────────────
 async function shareShoppingList() {
     const days = shopView === 'trip' ? daysForShopTrip() : [...DAYS];
@@ -3735,6 +3855,26 @@ document.getElementById('shareWeekCopy').addEventListener('click', async () => {
     setTimeout(() => btn.textContent = '📋 Copy text', 2000);
 });
 
+// ─── BACKUP / RESTORE / INSTALL WIRING ───────────────────────────────────────
+document.getElementById('backupBtn').addEventListener('click', exportAllData);
+document.getElementById('restoreInput').addEventListener('change', e => importAllData(e.target.files[0]));
+document.getElementById('restoreLabel').addEventListener('click', () => {
+    document.getElementById('restoreInput').value = '';
+});
+document.getElementById('installTipBtn').addEventListener('click', openInstallTip);
+document.getElementById('closeInstallTip').addEventListener('click', closeInstallTipModal);
+document.getElementById('installTipOverlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeInstallTipModal();
+});
+document.getElementById('installBannerHow').addEventListener('click', () => {
+    document.getElementById('installBanner').classList.add('hidden');
+    openInstallTip();
+});
+document.getElementById('installBannerClose').addEventListener('click', () => {
+    document.getElementById('installBanner').classList.add('hidden');
+    localStorage.setItem(INSTALL_DISMISSED_KEY, Date.now().toString());
+});
+
 Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     migrateLegacyBabyData();
     applyDarkMode();
@@ -3749,6 +3889,7 @@ Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     renderWeekTable();
     renderMenuCatalog();
     renderShopping();
+    maybeShowInstallBanner();
 }).catch(() => {
     alert('Could not load menus.json or ingredients.json. Run: python3 start_server.py then open http://localhost:8000/');
 });
