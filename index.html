@@ -68,6 +68,8 @@
         body.dark .day-pill { background: var(--cream); color: var(--text); }
         body.dark .day-pill.today:not(.on) { border-color: var(--p2); }
         body.dark .shop-view-tab { background: var(--cream); color: var(--text); }
+        body.dark .shop-act-btn.btn-s { background: var(--cream); color: var(--text); border-color: var(--border); }
+        body.dark .shop-act-btn.btn-x { background: var(--cream); color: var(--text); border-color: var(--border); }
         body.dark .qty-btn { background: var(--cream); color: var(--p); }
         body.dark .kitchen-strip { background: var(--cream); }
         body.dark .setup-hero { background: var(--cream); }
@@ -293,6 +295,16 @@
         .setup-steps { display: flex; gap: .35rem; margin-bottom: 1rem; }
         .setup-step-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
         .setup-step-dot.on { background: var(--p2); }
+        /* Shopping action bar — compact inline row, never stacks to full-width columns */
+        .shop-acts {
+            display: flex; flex-wrap: wrap; gap: .38rem;
+            margin-bottom: .6rem; align-items: center;
+        }
+        .shop-act-btn {
+            flex: 1 1 auto; min-width: 0;
+            font-size: .72rem; padding: .35rem .6rem;
+            white-space: nowrap; text-align: center;
+        }
         .shop-view-tabs { display: flex; gap: .35rem; margin-bottom: .75rem; }
         .shop-view-tab {
             padding: .4rem .75rem; border: 2px solid var(--border); border-radius: 999px;
@@ -717,12 +729,12 @@
         </div>
         <div class="progress-bar"><span id="shopProgress" style="width:0%"></span></div>
         <p class="hint" id="shopSummary"></p>
-        <div class="toolbar" style="margin-bottom:.5rem">
-            <button type="button" class="btn btn-s" id="setupPantryBtn">Set up pantry</button>
-            <button type="button" class="btn btn-s" id="markAllBoughtBtn">✓ All bought</button>
-            <button type="button" class="btn btn-s" id="clearShopChecks">Clear ticks</button>
-            <button type="button" class="btn btn-s" id="shareShopBtn">🔗 Share</button>
-            <button type="button" class="btn btn-x" id="exportShopBtn">📥 Excel</button>
+        <div class="shop-acts">
+            <button type="button" class="btn btn-s shop-act-btn" id="setupPantryBtn">🏠 Pantry</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="markAllBoughtBtn">✓ Bought</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="clearShopChecks">✗ Clear</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="shareShopBtn">🔗 Share</button>
+            <button type="button" class="btn btn-x shop-act-btn" id="exportShopBtn">📥 Excel</button>
         </div>
         <div id="shopContent"></div>
     </section>
