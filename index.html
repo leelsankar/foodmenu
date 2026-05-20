@@ -111,11 +111,11 @@
         /* Note pill with content */
         body.dark .note-pill.has-note { background: #2a1608; border-color: var(--p2); color: var(--p2); }
         /* Menu catalog tags */
-        body.dark .tag { background: var(--cream); color: var(--text); }
+        body.dark .tag { background: var(--cream); color: var(--text); border-color: var(--border); }
+        body.dark .tag:hover { background: var(--card); }
         body.dark .tag.custom { background: #0d1f2d; border-color: #457b9d; color: #90caf9; }
         body.dark .tag .rm { background: #3a1010; color: var(--nv); }
         body.dark .tag .rm:hover { background: var(--nv); color: #fff; }
-        body.dark .tag-planned { background: #1a3a28; color: var(--p3); }
         body.dark .seg-details summary { color: var(--muted); }
         body.dark .hidden-block { background: #2a200a; border-color: #5a4a1a; }
         body.dark .hidden-block h4 { color: #c4a340; }
@@ -234,26 +234,35 @@
         .seg.di-s4 h3 { color:#e63946; }
         .seg.di-s5 h3 { color:#457b9d; }
         .seg.di-s6 h3 { color:#bc6c25; }
-        .tags { display:flex; flex-wrap:wrap; gap:.3rem; }
+        /* ── Menu catalog grid ─────────────────────────── */
+        .tags {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: .3rem;
+        }
+        @media (min-width: 560px) { .tags { grid-template-columns: repeat(3, 1fr); } }
         .tag {
-            display:inline-flex; align-items:center; gap:.2rem;
-            font-size:.7rem; background:#f1f3f5; padding:.18rem .3rem .18rem .45rem; border-radius:4px;
+            display: flex; align-items: center; gap: .25rem; min-width: 0;
+            font-size: .78rem; background: var(--bg); padding: .38rem .45rem;
+            border-radius: 7px; border: 1px solid var(--border);
+            transition: background .12s;
         }
-        .tag.nv { border-left:2px solid var(--nv); }
+        .tag:hover { background: var(--cream); }
+        .tag-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+        .tag.nv { border-left: 2px solid var(--nv); }
         .tag .rm {
-            width:17px; height:17px; border:none; border-radius:50%;
-            background:#fde8e8; color:var(--nv); font-size:.7rem; font-weight:700;
-            cursor:pointer; line-height:1; flex-shrink:0;
+            width: 16px; height: 16px; border: none; border-radius: 50%;
+            background: #fde8e8; color: var(--nv); font-size: .65rem; font-weight: 700;
+            cursor: pointer; line-height: 1; flex-shrink: 0; display:flex; align-items:center; justify-content:center;
         }
-        .tag .rm:hover { background:var(--nv); color:#fff; }
-        .tag.custom { background:#e3f2fd; border:1px dashed #457b9d; }
-        .seg-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.35rem; }
-        .seg-head h3 { margin:0; }
+        .tag .rm:hover { background: var(--nv); color: #fff; }
+        .tag.custom { background: #e3f2fd; border: 1px dashed #457b9d; }
         .btn-add {
-            padding:.2rem .5rem; border:none; border-radius:4px;
-            background:var(--p2); color:#fff; font-size:.68rem; font-weight:700; cursor:pointer; flex-shrink:0;
+            padding: .18rem .5rem; border: none; border-radius: 5px; flex-shrink: 0;
+            background: var(--p2); color: #fff; font-size: .66rem; font-weight: 700; cursor: pointer;
+            margin-left: auto;
         }
-        .btn-add:hover { background:var(--p); }
+        .btn-add:hover { background: var(--p); }
         .add-form label { display:block; font-size:.78rem; font-weight:600; margin-bottom:.25rem; }
         .add-form input[type="text"] {
             width:100%; padding:.5rem .65rem; border:1px solid var(--border); border-radius:8px;
@@ -446,15 +455,17 @@
         }
         .planner-switch { flex-wrap: wrap; max-width: 100%; }
         .planner-opt { font-size: .68rem; padding: .35rem .55rem; }
-        .seg-details { margin-bottom: .5rem; }
+        .seg-details { margin-bottom: .4rem; }
         .seg-details summary {
-            cursor: pointer; font-size: .72rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: .04em; color: var(--muted); padding: .35rem 0; list-style: none;
+            cursor: pointer; font-size: .71rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .05em; color: var(--muted); padding: .3rem 0; list-style: none;
+            display: flex; align-items: center; gap: .5rem; user-select: none;
         }
         .seg-details summary::-webkit-details-marker { display: none; }
-        .seg-details summary::before { content: '▸ '; }
-        .seg-details[open] summary::before { content: '▾ '; }
-        .seg-details .seg-inner { padding-top: .25rem; }
+        .seg-label { flex: 1; }
+        .seg-label::before { content: '▸ '; }
+        .seg-details[open] .seg-label::before { content: '▾ '; }
+        .seg-details .seg-inner { padding-top: .2rem; }
         .bf-egg-block {
             margin-bottom: .75rem; padding: .55rem .65rem;
             background: #fff8e6; border-radius: 10px; border: 1px solid #f0d78c;
@@ -629,20 +640,20 @@
         .week-empty-card h3 { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; color:var(--p); margin-bottom:.4rem; }
         .week-empty-card p { font-size:.8rem; color:var(--muted); margin-bottom:.85rem; line-height:1.55; }
         .week-empty-actions { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; }
-        /* Planned-badge in menu catalog */
-        .tag-planned { font-size:.6rem; font-weight:800; background:#d8f3dc; color:#1b4332;
-            border-radius:999px; padding:.1rem .4rem; margin-left:.3rem; vertical-align:middle; }
+        /* Planned-badge in menu catalog — compact ✓ dot in 2-col grid */
+        .tag-planned { font-size:.65rem; font-weight:900; background:#2d6a4f; color:#fff;
+            border-radius:50%; width:1rem; height:1rem; flex-shrink:0;
+            display:inline-flex; align-items:center; justify-content:center; }
         /* Shop empty onboarding */
         .shop-onboard {
             background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius);
             padding: 1.1rem 1rem; text-align:center;
         }
         .shop-onboard p { font-size:.83rem; color:var(--muted); margin-bottom:.75rem; }
-        /* Ingredient edit link in catalog */
+        /* Ingredient edit icon in 2-col menu grid */
         .tag-ing-edit {
-            font-size:.6rem; color:var(--p2); font-weight:700; cursor:pointer;
-            border:none; background:none; padding:.1rem .25rem; margin-left:.2rem;
-            opacity:.6; vertical-align:middle;
+            font-size:.62rem; cursor:pointer; border:none; background:none;
+            padding:0 .1rem; flex-shrink:0; opacity:.5; line-height:1;
         }
         .tag-ing-edit:hover { opacity:1; }
         /* Day note pill */
@@ -2594,18 +2605,18 @@ function renderMenuCatalog() {
             const addBtn = `<button type="button" class="btn-add" data-add="${seg.listKey}">+ Add</button>`;
             const open = seg.collapsed && !q ? '' : ' open';
             card += `<details class="seg-details ${seg.cls}"${open}>`;
-            card += `<summary>${seg.label}</summary>`;
-            card += `<div class="seg-inner"><div class="seg-head" style="margin-bottom:.35rem"><span></span>${addBtn}</div>`;
-            if (seg.hint) card += `<p class="hint" style="margin:0 0 .35rem">${seg.hint}</p>`;
+            card += `<summary><span class="seg-label">${seg.label}</span>${addBtn}</summary>`;
+            card += `<div class="seg-inner">`;
+            if (seg.hint) card += `<p class="hint" style="margin:0 0 .35rem;font-size:.71rem">${seg.hint}</p>`;
             if (!items.length) {
-                card += `<p class="hint">Hidden by diet filter or search — change ⚙️ preferences</p></div></details>`;
+                card += `<p class="hint">Hidden by filter or search — change ⚙️ preferences</p></div></details>`;
                 return;
             }
             card += `<div class="tags">${items.map(i => {
                 const rm = `<button type="button" class="rm" data-list="${seg.listKey}" data-id="${i.id}" data-custom="${i.custom?'1':'0'}">×</button>`;
-                const planned = plannedIds.has(i.id) ? `<span class="tag-planned">✓ this week</span>` : '';
-                const ingEdit = i.id ? `<button type="button" class="tag-ing-edit" data-ing-id="${i.id}" data-ing-name="${i.name}" title="Add/view ingredients for this dish">🧂</button>` : '';
-                return `<span class="tag ${i.nonveg?'nv':''} ${i.custom?'custom':''}">${i.name}${planned}${ingEdit}${rm}</span>`;
+                const planned = plannedIds.has(i.id) ? `<span class="tag-planned">✓</span>` : '';
+                const ingEdit = i.id ? `<button type="button" class="tag-ing-edit" data-ing-id="${i.id}" data-ing-name="${i.name}" title="Edit ingredients">🧂</button>` : '';
+                return `<span class="tag ${i.nonveg?'nv':''} ${i.custom?'custom':''}"><span class="tag-name">${i.name}</span>${planned}${ingEdit}${rm}</span>`;
             }).join('')}</div></div></details>`;
         });
         if (card) html += `<div class="meal-card"><h2>${m.title}</h2>${card}</div>`;
