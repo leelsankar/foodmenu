@@ -62,6 +62,8 @@
         body.dark .note-pill { background: var(--cream); border-color: var(--border); color: var(--muted); }
         body.dark .setup-pref { background: var(--cream); border-color: var(--border); color: var(--text); }
         body.dark .setup-pref.on { background: #3a1e0a; border-color: var(--p2); color: var(--p2); }
+        body.dark .diet-group-hdr { color: var(--p2); }
+        body.dark .diet-group-sub { color: var(--text-muted); }
         body.dark .share-modal { background: var(--card); }
         body.dark .modal { background: var(--card); color: var(--text); }
         /* Picker / modal internals */
@@ -424,21 +426,27 @@
         }
         .qty-preset.on { background: var(--p2); color: #fff; border-color: var(--p2); }
         .diet-bar {
-            display: flex; flex-wrap: wrap; gap: .35rem; align-items: center;
             margin-bottom: .65rem; padding: .5rem .65rem;
             background: var(--cream); border-radius: 10px; border: 1px solid var(--border);
             font-size: .72rem;
         }
-        .diet-bar span.lbl { font-weight: 700; color: var(--muted); margin-right: .25rem; }
+        .diet-bar-inner { display: flex; flex-wrap: wrap; gap: .3rem .45rem; align-items: center; }
+        .diet-bar-group { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+        .diet-bar-lbl { font-weight: 700; color: var(--text-muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; margin-right: .1rem; }
         .diet-chip {
             padding: .2rem .5rem; border-radius: 999px; background: #fff;
             border: 1px solid var(--border); font-weight: 600; color: var(--p);
         }
-        .diet-setup-link { margin-left: auto; color: var(--p2); font-weight: 700; cursor: pointer; border: none; background: none; font-size: .72rem; }
-        .setup-pref-grid { display: flex; flex-wrap: wrap; gap: .4rem; }
+        .diet-setup-link { margin-left: auto; color: var(--p2); font-weight: 700; cursor: pointer; border: none; background: none; font-size: .72rem; padding: .15rem .3rem; }
+        .setup-pref-grid { display: flex; flex-direction: column; gap: .6rem; }
+        .diet-group-block { padding: .5rem 0 .2rem; }
+        .diet-group-hdr { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--p2); margin: 0 0 .15rem; }
+        .diet-group-sub { font-size: .7rem; color: var(--text-muted); margin: 0 0 .45rem; }
+        .diet-group-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
         .setup-pref {
-            padding: .45rem .65rem; border: 2px solid var(--border); border-radius: 10px;
-            background: #fff; font-size: .75rem; font-weight: 600; cursor: pointer; text-align: left;
+            padding: .4rem .6rem; border: 2px solid var(--border); border-radius: 10px;
+            background: #fff; font-size: .74rem; font-weight: 600; cursor: pointer; text-align: left;
+            transition: all .15s;
         }
         .setup-pref.on { border-color: var(--p2); background: #fff5eb; color: var(--p); }
         .child-row {
@@ -1059,27 +1067,34 @@
 <script>
 const I = (id, name, nv = false, tags = null) => ({ id, name, nonveg: nv, tags });
 
+// ── Diet / Filter options ─────────────────────────────────────────────────
+// group: 'cuisine'  → which regional cuisines to show
+// group: 'dietary'  → food-type preferences (egg, vegan, gluten-free)
+// group: 'nutrition'→ health / speed goals
 const DIET_OPTS = [
-    { id: 'southIndian',  label: 'South Indian',         icon: '🍛', group: 'cuisine' },
-    { id: 'northIndian',  label: 'North Indian',          icon: '🫓', group: 'cuisine' },
-    { id: 'global',       label: 'Global / International',icon: '🌍', group: 'cuisine' },
-    { id: 'asian',        label: 'Asian',                 icon: '🍜', group: 'cuisine' },
-    { id: 'mediterranean',label: 'Mediterranean',         icon: '🫒', group: 'cuisine' },
-    { id: 'mexican',      label: 'Mexican',               icon: '🌮', group: 'cuisine' },
-    { id: 'continental',  label: 'Continental / Western', icon: '🥐', group: 'cuisine' },
-    { id: 'traditional',  label: 'South Indian home',     icon: '🏠', group: 'cuisine' },
-    { id: 'healthy',      label: 'Healthy',               icon: '🥗', group: 'nutrition' },
-    { id: 'light',        label: 'Light meals',           icon: '☀️', group: 'nutrition' },
-    { id: 'highProtein',  label: 'High protein',          icon: '💪', group: 'nutrition' },
-    { id: 'lowCarb',      label: 'Low carb',              icon: '🥬', group: 'nutrition' },
-    { id: 'highFiber',    label: 'High fibre',            icon: '🌾', group: 'nutrition' },
-    { id: 'highCarb',     label: 'High carb / Fuel',      icon: '⚡', group: 'nutrition' },
-    { id: 'vegan',        label: 'Vegan',                 icon: '🌱', group: 'nutrition' },
-    { id: 'glutenFree',   label: 'Gluten free',           icon: '🌿', group: 'nutrition' },
-    { id: 'quick',        label: 'Under 15 minutes',      icon: '⏱️', group: 'nutrition' },
+    // ── Cuisine ───────────────────────────────
+    { id: 'southIndian',  label: 'South Indian',        icon: '🍛', group: 'cuisine', hint: 'Idli, dosa, sambar, poriyal…' },
+    { id: 'northIndian',  label: 'North Indian',         icon: '🫓', group: 'cuisine', hint: 'Roti, dal makhani, biryani, sabzi…' },
+    { id: 'asian',        label: 'Asian',                icon: '🍜', group: 'cuisine', hint: 'Noodles, fried rice, Thai, Korean…' },
+    { id: 'continental',  label: 'Continental',          icon: '🥐', group: 'cuisine', hint: 'Pasta, sandwiches, Western…' },
+    { id: 'mediterranean',label: 'Mediterranean',        icon: '🫒', group: 'cuisine', hint: 'Hummus, shakshuka, falafels…' },
+    { id: 'global',       label: 'International',        icon: '🌍', group: 'cuisine', hint: 'Globally popular dishes' },
+    // ── Dietary type ─────────────────────────
+    { id: 'eggs',         label: 'Egg dishes',           icon: '🥚', group: 'dietary', hint: 'Omelette, egg bhurji, egg curry…' },
+    { id: 'vegan',        label: 'Vegan',                icon: '🌱', group: 'dietary', hint: 'No dairy, no eggs, no meat' },
+    { id: 'glutenFree',   label: 'Gluten-free',          icon: '🌿', group: 'dietary', hint: 'Rice-based, ragi, millet…' },
+    // ── Nutrition & Speed ────────────────────
+    { id: 'highProtein',  label: 'High protein',         icon: '💪', group: 'nutrition', hint: 'Legumes, paneer, eggs, lentils…' },
+    { id: 'lowCarb',      label: 'Low carb',             icon: '🥬', group: 'nutrition', hint: 'Fewer grains, more veg & protein' },
+    { id: 'highFiber',    label: 'High fibre',           icon: '🌾', group: 'nutrition', hint: 'Whole grains, legumes, veg…' },
+    { id: 'highCarb',     label: 'High carb (energy)',   icon: '⚡', group: 'nutrition', hint: 'Rice, bread, pasta, biryani…' },
+    { id: 'healthy',      label: 'Healthy choices',      icon: '🥗', group: 'nutrition', hint: 'Nutritious, balanced meals' },
+    { id: 'light',        label: 'Light & easy',         icon: '☀️', group: 'nutrition', hint: 'Tiffin, snacks, easy on stomach' },
+    { id: 'quick',        label: 'Under 15 minutes',     icon: '⏱️', group: 'nutrition', hint: 'Quick to prepare' },
 ];
 
-const DEFAULT_DIET_PREFS = ['southIndian', 'northIndian', 'global', 'traditional', 'healthy', 'light'];
+// Default: show all South Indian + North Indian + International cuisines
+const DEFAULT_DIET_PREFS = ['southIndian', 'northIndian', 'global', 'asian', 'continental', 'eggs', 'healthy', 'light'];
 
 function possessiveName(name) {
     const n = (name || '').trim();
@@ -1094,9 +1109,13 @@ function familyMenuTitle(name) {
 
 function getItemTags(item, listKey) {
     if (item.tags?.length) return item.tags;
-    if (listKey === 'bfEgg') return ['eggs', 'highProtein'];
-    if (listKey === 'bfHealthy') return ['healthy', 'light'];
-    return ['traditional'];
+    // Fallback by list key for items without tags (shouldn't happen after menus.json fix)
+    if (listKey === 'bfEgg') return ['eggs', 'highProtein', 'southIndian', 'northIndian'];
+    if (listKey === 'bfHealthy') return ['healthy', 'light', 'global'];
+    if (['bfMain', 'bfSide', 'bfSingle', 'diTiffin', 'diSide', 'luCurry', 'luPoriyal'].includes(listKey))
+        return ['southIndian'];
+    if (['diBread', 'diGravy'].includes(listKey)) return ['southIndian', 'northIndian'];
+    return ['southIndian', 'northIndian', 'global']; // show by default
 }
 
 function matchesDiet(item, listKey) {
@@ -1461,6 +1480,13 @@ function getProfile() {
         if (p) {
             normalizeProfile(p);
             if (!p.dietPrefs?.length) p.dietPrefs = [...DEFAULT_DIET_PREFS];
+            // Migrate: remove obsolete 'traditional' tag, add 'eggs' if missing from Indian prefs
+            if (p.dietPrefs) {
+                p.dietPrefs = p.dietPrefs.filter(t => t !== 'traditional');
+                if (p.dietPrefs.includes('southIndian') && !p.dietPrefs.includes('eggs'))
+                    p.dietPrefs.push('eggs');
+                if (!p.dietPrefs.length) p.dietPrefs = [...DEFAULT_DIET_PREFS];
+            }
             if (p.setupDone) {
                 // Ensure a non-empty name so the planner feels personalised
                 if (!p.plannerName?.trim()) p.plannerName = 'Family';
@@ -2569,12 +2595,26 @@ function renderDietBar() {
     if (!el || isBaby()) { if (el) el.style.display = 'none'; return; }
     el.style.display = '';
     const prefs = getProfile().dietPrefs || DEFAULT_DIET_PREFS;
-    const chips = prefs.map(id => {
-        const o = DIET_OPTS.find(x => x.id === id);
-        return o ? `<span class="diet-chip">${o.icon} ${o.label}</span>` : '';
-    }).join('');
-    el.innerHTML = `<span class="lbl">Showing menus for:</span>${chips}
-        <button type="button" class="diet-setup-link" id="dietChangeBtn">Change in ⚙️ settings</button>`;
+    // Group chips by type for cleaner display
+    const cuisineChips = prefs.filter(id => DIET_OPTS.find(o => o.id === id && o.group === 'cuisine'));
+    const dietaryChips = prefs.filter(id => DIET_OPTS.find(o => o.id === id && o.group === 'dietary'));
+    const nutritionChips = prefs.filter(id => DIET_OPTS.find(o => o.id === id && o.group === 'nutrition'));
+
+    function makeChips(ids, groupLabel) {
+        if (!ids.length) return '';
+        const chips = ids.map(id => {
+            const o = DIET_OPTS.find(x => x.id === id);
+            return o ? `<span class="diet-chip" title="${o.hint||''}">${o.icon} ${o.label}</span>` : '';
+        }).join('');
+        return `<span class="diet-bar-group"><span class="diet-bar-lbl">${groupLabel}</span>${chips}</span>`;
+    }
+
+    el.innerHTML = `<div class="diet-bar-inner">
+        ${makeChips(cuisineChips, 'Cuisine:')}
+        ${makeChips(dietaryChips, 'Dietary:')}
+        ${makeChips(nutritionChips, 'Nutrition:')}
+        <button type="button" class="diet-setup-link" id="dietChangeBtn">⚙️ Change</button>
+    </div>`;
     document.getElementById('dietChangeBtn')?.addEventListener('click', () => openSetup(true));
 }
 
@@ -3150,18 +3190,26 @@ function renderSetupDietPrefs() {
     const el = document.getElementById('setupDietPrefs');
     if (!el) return;
     const selected = new Set(getProfile().dietPrefs || DEFAULT_DIET_PREFS);
-    const cuisineOpts = DIET_OPTS.filter(o => o.group === 'cuisine');
-    const nutritionOpts = DIET_OPTS.filter(o => o.group === 'nutrition');
-    el.innerHTML = `
-        <p class="hint" style="margin:0 0 .4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Cuisine style</p>
-        ${cuisineOpts.map(o => `<button type="button" class="setup-pref ${selected.has(o.id)?'on':''}" data-diet="${o.id}">${o.icon} ${o.label}</button>`).join('')}
-        <p class="hint" style="margin:.65rem 0 .4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Nutrition & style</p>
-        ${nutritionOpts.map(o => `<button type="button" class="setup-pref ${selected.has(o.id)?'on':''}" data-diet="${o.id}">${o.icon} ${o.label}</button>`).join('')}
-    `;
+
+    function groupBlock(title, subtitle, groupId) {
+        const opts = DIET_OPTS.filter(o => o.group === groupId);
+        const buttons = opts.map(o =>
+            `<button type="button" class="setup-pref ${selected.has(o.id)?'on':''}" data-diet="${o.id}" title="${o.hint||''}">${o.icon} ${o.label}</button>`
+        ).join('');
+        return `<div class="diet-group-block">
+            <p class="diet-group-hdr">${title}</p>
+            <p class="diet-group-sub">${subtitle}</p>
+            <div class="diet-group-chips">${buttons}</div>
+        </div>`;
+    }
+
+    el.innerHTML =
+        groupBlock('🌏 Cuisine', 'Which regional cuisines to show in your menu catalog', 'cuisine') +
+        groupBlock('🥗 Dietary type', 'Include specific food types (select all that apply)', 'dietary') +
+        groupBlock('⚡ Nutrition & Speed', 'Show dishes that meet your health or time goals', 'nutrition');
+
     el.querySelectorAll('.setup-pref').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('on');
-        });
+        btn.addEventListener('click', () => btn.classList.toggle('on'));
     });
 }
 

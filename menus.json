@@ -56,31 +56,46 @@
         "id": "bsg7",
         "name": "Ven pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "quick"
+        ]
       },
       {
         "id": "bsg8",
         "name": "Rava pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "quick"
+        ]
       },
       {
         "id": "bsg9",
         "name": "Tomato bath",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "highCarb"
+        ]
       },
       {
         "id": "bsg10",
         "name": "Khara bath",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "highCarb"
+        ]
       },
       {
         "id": "bsg11",
         "name": "Chow chow bath",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "highCarb"
+        ]
       },
       {
         "id": "bsg12",
@@ -185,7 +200,12 @@
         "id": "bsg23",
         "name": "Rava dhokla",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "highProtein",
+          "highFiber",
+          "light"
+        ]
       },
       {
         "id": "bsg24",
@@ -276,7 +296,9 @@
         "tags": [
           "light",
           "healthy",
-          "highProtein"
+          "highProtein",
+          "southIndian",
+          "northIndian"
         ]
       },
       {
@@ -285,9 +307,9 @@
         "nonveg": true,
         "tags": [
           "eggs",
-          "traditional",
           "highProtein",
-          "quick"
+          "quick",
+          "southIndian"
         ]
       },
       {
@@ -297,7 +319,9 @@
         "tags": [
           "eggs",
           "highProtein",
-          "quick"
+          "quick",
+          "southIndian",
+          "northIndian"
         ]
       },
       {
@@ -307,7 +331,9 @@
         "tags": [
           "eggs",
           "highProtein",
-          "quick"
+          "quick",
+          "southIndian",
+          "northIndian"
         ]
       },
       {
@@ -317,7 +343,9 @@
         "tags": [
           "eggs",
           "highProtein",
-          "quick"
+          "quick",
+          "southIndian",
+          "northIndian"
         ]
       },
       {
@@ -327,7 +355,9 @@
         "tags": [
           "eggs",
           "highProtein",
-          "quick"
+          "quick",
+          "northIndian",
+          "global"
         ]
       },
       {
@@ -336,7 +366,9 @@
         "nonveg": true,
         "tags": [
           "eggs",
-          "highProtein"
+          "highProtein",
+          "southIndian",
+          "northIndian"
         ]
       }
     ],
@@ -415,7 +447,6 @@
         "tags": [
           "healthy",
           "highFiber",
-          "traditional",
           "southIndian",
           "glutenFree"
         ]
@@ -565,91 +596,121 @@
         "id": "bm1",
         "name": "Idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm2",
         "name": "Dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm3",
         "name": "Masala dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm4",
         "name": "Rava dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm5",
         "name": "Rava idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm6",
         "name": "Uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm7",
         "name": "Onion uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm8",
         "name": "Tomato uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm9",
         "name": "Paniyaram",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm10",
         "name": "Medu vada",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm11",
         "name": "Set dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm12",
         "name": "Neer dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm13",
         "name": "Mysore masala dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm14",
         "name": "Ghee roast dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm15",
         "name": "Paper dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm16",
@@ -711,19 +772,25 @@
         "id": "bm22",
         "name": "Puttu",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm23",
         "name": "Appam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm24",
         "name": "Idiyappam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm25",
@@ -746,19 +813,25 @@
         "id": "bm27",
         "name": "Soft idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm28",
         "name": "Kanchipuram idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm29",
         "name": "Thatte idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bm30",
@@ -780,7 +853,11 @@
         "id": "bm32",
         "name": "Bread dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       },
       {
         "id": "bm33",
@@ -796,61 +873,81 @@
         "id": "bsd1",
         "name": "Coconut chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd2",
         "name": "Tomato chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd3",
         "name": "Onion chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd4",
         "name": "Peanut chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd5",
         "name": "Mint chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd6",
         "name": "Coriander chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd7",
         "name": "Red chilli chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd8",
         "name": "Ginger chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd9",
         "name": "Green mango chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd10",
         "name": "Tomato pachadi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd11",
@@ -888,31 +985,41 @@
         "id": "bsd15",
         "name": "Veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd16",
         "name": "Hotel veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd17",
         "name": "Potato masala",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd18",
         "name": "Aloo bhaji",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd19",
         "name": "Tomato kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd20",
@@ -928,7 +1035,9 @@
         "id": "bsd21",
         "name": "Bombay chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd22",
@@ -950,19 +1059,30 @@
         "id": "bsd24",
         "name": "Coconut milk stew",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "bsd25",
         "name": "Curd",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "bsd26",
         "name": "Pickle",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       },
       {
         "id": "bsd27",
@@ -979,19 +1099,32 @@
         "id": "bsd28",
         "name": "Mango lassi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "bsd29",
         "name": "Masala chaas",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "bsd30",
         "name": "Badam milk",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "southIndian",
+          "quick",
+          "light"
+        ]
       }
     ],
     "luBase": [
@@ -1260,7 +1393,9 @@
         "id": "lc21",
         "name": "Ennai kathirikai",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "lc22",
@@ -1358,13 +1493,19 @@
         "id": "lc33",
         "name": "Veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian"
+        ]
       },
       {
         "id": "lc34",
         "name": "Channa masala",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "highProtein"
+        ]
       },
       {
         "id": "lc35",
@@ -1398,13 +1539,20 @@
         "id": "lc38",
         "name": "Mushroom gravy",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "highFiber"
+        ]
       },
       {
         "id": "lc39",
         "name": "Mix veg curry",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian"
+        ]
       },
       {
         "id": "lc40",
@@ -1445,7 +1593,8 @@
         "nonveg": true,
         "tags": [
           "northIndian",
-          "highProtein"
+          "highProtein",
+          "southIndian"
         ]
       },
       {
@@ -1794,25 +1943,41 @@
         "id": "ls1",
         "name": "Cucumber raita",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "ls2",
         "name": "Onion raita",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "ls3",
         "name": "Boondi raita",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "ls4",
         "name": "Tomato raita",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "ls5",
@@ -1845,37 +2010,64 @@
         "id": "ls8",
         "name": "Pickle",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       },
       {
         "id": "ls9",
         "name": "Appalam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       },
       {
         "id": "ls10",
         "name": "Papad",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       },
       {
         "id": "ls11",
         "name": "Fruit",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "ls12",
         "name": "Buttermilk",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "quick",
+          "light",
+          "lowCarb"
+        ]
       },
       {
         "id": "ls13",
         "name": "Neer mor",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "quick",
+          "light",
+          "lowCarb"
+        ]
       }
     ],
     "luVariety": [
@@ -2270,13 +2462,17 @@
         "id": "ds4",
         "name": "Ven pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "ds5",
         "name": "Rava pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "ds6",
@@ -2324,7 +2520,12 @@
         "id": "ds11",
         "name": "Khichdi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "southIndian",
+          "light",
+          "highFiber"
+        ]
       },
       {
         "id": "ds12",
@@ -2429,7 +2630,10 @@
         "id": "ds23",
         "name": "Rava bath",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "quick"
+        ]
       },
       {
         "id": "ds24",
@@ -2560,37 +2764,49 @@
         "id": "dt_idli",
         "name": "Idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt2",
         "name": "Mini idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt_dosa",
         "name": "Dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt4",
         "name": "Crispy dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt5",
         "name": "Rava idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt6",
         "name": "Paniyaram",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt7",
@@ -2604,25 +2820,33 @@
         "id": "dt8",
         "name": "Uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt9",
         "name": "Rava dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt10",
         "name": "Neer dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt11",
         "name": "Set dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt12",
@@ -2658,25 +2882,33 @@
         "id": "dt15",
         "name": "Akki rotti",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt16",
         "name": "Kanchipuram idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt17",
         "name": "Podi dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dt18",
         "name": "Ghee roast dosa (small)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       }
     ],
     "diSide": [
@@ -2684,25 +2916,33 @@
         "id": "dsi1",
         "name": "Coconut chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi2",
         "name": "Tomato chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi3",
         "name": "Onion chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi4",
         "name": "Mint chutney",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi5",
@@ -2740,25 +2980,38 @@
         "id": "dsi9",
         "name": "Veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi10",
         "name": "Potato masala",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dsi11",
         "name": "Curd",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick",
+          "light"
+        ]
       },
       {
         "id": "dsi12",
         "name": "Pickle",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "quick"
+        ]
       }
     ],
     "diBread": [
@@ -2942,31 +3195,42 @@
         "id": "dg8",
         "name": "Kadhi pakora",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "highProtein"
+        ]
       },
       {
         "id": "dg9",
         "name": "Veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dg10",
         "name": "Mixed veg kurma",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dg11",
         "name": "Potato masala",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dg12",
         "name": "Potato curry",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian"
+        ]
       },
       {
         "id": "dg13",
@@ -2996,7 +3260,10 @@
         "id": "dg16",
         "name": "Bombay potatoes",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "highProtein"
+        ]
       },
       {
         "id": "dg17",
@@ -3144,13 +3411,22 @@
         "id": "dg33",
         "name": "Black eyed peas curry",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "highProtein",
+          "highFiber"
+        ]
       },
       {
         "id": "dg34",
         "name": "Butternut squash spinach curry",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "continental",
+          "global",
+          "highFiber"
+        ]
       },
       {
         "id": "dg35",
@@ -3165,7 +3441,10 @@
         "id": "dg36",
         "name": "Vegetable jalfrezi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "northIndian",
+          "highProtein"
+        ]
       },
       {
         "id": "dg37",
@@ -3187,13 +3466,21 @@
         "id": "dg39",
         "name": "Mix veg curry",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "highFiber"
+        ]
       },
       {
         "id": "dg40",
         "name": "Mushroom gravy",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "highFiber"
+        ]
       },
       {
         "id": "dg41",
@@ -3715,7 +4002,11 @@
         "id": "dp15",
         "name": "Penne in butter herb sauce",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "continental",
+          "global",
+          "highCarb"
+        ]
       }
     ],
     "diLight": [
@@ -4010,7 +4301,11 @@
         "id": "dl31",
         "name": "Garlic mushrooms",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "continental",
+          "global",
+          "quick"
+        ]
       },
       {
         "id": "dl32",
@@ -4177,13 +4472,19 @@
         "id": "bbf8",
         "name": "Amaranth porridge",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf9",
         "name": "Maize porridge",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf10",
@@ -4209,37 +4510,55 @@
         "id": "bbf12",
         "name": "Ven pongal (soft)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf13",
         "name": "Rava pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf14",
         "name": "Soft idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf15",
         "name": "Set dosa (soft)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf16",
         "name": "Steamed dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf17",
         "name": "Mini dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf18",
@@ -4326,7 +4645,10 @@
         "id": "bbf27",
         "name": "Bread uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf28",
@@ -4367,7 +4689,10 @@
         "id": "bbf32",
         "name": "Mashed sweet potato",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbf33",
@@ -4426,7 +4751,10 @@
         "id": "bbf39",
         "name": "Sweet pongal (less sugar)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       }
     ],
     "bbLu": [
@@ -4479,19 +4807,31 @@
         "id": "bbl6",
         "name": "Curd khichdi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbl7",
         "name": "Plain khichdi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbl8",
         "name": "Masala khichdi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbl9",
@@ -4515,13 +4855,21 @@
         "id": "bbl11",
         "name": "Plain pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbl12",
         "name": "Flavored pongal",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbl13",
@@ -4784,55 +5132,99 @@
         "id": "bbs1",
         "name": "Banana slices",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs2",
         "name": "Apple fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs3",
         "name": "Orange slices",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs4",
         "name": "Papaya pieces",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs5",
         "name": "Watermelon fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs6",
         "name": "Mango pieces",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs7",
         "name": "Plain curd / yogurt",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbs8",
         "name": "Mango yogurt",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs9",
         "name": "Fruit yogurt",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs10",
@@ -4849,37 +5241,64 @@
         "id": "bbs11",
         "name": "Apple milkshake (no sugar)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs12",
         "name": "Carrot juice (diluted)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "quick"
+        ]
       },
       {
         "id": "bbs13",
         "name": "Pear juice (diluted)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs14",
         "name": "Baked apple chips",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs15",
         "name": "Fried apple rings",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs23",
         "name": "Bread sticks",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "global",
+          "light"
+        ]
       },
       {
         "id": "bbs24",
@@ -4903,31 +5322,49 @@
         "id": "bbs31",
         "name": "Sooji kheer (small)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian"
+        ]
       },
       {
         "id": "bbs32",
         "name": "Samai kheer",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian"
+        ]
       },
       {
         "id": "bbs33",
         "name": "Pineapple kesari",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs34",
         "name": "Beetroot halwa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian"
+        ]
       },
       {
         "id": "bbs35",
         "name": "Badam milk (warm, thin)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbs36",
@@ -4952,13 +5389,21 @@
         "id": "bbs38",
         "name": "Steamed fruit puree cup",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbs39",
         "name": "Dates syrup + idli piece",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       }
     ],
     "bbSoup": [
@@ -5130,85 +5575,145 @@
         "id": "bbfg1",
         "name": "Apple fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg2",
         "name": "Banana slices",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg3",
         "name": "Watermelon fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg4",
         "name": "Orange slices",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg5",
         "name": "Papaya pieces",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg6",
         "name": "Mango pieces",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "healthy",
+          "light",
+          "vegan",
+          "quick"
+        ]
       },
       {
         "id": "bbfg7",
         "name": "Carrot patties",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg8",
         "name": "Corn peas patties",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg9",
         "name": "Mix veg fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg10",
         "name": "Arbi fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg11",
         "name": "Pumpkin rava sticks",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg12",
         "name": "Baked potato wedges",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "global",
+          "light"
+        ]
       },
       {
         "id": "bbfg13",
         "name": "Baked french fries",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "global",
+          "light"
+        ]
       },
       {
         "id": "bbfg14",
         "name": "Steamed carrot sticks",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg15",
@@ -5247,19 +5752,28 @@
         "id": "bbfg19",
         "name": "Bread sticks",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "global",
+          "light"
+        ]
       },
       {
         "id": "bbfg20",
         "name": "Idli fingers",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg21",
         "name": "Dosa strips",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbfg22",
@@ -5284,13 +5798,20 @@
         "id": "bbfg24",
         "name": "Sweet potato wedges",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "global",
+          "light"
+        ]
       },
       {
         "id": "bbfg25",
         "name": "Beetroot fingers (steamed)",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "northIndian",
+          "light"
+        ]
       }
     ],
     "bbDi": [
@@ -5298,25 +5819,37 @@
         "id": "bbd1",
         "name": "Soft idli",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd2",
         "name": "Mini dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd3",
         "name": "Set dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd4",
         "name": "Steamed dosa",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd5",
@@ -5422,7 +5955,10 @@
         "id": "bbd15",
         "name": "Sooji cheela / uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd16",
@@ -5445,7 +5981,10 @@
         "id": "bbd18",
         "name": "Bread uttapam",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd19",
@@ -5538,7 +6077,10 @@
         "id": "bbd29",
         "name": "Vegetable khichdi",
         "nonveg": false,
-        "tags": []
+        "tags": [
+          "southIndian",
+          "light"
+        ]
       },
       {
         "id": "bbd30",
