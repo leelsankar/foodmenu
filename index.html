@@ -94,8 +94,10 @@
             padding: 1rem; margin-top: .5rem;
         }
         .panel { display:none; } .panel.active { display:block; }
-        .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-bottom:.6rem; }
-        .toolbar .range { flex:1; font-weight:600; font-size:.88rem; min-width:150px; }
+        .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.45rem; margin-bottom:.6rem; }
+        .toolbar-nav { display:flex; align-items:center; gap:.4rem; }
+        .toolbar-nav .range { font-weight:600; font-size:.88rem; min-width:110px; text-align:center; }
+        .toolbar-acts { display:flex; align-items:center; gap:.4rem; flex-wrap:wrap; }
         .btn { padding:.45rem .85rem; border:none; border-radius:6px; font-size:.78rem; font-weight:600; cursor:pointer; }
         .btn-p { background:var(--p2); color:#fff; }
         .btn-s { background:#e9ecef; }
@@ -553,7 +555,10 @@
             .week-cards { display:flex; }
             .week-table-scroll { display:none; }
             main { padding:.65rem .55rem 2rem; }
-            .toolbar .range { min-width:0; font-size:.8rem; }
+            .toolbar { flex-direction:column; align-items:stretch; gap:.35rem; }
+            .toolbar-nav { justify-content:center; }
+            .toolbar-nav .range { min-width:0; font-size:.82rem; }
+            .toolbar-acts { justify-content:center; }
             .toolbar .hint { display:none; }
             .header-top { gap:.5rem; }
             .planner-switch { width:100%; justify-content:flex-start; }
@@ -598,13 +603,17 @@
             <p id="kitchenStripText"><strong>Vanakkam!</strong> Plan a warm South Indian week — tap any day to customize.</p>
         </div>
         <div class="toolbar">
-            <button class="btn btn-s" id="prevWeek">◀</button>
-            <span class="range" id="weekRange">—</span>
-            <button class="btn btn-s" id="nextWeek">▶</button>
-            <button class="btn btn-shuffle" id="shuffleBtn" title="Random plan for all 7 days">🎲 Shuffle week</button>
-            <button class="btn btn-s" id="copyWeekBtn" title="Copy last week's meals to this week">📋 Copy last week</button>
-            <button class="btn btn-s" id="shareWeekBtn" title="Share week plan with nanny / family">📤 Share plan</button>
-            <button class="btn btn-x" id="exportBtn">📥 Excel</button>
+            <div class="toolbar-nav">
+                <button class="btn btn-s" id="prevWeek">◀</button>
+                <span class="range" id="weekRange">—</span>
+                <button class="btn btn-s" id="nextWeek">▶</button>
+            </div>
+            <div class="toolbar-acts">
+                <button class="btn btn-shuffle" id="shuffleBtn" title="Random plan for all 7 days">🎲 Shuffle</button>
+                <button class="btn btn-s" id="copyWeekBtn" title="Copy last week's meals to this week">📋 Copy</button>
+                <button class="btn btn-s" id="shareWeekBtn" title="Share week plan as image">📤 Share</button>
+                <button class="btn btn-x" id="exportBtn">📥 Excel</button>
+            </div>
         </div>
         <p class="hint" id="hintAdult"><strong>🎲 Shuffle week</strong> fills Mon–Sun randomly · <strong>Tap any cell</strong> to change one meal · Adults: <strong>2 boiled eggs</strong> at breakfast</p>
         <p class="hint" id="hintBaby" style="display:none"><strong>🎲 Shuffle week</strong> or <strong>🎲 on one day</strong> · Tap cells to edit · Menus match child age</p>
@@ -670,7 +679,7 @@
             <button type="button" class="btn-icon" id="closeShareWeek" style="color:#fff;font-size:1.1rem">✕</button>
         </div>
         <div class="share-modal-actions">
-            <button type="button" class="btn btn-p" id="shareWeekSend">🔗 Share / WhatsApp</button>
+            <button type="button" class="btn btn-p" id="shareWeekSend">📸 Share as image</button>
             <button type="button" class="btn btn-s" id="shareWeekCopy">📋 Copy text</button>
         </div>
         <div class="share-week-grid" id="shareWeekGrid"></div>
@@ -1149,7 +1158,7 @@ function buildBabyText(d, meal) {
         return parts.filter(Boolean).join(' · ');
     }
     if (!d.item) return '';
-    return lookup(babyListKey(meal), babyItems(meal), d.item)?.name || '';
+    return lookup(babyListKey(meal), d.item)?.name || '';
 }
 
 function babyHasSelection(d) {
@@ -3056,6 +3065,109 @@ function buildWeekPlanText() {
     return lines.join('\n');
 }
 
+function buildWeekPlanImage() {
+    const week = getWeek();
+    const profile = getProfile();
+    const who = profile.plannerName?.trim() || 'Family';
+    const isChild = isChildPlanner();
+    const mealKeys = isChild
+        ? [['bf','BF'],['lu','Lu'],['sn','Sn'],['di','Di']]
+        : [['bf','BF'],['lu','Lu'],['di','Di']];
+
+    const DPR = 2;
+    const PW = 400;
+    const HDR_H = 58;
+    const ROW_H = isChild ? 72 : 62;
+    const FTR_H = 28;
+    const PH = HDR_H + DAYS.length * ROW_H + FTR_H;
+    const COL_W = 52;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = PW * DPR;
+    canvas.height = PH * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+
+    const PRIMARY = '#c45c26';
+    const SECONDARY = '#f4a261';
+    const BG2 = '#fef3e2';
+    const BORDER = '#f0e0d0';
+    const MUTED = '#999';
+
+    // Background
+    ctx.fillStyle = '#fffaf5';
+    ctx.fillRect(0, 0, PW, PH);
+
+    // Header
+    ctx.fillStyle = PRIMARY;
+    ctx.fillRect(0, 0, PW, HDR_H);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px system-ui,sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(`${who}'s Meal Plan`, 14, 24);
+    ctx.font = '11px system-ui,sans-serif';
+    ctx.globalAlpha = 0.82;
+    ctx.fillText(`${fmtShort(weekKey())} – ${fmtShort(dateFor(6))}`, 14, 44);
+    ctx.globalAlpha = 1;
+
+    // Day rows
+    DAYS.forEach((day, i) => {
+        const d = week.days[day] || {};
+        const y = HDR_H + i * ROW_H;
+
+        ctx.fillStyle = i % 2 === 0 ? '#fff' : BG2;
+        ctx.fillRect(0, y, PW, ROW_H);
+        ctx.fillStyle = BORDER;
+        ctx.fillRect(0, y + ROW_H - 1, PW, 1);
+
+        // Day label column
+        ctx.fillStyle = '#f9ede4';
+        ctx.fillRect(0, y, COL_W, ROW_H);
+        ctx.fillStyle = PRIMARY;
+        ctx.font = 'bold 10px system-ui,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(day.slice(0, 3).toUpperCase(), COL_W / 2, y + 17);
+        const dayDate = new Date(dateFor(i) + 'T12:00:00');
+        ctx.fillStyle = MUTED;
+        ctx.font = '9px system-ui,sans-serif';
+        ctx.fillText(dayDate.getDate() + ' ' + dayDate.toLocaleString('en-IN', {month:'short'}), COL_W / 2, y + 30);
+        ctx.textAlign = 'left';
+
+        // Meal lines
+        const mealLineH = (ROW_H - 8) / mealKeys.length;
+        mealKeys.forEach(([k, lbl], mi) => {
+            const txt = d[mealTextKey(k)] || '';
+            const lineY = y + 6 + mi * mealLineH + mealLineH * 0.62;
+
+            ctx.font = 'bold 7.5px system-ui,sans-serif';
+            ctx.fillStyle = SECONDARY;
+            ctx.fillText(lbl, COL_W + 7, lineY);
+
+            ctx.font = '10px system-ui,sans-serif';
+            ctx.fillStyle = txt ? '#222' : '#ccc';
+            const maxW = PW - COL_W - 42;
+            let t = txt || 'Not planned';
+            while (ctx.measureText(t).width > maxW && t.length > 2) t = t.slice(0, -1);
+            if (t !== (txt || 'Not planned')) t += '…';
+            ctx.fillText(t, COL_W + 28, lineY);
+        });
+    });
+
+    // Footer
+    const fy = HDR_H + DAYS.length * ROW_H;
+    ctx.fillStyle = SECONDARY;
+    ctx.fillRect(0, fy, PW, FTR_H);
+    ctx.fillStyle = '#fff';
+    ctx.font = '9px system-ui,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.globalAlpha = 0.85;
+    ctx.fillText('leelsankar.github.io/foodmenu · Family Menu Planner', PW / 2, fy + 17);
+    ctx.globalAlpha = 1;
+
+    return canvas;
+}
+
 function renderShareWeekGrid() {
     const week = getWeek();
     const mealKeys = isChildPlanner()
@@ -3573,12 +3685,30 @@ document.getElementById('shareWeekBtn').addEventListener('click', openShareWeek)
 document.getElementById('closeShareWeek').addEventListener('click', closeShareWeek);
 document.getElementById('shareWeekOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeShareWeek(); });
 document.getElementById('shareWeekSend').addEventListener('click', async () => {
-    const text = buildWeekPlanText();
-    if (navigator.share) {
-        try { await navigator.share({ title: 'Meal plan', text }); return; } catch {}
-    }
-    await navigator.clipboard.writeText(text).catch(() => {});
-    alert('Copied! Paste into WhatsApp or any chat app.');
+    const btn = document.getElementById('shareWeekSend');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '⏳ Generating…';
+    try {
+        const canvas = buildWeekPlanImage();
+        await new Promise(resolve => canvas.toBlob(async blob => {
+            const file = new File([blob], 'week-plan.png', { type: 'image/png' });
+            if (navigator.canShare?.({ files: [file] })) {
+                try {
+                    await navigator.share({ files: [file], title: 'Meal Plan' });
+                    resolve(); return;
+                } catch (e) { if (e.name === 'AbortError') { resolve(); return; } }
+            }
+            // Fallback: download the image so user can share manually
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'week-plan.png'; a.click();
+            setTimeout(() => URL.revokeObjectURL(url), 30000);
+            resolve();
+        }, 'image/png', 0.95));
+    } catch(e) { console.error('Share image failed', e); }
+    btn.disabled = false;
+    btn.textContent = orig;
 });
 document.getElementById('shareWeekCopy').addEventListener('click', async () => {
     const text = buildWeekPlanText();
