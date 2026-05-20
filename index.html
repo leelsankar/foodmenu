@@ -4029,8 +4029,18 @@ Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     alert('Could not load menus.json or ingredients.json. Run: python3 start_server.py then open http://localhost:8000/');
 });
 
-// Register service worker for offline support
+// Register service worker — network-first HTML means updates land on next open.
+// The controllerchange listener auto-reloads the page once when the new SW
+// takes control so the user always sees the latest version without manually
+// clearing cache or re-adding to home screen.
 if ('serviceWorker' in navigator) {
+    let swRefreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!swRefreshing) {
+            swRefreshing = true;
+            window.location.reload();
+        }
+    });
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/foodmenu/sw.js', { scope: '/foodmenu/' }).catch(() => {});
     });
