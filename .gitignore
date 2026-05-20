@@ -1,11 +1,6 @@
-# Keep only the 7 app files + docs
-scripts/
-*.xlsx
-*.csv
-*.py
-*.sh
-Food_Menu.html
-menu_data.json
-REMOVE_PASSWORD.md
-~$*
+# Everything in _archive is local only — never push
+_archive/
+
+# macOS junk
 .DS_Store
+~$*
