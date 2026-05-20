@@ -1189,11 +1189,28 @@ function getProfile() {
         if (p) {
             normalizeProfile(p);
             if (!p.dietPrefs?.length) p.dietPrefs = [...DEFAULT_DIET_PREFS];
-            if (p.setupDone && p.plannerName?.trim()) return p;
-            if (p.setupDone) return { ...p, plannerName: p.plannerName || '', setupDone: false };
+            if (p.setupDone) {
+                // Ensure a non-empty name so the planner feels personalised
+                if (!p.plannerName?.trim()) p.plannerName = 'Family';
+                return p;
+            }
         }
     } catch { /* ignore */ }
     return { plannerName: '', adults: 2, children: [], dietPrefs: [...DEFAULT_DIET_PREFS], setupDone: false };
+}
+function hasExistingData() {
+    // True when any week plan, pantry, or custom dish data is already stored —
+    // used as a safety-net to skip the setup overlay for returning visitors
+    // even if the profile entry was somehow lost.
+    try {
+        for (const key of Object.keys(localStorage)) {
+            if (/familyMenu_(week|pantry|custom|baby_week)/.test(key)) {
+                const v = localStorage.getItem(key);
+                if (v && v !== '{}' && v !== '[]') return true;
+            }
+        }
+    } catch { /* ignore */ }
+    return false;
 }
 function saveProfile(p) {
     normalizeProfile(p);
@@ -3721,7 +3738,11 @@ document.getElementById('shareWeekCopy').addEventListener('click', async () => {
 Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     migrateLegacyBabyData();
     applyDarkMode();
-    if (!getProfile().setupDone) openSetup(true);
+    // Only show the first-run setup when the user has genuinely never set up
+    // the app before.  hasExistingData() catches the edge case where the
+    // profile entry was lost (e.g. iOS Safari ITP, storage migration) but
+    // all the week / pantry data is still intact.
+    if (!getProfile().setupDone && !hasExistingData()) openSetup(true);
     else applyProfileUI();
     if (!Object.keys(loadPantry().items || {}).length) initPantryFromStaples();
     updatePantryNudge();
