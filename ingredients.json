@@ -1,0 +1,3747 @@
+{
+  "version": 2,
+  "note": "Ingredients per dish ID — edit to add/change. IDs match the app menu. Staples are pre-stocked pantry items.",
+  "staples": [
+    "Rice",
+    "Toor dal",
+    "Moong dal",
+    "Urad dal",
+    "Chana dal",
+    "Wheat flour (atta)",
+    "Maida",
+    "Ragi flour",
+    "Oil",
+    "Ghee",
+    "Butter",
+    "Mustard seeds",
+    "Cumin seeds",
+    "Fennel seeds",
+    "Turmeric powder",
+    "Red chilli powder",
+    "Coriander powder",
+    "Garam masala",
+    "Pepper powder",
+    "Sambar powder",
+    "Rasam powder",
+    "Tamarind",
+    "Curd (yogurt)",
+    "Coconut",
+    "Onion",
+    "Tomato",
+    "Ginger",
+    "Garlic",
+    "Green chilli",
+    "Curry leaves",
+    "Salt",
+    "Sugar",
+    "Jaggery",
+    "Eggs",
+    "Milk",
+    "Paneer",
+    "Oats",
+    "Poha",
+    "Rava (semolina)",
+    "Semiya (vermicelli)",
+    "Peanuts",
+    "Cashews",
+    "Pickle",
+    "Papad",
+    "Banana",
+    "Lemon"
+  ],
+  "dishes": {
+    "be1": [
+      "Eggs",
+      "Salt",
+      "Water"
+    ],
+    "be2": [
+      "Eggs",
+      "Salt",
+      "Water"
+    ],
+    "be3": [
+      "Eggs",
+      "Oil",
+      "Onion",
+      "Salt",
+      "Pepper powder"
+    ],
+    "be4": [
+      "Eggs",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Oil",
+      "Garam masala",
+      "Coriander leaves"
+    ],
+    "be5": [
+      "Eggs",
+      "Butter",
+      "Salt",
+      "Pepper powder",
+      "Milk"
+    ],
+    "be6": [
+      "Eggs",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Oil",
+      "Turmeric powder",
+      "Salt"
+    ],
+    "bh1": [
+      "Oats",
+      "Milk",
+      "Banana",
+      "Honey"
+    ],
+    "bh2": [
+      "Oats",
+      "Milk",
+      "Sugar"
+    ],
+    "bh3": [
+      "Oats",
+      "Milk",
+      "Curd (yogurt)",
+      "Honey"
+    ],
+    "bh4": [
+      "Cornflakes",
+      "Milk",
+      "Sugar"
+    ],
+    "bh5": [
+      "Muesli",
+      "Milk",
+      "Banana"
+    ],
+    "bh6": [
+      "Wheat flakes",
+      "Milk",
+      "Mixed fruits"
+    ],
+    "bh7": [
+      "Ragi flour",
+      "Water",
+      "Ghee",
+      "Jaggery"
+    ],
+    "bh8": [
+      "Ragi flour",
+      "Water",
+      "Milk",
+      "Jaggery"
+    ],
+    "bh9": [
+      "Mixed fruits",
+      "Nuts (almonds, walnuts)",
+      "Honey"
+    ],
+    "bh10": [
+      "Banana",
+      "Mixed berries",
+      "Curd (yogurt)",
+      "Honey",
+      "Granola"
+    ],
+    "bh11": [
+      "Greek yogurt",
+      "Mixed fruits",
+      "Honey"
+    ],
+    "bh12": [
+      "Moong sprouts",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Lemon",
+      "Salt"
+    ],
+    "bh13": [
+      "Brown bread",
+      "Cheese slice or spread",
+      "Cucumber",
+      "Tomato"
+    ],
+    "bh14": [
+      "Whole wheat bread",
+      "Peanut butter",
+      "Banana"
+    ],
+    "bh15": [
+      "Oats",
+      "Milk",
+      "Nuts",
+      "Protein powder (optional)"
+    ],
+    "bh16": [
+      "Chia seeds",
+      "Milk or coconut milk",
+      "Honey",
+      "Vanilla extract",
+      "Mixed fruits"
+    ],
+    "bh17": [
+      "Granola",
+      "Curd (yogurt)",
+      "Mixed berries",
+      "Honey"
+    ],
+    "bh18": [
+      "Rolled oats",
+      "Milk",
+      "Apple (grated)",
+      "Lemon",
+      "Honey",
+      "Cinnamon"
+    ],
+    "bh19": [
+      "Whole wheat bread",
+      "Avocado",
+      "Lemon",
+      "Salt",
+      "Pepper powder",
+      "Chilli flakes"
+    ],
+    "bm1": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "bm2": [
+      "Idli/dosa batter",
+      "Oil"
+    ],
+    "bm3": [
+      "Idli/dosa batter",
+      "Potato",
+      "Onion",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Oil"
+    ],
+    "bm4": [
+      "Rava (semolina)",
+      "Rice flour",
+      "Onion",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bm5": [
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Carrot",
+      "Oil",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "bm6": [
+      "Idli/dosa batter",
+      "Onion",
+      "Tomato",
+      "Oil",
+      "Salt"
+    ],
+    "bm7": [
+      "Idli/dosa batter",
+      "Onion",
+      "Oil",
+      "Salt"
+    ],
+    "bm8": [
+      "Idli/dosa batter",
+      "Tomato",
+      "Oil",
+      "Salt"
+    ],
+    "bm9": [
+      "Idli/dosa batter",
+      "Oil",
+      "Curry leaves"
+    ],
+    "bm10": [
+      "Urad dal",
+      "Oil",
+      "Curry leaves",
+      "Salt"
+    ],
+    "bm11": [
+      "Idli/dosa batter",
+      "Oil",
+      "Salt"
+    ],
+    "bm12": [
+      "Rice",
+      "Water",
+      "Oil",
+      "Salt"
+    ],
+    "bm13": [
+      "Idli/dosa batter",
+      "Red chutney (onion, red chilli)",
+      "Oil"
+    ],
+    "bm14": [
+      "Idli/dosa batter",
+      "Ghee",
+      "Oil"
+    ],
+    "bm15": [
+      "Idli/dosa batter",
+      "Oil"
+    ],
+    "bm16": [
+      "Ragi flour",
+      "Urad dal",
+      "Oil",
+      "Salt"
+    ],
+    "bm17": [
+      "Wheat flour (atta)",
+      "Curd (yogurt)",
+      "Oil",
+      "Salt"
+    ],
+    "bm18": [
+      "Oats",
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bm19": [
+      "Moong dal",
+      "Rice flour",
+      "Green chilli",
+      "Ginger",
+      "Oil",
+      "Salt"
+    ],
+    "bm20": [
+      "Chana dal",
+      "Toor dal",
+      "Urad dal",
+      "Red chilli",
+      "Ginger",
+      "Oil",
+      "Salt"
+    ],
+    "bm21": [
+      "Moong dal (whole green)",
+      "Rice flour",
+      "Green chilli",
+      "Ginger",
+      "Cumin seeds",
+      "Oil"
+    ],
+    "bm22": [
+      "Rice flour",
+      "Coconut",
+      "Water",
+      "Salt"
+    ],
+    "bm23": [
+      "Idli/dosa batter (fermented)",
+      "Coconut milk",
+      "Oil"
+    ],
+    "bm24": [
+      "Rice flour",
+      "Water",
+      "Salt"
+    ],
+    "bm25": [
+      "Maida",
+      "Oil",
+      "Salt",
+      "Water"
+    ],
+    "bm26": [
+      "Maida",
+      "Potato",
+      "Onion",
+      "Oil",
+      "Salt"
+    ],
+    "bm27": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "bm28": [
+      "Idli/dosa batter",
+      "Pepper",
+      "Cumin seeds",
+      "Ginger",
+      "Salt"
+    ],
+    "bm29": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "bm30": [
+      "Idli/dosa batter",
+      "Cheese",
+      "Oil"
+    ],
+    "bm31": [
+      "Idli/dosa batter",
+      "Egg",
+      "Oil",
+      "Salt"
+    ],
+    "bm32": [
+      "Bread slices",
+      "Curd (yogurt)",
+      "Salt",
+      "Oil"
+    ],
+    "bm33": [
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Carrot",
+      "Mustard seeds",
+      "Oil",
+      "Salt"
+    ],
+    "bsg1": [
+      "Rava (semolina)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bsg2": [
+      "Semiya (vermicelli)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bsg3": [
+      "Rava (semolina)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bsg4": [
+      "Poha",
+      "Onion",
+      "Peanuts",
+      "Turmeric powder",
+      "Mustard seeds",
+      "Lemon",
+      "Oil",
+      "Salt"
+    ],
+    "bsg5": [
+      "Bread slices",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "bsg6": [
+      "Sabudana (tapioca pearls)",
+      "Peanuts",
+      "Potato",
+      "Green chilli",
+      "Ghee",
+      "Salt"
+    ],
+    "bsg7": [
+      "Rice",
+      "Moong dal",
+      "Pepper powder",
+      "Cumin seeds",
+      "Ginger",
+      "Ghee",
+      "Salt"
+    ],
+    "bsg8": [
+      "Rava (semolina)",
+      "Moong dal",
+      "Pepper powder",
+      "Cumin seeds",
+      "Ginger",
+      "Ghee",
+      "Salt"
+    ],
+    "bsg9": [
+      "Rava (semolina)",
+      "Tomato",
+      "Onion",
+      "Green chilli",
+      "Ghee",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "bsg10": [
+      "Rava (semolina)",
+      "Onion",
+      "Tomato",
+      "Mixed vegetables",
+      "Ghee",
+      "Masala powder",
+      "Salt"
+    ],
+    "bsg11": [
+      "Rava (semolina)",
+      "Banana",
+      "Jaggery",
+      "Ghee",
+      "Cardamom",
+      "Salt"
+    ],
+    "bsg12": [
+      "Rice",
+      "Onion",
+      "Tomato",
+      "Ghee",
+      "Spices",
+      "Salt"
+    ],
+    "bsg13": [
+      "Toor dal",
+      "Rice",
+      "Tamarind",
+      "Vegetables (carrot, beans)",
+      "Ghee",
+      "Sambar powder",
+      "Salt"
+    ],
+    "bsg14": [
+      "Ragi flour",
+      "Water",
+      "Jaggery",
+      "Milk",
+      "Cardamom"
+    ],
+    "bsg15": [
+      "Ragi flour",
+      "Water",
+      "Milk",
+      "Jaggery"
+    ],
+    "bsg16": [
+      "Wheat flour (atta)",
+      "Potato (boiled, mashed)",
+      "Onion",
+      "Green chilli",
+      "Garam masala",
+      "Oil",
+      "Salt"
+    ],
+    "bsg17": [
+      "Wheat flour (atta)",
+      "Methi leaves",
+      "Oil",
+      "Salt",
+      "Turmeric powder"
+    ],
+    "bsg18": [
+      "Wheat flour (atta)",
+      "Cauliflower (grated)",
+      "Green chilli",
+      "Garam masala",
+      "Oil",
+      "Salt"
+    ],
+    "bsg19": [
+      "Wheat flour (atta)",
+      "Paneer (crumbled)",
+      "Green chilli",
+      "Coriander leaves",
+      "Oil",
+      "Salt"
+    ],
+    "bsg20": [
+      "Wheat flour (atta)",
+      "Ghee",
+      "Salt"
+    ],
+    "bsg21": [
+      "Besan (chickpea flour)",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Cumin seeds",
+      "Oil",
+      "Salt"
+    ],
+    "bsg22": [
+      "Moong dal",
+      "Onion",
+      "Ginger",
+      "Green chilli",
+      "Cumin seeds",
+      "Oil",
+      "Salt"
+    ],
+    "bsg23": [
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Eno (fruit salt)",
+      "Oil",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "bsg24": [
+      "Rice",
+      "Chana dal",
+      "Urad dal",
+      "Carrot",
+      "Bottle gourd",
+      "Sesame seeds",
+      "Oil",
+      "Salt"
+    ],
+    "bsg25": [
+      "Multi-grain flour (rice, jowar, wheat, besan)",
+      "Onion",
+      "Green chilli",
+      "Coriander leaves",
+      "Oil",
+      "Salt"
+    ],
+    "bsg26": [
+      "Bread slices",
+      "Cucumber",
+      "Tomato",
+      "Onion",
+      "Cheese slice",
+      "Butter",
+      "Chutney"
+    ],
+    "bsg27": [
+      "Brown bread",
+      "Potato (boiled)",
+      "Cucumber",
+      "Tomato",
+      "Onion",
+      "Cheese",
+      "Butter",
+      "Chutney"
+    ],
+    "bsg28": [
+      "Eggs",
+      "Onion",
+      "Tomato",
+      "Capsicum",
+      "Olive oil",
+      "Cumin seeds",
+      "Red chilli flakes",
+      "Salt"
+    ],
+    "bsg29": [
+      "All-purpose flour",
+      "Egg",
+      "Milk",
+      "Butter",
+      "Sugar",
+      "Baking powder",
+      "Salt"
+    ],
+    "bsg30": [
+      "All-purpose flour",
+      "Egg",
+      "Milk",
+      "Butter",
+      "Sugar",
+      "Mixed berries or banana",
+      "Baking powder"
+    ],
+    "bsg31": [
+      "Bread slices",
+      "Egg",
+      "Milk",
+      "Sugar",
+      "Cinnamon",
+      "Butter",
+      "Vanilla extract"
+    ],
+    "bsd1": [
+      "Coconut",
+      "Green chilli",
+      "Ginger",
+      "Roasted chana dal",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "bsd2": [
+      "Tomato",
+      "Onion",
+      "Red chilli",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves",
+      "Salt"
+    ],
+    "bsd3": [
+      "Onion",
+      "Red chilli",
+      "Oil",
+      "Tamarind",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "bsd4": [
+      "Peanuts",
+      "Green chilli",
+      "Ginger",
+      "Lemon",
+      "Oil",
+      "Mustard seeds"
+    ],
+    "bsd5": [
+      "Mint leaves",
+      "Coriander leaves",
+      "Green chilli",
+      "Ginger",
+      "Lemon",
+      "Salt"
+    ],
+    "bsd6": [
+      "Coriander leaves",
+      "Green chilli",
+      "Ginger",
+      "Lemon",
+      "Salt"
+    ],
+    "bsd7": [
+      "Dried red chilli",
+      "Garlic",
+      "Tamarind",
+      "Oil",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "bsd8": [
+      "Ginger",
+      "Green chilli",
+      "Coconut",
+      "Tamarind",
+      "Oil",
+      "Mustard seeds"
+    ],
+    "bsd9": [
+      "Raw mango",
+      "Green chilli",
+      "Ginger",
+      "Oil",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "bsd10": [
+      "Tomato",
+      "Tamarind",
+      "Curd (yogurt)",
+      "Mustard seeds",
+      "Red chilli",
+      "Oil"
+    ],
+    "bsd11": [
+      "Urad dal",
+      "Sesame seeds",
+      "Red chilli",
+      "Asafoetida (hing)",
+      "Oil",
+      "Salt"
+    ],
+    "bsd12": [
+      "Urad dal",
+      "Sesame seeds",
+      "Red chilli",
+      "Pepper",
+      "Asafoetida (hing)",
+      "Oil",
+      "Salt"
+    ],
+    "bsd13": [
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "bsd14": [
+      "Toor dal",
+      "Tomato",
+      "Onion",
+      "Sambar powder",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "bsd15": [
+      "Mixed vegetables (carrot, beans, potato)",
+      "Coconut milk",
+      "Onion",
+      "Green chilli",
+      "Ginger",
+      "Oil"
+    ],
+    "bsd16": [
+      "Mixed vegetables",
+      "Onion",
+      "Coconut",
+      "Cashews",
+      "Ginger-garlic",
+      "Cream",
+      "Oil",
+      "Spices"
+    ],
+    "bsd17": [
+      "Potato (boiled)",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Oil",
+      "Salt"
+    ],
+    "bsd18": [
+      "Potato",
+      "Onion",
+      "Green chilli",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Oil",
+      "Salt"
+    ],
+    "bsd19": [
+      "Tomato",
+      "Onion",
+      "Coconut milk",
+      "Coriander powder",
+      "Garam masala",
+      "Oil",
+      "Salt"
+    ],
+    "bsd20": [
+      "Black chickpeas (kadala)",
+      "Onion",
+      "Tomato",
+      "Coconut",
+      "Ginger",
+      "Garlic",
+      "Oil",
+      "Spices"
+    ],
+    "bsd21": [
+      "Besan (chickpea flour)",
+      "Onion",
+      "Tomato",
+      "Lemon",
+      "Turmeric powder",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "bsd22": [
+      "Brinjal (eggplant)",
+      "Tamarind",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Oil",
+      "Sambar powder"
+    ],
+    "bsd23": [
+      "Mixed vegetables (carrot, beans, raw banana, drumstick)",
+      "Coconut",
+      "Curd (yogurt)",
+      "Cumin",
+      "Green chilli"
+    ],
+    "bsd24": [
+      "Idiyappam / appam",
+      "Coconut milk",
+      "Sugar",
+      "Salt"
+    ],
+    "bsd25": [
+      "Curd (yogurt)"
+    ],
+    "bsd26": [
+      "Lemon pickle or mango pickle"
+    ],
+    "bsd27": [
+      "Banana",
+      "Peanut butter",
+      "Milk"
+    ],
+    "bsd28": [
+      "Mango pulp",
+      "Curd (yogurt)",
+      "Sugar",
+      "Cardamom"
+    ],
+    "bsd29": [
+      "Curd (yogurt)",
+      "Water",
+      "Cumin powder",
+      "Coriander leaves",
+      "Salt"
+    ],
+    "bsd30": [
+      "Milk",
+      "Almonds",
+      "Sugar",
+      "Cardamom",
+      "Saffron"
+    ],
+    "lb_rice": [
+      "Rice"
+    ],
+    "lb_chapathi": [
+      "Wheat flour (atta)",
+      "Oil",
+      "Salt"
+    ],
+    "lb_pulka": [
+      "Wheat flour (atta)",
+      "Oil",
+      "Salt"
+    ],
+    "lb_ragi": [
+      "Ragi flour",
+      "Water",
+      "Salt"
+    ],
+    "lb_adai": [
+      "Ragi flour",
+      "Rice flour",
+      "Onion",
+      "Green chilli",
+      "Cumin seeds",
+      "Oil",
+      "Salt"
+    ],
+    "lb_phulka": [
+      "Wheat flour (atta)",
+      "Ghee"
+    ],
+    "lb_parotta": [
+      "Maida",
+      "Oil",
+      "Salt"
+    ],
+    "lb_quinoa": [
+      "Quinoa",
+      "Water",
+      "Salt",
+      "Lemon"
+    ],
+    "lb_brown_rice": [
+      "Brown rice",
+      "Water",
+      "Salt"
+    ],
+    "lb_millets": [
+      "Jowar or bajra",
+      "Water",
+      "Salt"
+    ],
+    "lc1": [
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Drumstick",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lc2": [
+      "Tomato",
+      "Tamarind",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Curry leaves",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lc3": [
+      "Toor dal",
+      "Tomato",
+      "Tamarind",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lc4": [
+      "Toor dal",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Turmeric powder",
+      "Red chilli powder",
+      "Ghee"
+    ],
+    "lc5": [
+      "Toor dal or chana dal",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cumin seeds",
+      "Ghee",
+      "Salt"
+    ],
+    "lc6": [
+      "Curd (yogurt)",
+      "Toor dal",
+      "Coconut",
+      "Vegetables (raw banana, drumstick)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lc7": [
+      "Sun-dried berries (vathals)",
+      "Tamarind",
+      "Shallots",
+      "Mustard seeds",
+      "Red chilli",
+      "Sesame oil"
+    ],
+    "lc8": [
+      "Shallots",
+      "Tamarind",
+      "Red chilli powder",
+      "Sambar powder",
+      "Mustard seeds",
+      "Sesame oil"
+    ],
+    "lc9": [
+      "Tamarind",
+      "Pepper powder",
+      "Cumin seeds",
+      "Shallots",
+      "Mustard seeds",
+      "Sesame oil"
+    ],
+    "lc10": [
+      "Tamarind",
+      "Shallots",
+      "Red chilli powder",
+      "Sesame oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "lc11": [
+      "Toor dal",
+      "Tamarind",
+      "Freshly ground coconut",
+      "Spices",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lc12": [
+      "Toor dal",
+      "Drumstick",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc13": [
+      "Toor dal",
+      "Radish",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc14": [
+      "Toor dal",
+      "Okra (vendakkai)",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc15": [
+      "Toor dal",
+      "Brinjal (kathirikai)",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc16": [
+      "Toor dal",
+      "Cabbage",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc17": [
+      "Toor dal",
+      "Carrot",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc18": [
+      "Toor dal",
+      "Radish (mullangi)",
+      "Tamarind",
+      "Sambar powder",
+      "Tomato",
+      "Onion",
+      "Oil"
+    ],
+    "lc19": [
+      "Toor dal",
+      "Okra",
+      "Tamarind",
+      "Shallots",
+      "Sesame oil",
+      "Red chilli"
+    ],
+    "lc20": [
+      "Toor dal",
+      "Brinjal",
+      "Tamarind",
+      "Shallots",
+      "Sesame oil",
+      "Spices"
+    ],
+    "lc21": [
+      "Brinjal",
+      "Sesame seeds",
+      "Peanuts",
+      "Tamarind",
+      "Shallots",
+      "Red chilli",
+      "Sesame oil"
+    ],
+    "lc22": [
+      "Sundakkai (turkey berries)",
+      "Tamarind",
+      "Shallots",
+      "Red chilli",
+      "Sesame oil"
+    ],
+    "lc23": [
+      "Garlic",
+      "Tamarind",
+      "Shallots",
+      "Sesame oil",
+      "Mustard seeds",
+      "Red chilli"
+    ],
+    "lc24": [
+      "Elephant yam (senai)",
+      "Tamarind",
+      "Shallots",
+      "Sesame oil",
+      "Red chilli",
+      "Spices"
+    ],
+    "lc25": [
+      "Cowpeas (karamani)",
+      "Tamarind",
+      "Shallots",
+      "Coconut",
+      "Sesame oil"
+    ],
+    "lc26": [
+      "Chow chow (chayote)",
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Oil"
+    ],
+    "lc27": [
+      "Snake gourd (pudalangai)",
+      "Toor dal",
+      "Tamarind",
+      "Coconut",
+      "Oil"
+    ],
+    "lc28": [
+      "Cluster beans (kothavarangai)",
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Oil"
+    ],
+    "lc29": [
+      "Mixed vegetables (carrot, beans, raw banana, drumstick)",
+      "Coconut",
+      "Curd (yogurt)",
+      "Cumin seeds",
+      "Green chilli"
+    ],
+    "lc30": [
+      "Mixed vegetables",
+      "Chana dal",
+      "Coconut",
+      "Cumin seeds",
+      "Red chilli",
+      "Oil"
+    ],
+    "lc31": [
+      "Beans",
+      "Chana dal",
+      "Coconut",
+      "Cumin seeds",
+      "Oil"
+    ],
+    "lc32": [
+      "Cabbage",
+      "Chana dal",
+      "Coconut",
+      "Cumin seeds",
+      "Oil"
+    ],
+    "lc33": [
+      "Mixed vegetables",
+      "Coconut milk",
+      "Onion",
+      "Cashews",
+      "Ginger",
+      "Garlic",
+      "Oil",
+      "Garam masala"
+    ],
+    "lc34": [
+      "Chickpeas (chana)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil",
+      "Coriander leaves"
+    ],
+    "lc35": [
+      "Rajma (kidney beans)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil",
+      "Cumin seeds"
+    ],
+    "lc36": [
+      "Palak (spinach)",
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc37": [
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Butter",
+      "Cream",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc38": [
+      "Mushrooms",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc39": [
+      "Mixed vegetables (carrot, beans, potato, peas)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc40": [
+      "Potato",
+      "Cauliflower",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Turmeric powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc41": [
+      "Chicken pieces",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil",
+      "Coriander leaves"
+    ],
+    "lc42": [
+      "Fish pieces",
+      "Tamarind",
+      "Onion",
+      "Tomato",
+      "Shallots",
+      "Red chilli powder",
+      "Turmeric powder",
+      "Sesame oil"
+    ],
+    "lc43": [
+      "Mutton pieces",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc44": [
+      "Eggs (hard boiled)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "lc45": [
+      "Coconut milk",
+      "Mixed vegetables (courgette, eggplant, pepper)",
+      "Green curry paste",
+      "Kaffir lime leaves",
+      "Fish sauce (or soy)",
+      "Basil",
+      "Oil"
+    ],
+    "lc46": [
+      "Coconut milk",
+      "Mixed vegetables",
+      "Red curry paste",
+      "Lemongrass",
+      "Kaffir lime leaves",
+      "Soy sauce",
+      "Basil",
+      "Oil"
+    ],
+    "lc47": [
+      "Masoor dal (red lentils)",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Turmeric powder",
+      "Lemon",
+      "Oil"
+    ],
+    "lc48": [
+      "Chickpeas (canned or soaked)",
+      "Spinach",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Paprika",
+      "Olive oil"
+    ],
+    "lp1": [
+      "Beans",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil",
+      "Salt"
+    ],
+    "lp2": [
+      "Carrot",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil",
+      "Salt"
+    ],
+    "lp3": [
+      "Beetroot",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil",
+      "Salt"
+    ],
+    "lp4": [
+      "Cabbage",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil",
+      "Salt"
+    ],
+    "lp5": [
+      "Cauliflower",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Curry leaves",
+      "Oil",
+      "Salt"
+    ],
+    "lp6": [
+      "Potato",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Red chilli powder",
+      "Oil",
+      "Salt"
+    ],
+    "lp7": [
+      "Okra (vendakkai)",
+      "Onion",
+      "Mustard seeds",
+      "Oil",
+      "Salt"
+    ],
+    "lp8": [
+      "Brinjal (kathirikai)",
+      "Onion",
+      "Mustard seeds",
+      "Sesame oil",
+      "Salt"
+    ],
+    "lp9": [
+      "Drumstick leaves",
+      "Onion",
+      "Shallots",
+      "Coconut (grated)",
+      "Oil"
+    ],
+    "lp10": [
+      "Drumstick leaves (murungai keerai)",
+      "Onion",
+      "Shallots",
+      "Oil",
+      "Salt"
+    ],
+    "lp11": [
+      "Broad beans (avarakai)",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp12": [
+      "Cluster beans",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp13": [
+      "Raw banana (vazhakkai)",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp14": [
+      "Bitter gourd",
+      "Onion",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Sesame oil"
+    ],
+    "lp15": [
+      "Snake gourd",
+      "Onion",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp16": [
+      "Yellow pumpkin",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp17": [
+      "Cucumber",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Green chilli",
+      "Oil"
+    ],
+    "lp18": [
+      "Cauliflower",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp19": [
+      "Carrot",
+      "Beans",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp20": [
+      "Cabbage",
+      "Moong dal",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp21": [
+      "Beans",
+      "Carrot",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp22": [
+      "Banana stem (vazhaithandu)",
+      "Coconut (grated)",
+      "Curd (yogurt)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp23": [
+      "Carrot",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp24": [
+      "Beans",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp25": [
+      "Cabbage",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lp26": [
+      "Beans",
+      "Chana dal or toor dal",
+      "Coconut (grated)",
+      "Red chilli",
+      "Oil"
+    ],
+    "lp27": [
+      "Okra",
+      "Chana dal",
+      "Coconut (grated)",
+      "Red chilli",
+      "Oil"
+    ],
+    "lp28": [
+      "Cluster beans",
+      "Chana dal",
+      "Coconut (grated)",
+      "Red chilli",
+      "Oil"
+    ],
+    "lp29": [
+      "Carrot",
+      "Beans",
+      "Chana dal",
+      "Coconut (grated)",
+      "Red chilli",
+      "Oil"
+    ],
+    "lp30": [
+      "Cowpeas (karamani)",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "lp31": [
+      "Chickpeas (chana)",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Lemon",
+      "Oil"
+    ],
+    "lp32": [
+      "Peanuts",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Lemon",
+      "Oil"
+    ],
+    "lp33": [
+      "Mixed sprouts",
+      "Onion",
+      "Tomato",
+      "Lemon",
+      "Coriander leaves",
+      "Oil"
+    ],
+    "ls1": [
+      "Cucumber",
+      "Curd (yogurt)",
+      "Salt",
+      "Cumin powder",
+      "Coriander leaves"
+    ],
+    "ls2": [
+      "Onion",
+      "Curd (yogurt)",
+      "Salt",
+      "Cumin powder",
+      "Coriander leaves"
+    ],
+    "ls3": [
+      "Boondi (fried chickpea drops)",
+      "Curd (yogurt)",
+      "Salt",
+      "Cumin powder"
+    ],
+    "ls4": [
+      "Tomato",
+      "Curd (yogurt)",
+      "Salt",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "ls5": [
+      "Cucumber",
+      "Onion",
+      "Tomato",
+      "Lemon",
+      "Salt",
+      "Pepper powder"
+    ],
+    "ls6": [
+      "Carrot",
+      "Cucumber",
+      "Lemon",
+      "Salt",
+      "Pepper powder",
+      "Coriander leaves"
+    ],
+    "ls7": [
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Lemon",
+      "Coriander leaves",
+      "Salt"
+    ],
+    "ls8": [
+      "Mango or lemon pickle"
+    ],
+    "ls9": [
+      "Papad (urad dal)"
+    ],
+    "ls10": [
+      "Papad"
+    ],
+    "ls11": [
+      "Seasonal fruit (banana, orange, guava)"
+    ],
+    "ls12": [
+      "Curd (yogurt)",
+      "Water",
+      "Salt",
+      "Cumin powder"
+    ],
+    "ls13": [
+      "Curd (yogurt)",
+      "Water",
+      "Ginger",
+      "Curry leaves",
+      "Salt",
+      "Mustard seeds"
+    ],
+    "lv1": [
+      "Rice",
+      "Lemon",
+      "Mustard seeds",
+      "Peanuts",
+      "Turmeric powder",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lv2": [
+      "Rice",
+      "Tomato",
+      "Onion",
+      "Green chilli",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "lv3": [
+      "Rice",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lv4": [
+      "Rice",
+      "Mint leaves",
+      "Onion",
+      "Oil",
+      "Cumin seeds",
+      "Salt"
+    ],
+    "lv5": [
+      "Rice",
+      "Tamarind",
+      "Sesame oil",
+      "Mustard seeds",
+      "Curry leaves",
+      "Peanuts",
+      "Puliyodharai rice mix"
+    ],
+    "lv6": [
+      "Rice",
+      "Curd (yogurt)",
+      "Ginger",
+      "Green chilli",
+      "Mustard seeds",
+      "Curry leaves",
+      "Salt"
+    ],
+    "lv7": [
+      "Basmati rice",
+      "Ghee",
+      "Whole spices (bay leaf, cloves, cardamom)",
+      "Salt"
+    ],
+    "lv8": [
+      "Basmati rice",
+      "Cumin seeds",
+      "Ghee",
+      "Salt"
+    ],
+    "lv9": [
+      "Rice",
+      "Tamarind",
+      "Mustard seeds",
+      "Curry leaves",
+      "Sesame oil",
+      "Peanuts"
+    ],
+    "lv10": [
+      "Toor dal",
+      "Rice",
+      "Tamarind",
+      "Vegetables (carrot, beans)",
+      "Ghee",
+      "Sambar powder",
+      "Salt"
+    ],
+    "lv11": [
+      "Toor dal",
+      "Rice",
+      "Tamarind",
+      "Sambar powder",
+      "Onion",
+      "Tomato",
+      "Ghee"
+    ],
+    "lv12": [
+      "Toor dal",
+      "Rice",
+      "Ghee",
+      "Cumin seeds",
+      "Pepper powder",
+      "Salt"
+    ],
+    "lv13": [
+      "Rice",
+      "Carrot (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Lemon",
+      "Oil"
+    ],
+    "lv14": [
+      "Rice",
+      "Capsicum",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "lv15": [
+      "Rice",
+      "Beetroot (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Lemon",
+      "Oil"
+    ],
+    "lv16": [
+      "Rice",
+      "Mint leaves (pudina)",
+      "Onion",
+      "Oil",
+      "Cumin seeds"
+    ],
+    "lv17": [
+      "Basmati rice",
+      "Coconut milk",
+      "Whole spices",
+      "Onion",
+      "Ghee"
+    ],
+    "lv18": [
+      "Rice",
+      "Sesame seeds (til)",
+      "Mustard seeds",
+      "Red chilli",
+      "Oil"
+    ],
+    "lv19": [
+      "Rice",
+      "Brinjal (vangi)",
+      "Onion",
+      "Vangi bath powder",
+      "Oil",
+      "Peanuts"
+    ],
+    "lv20": [
+      "Rice",
+      "Mixed vegetables (carrot, beans, peas)",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "lv21": [
+      "Rice",
+      "Schezwan sauce",
+      "Mixed vegetables",
+      "Oil",
+      "Garlic"
+    ],
+    "lv22": [
+      "Quinoa",
+      "Mixed vegetables (peas, carrot, corn)",
+      "Cumin seeds",
+      "Oil",
+      "Lemon",
+      "Salt"
+    ],
+    "lv23": [
+      "Brown rice",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Ginger",
+      "Garlic",
+      "Sesame oil"
+    ],
+    "lv24": [
+      "Jowar or bajra (millets)",
+      "Moong dal",
+      "Ghee",
+      "Cumin seeds",
+      "Ginger",
+      "Salt"
+    ],
+    "lbi1": [
+      "Basmati rice",
+      "Mixed vegetables (carrot, beans, potato, peas)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Mint leaves",
+      "Coriander leaves"
+    ],
+    "lbi2": [
+      "Basmati rice",
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Saffron"
+    ],
+    "lbi3": [
+      "Basmati rice",
+      "Mushrooms",
+      "Onion",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Oil",
+      "Mint leaves"
+    ],
+    "lbi4": [
+      "Basmati rice",
+      "Mixed vegetables",
+      "Onion",
+      "Cumin seeds",
+      "Whole spices (bay leaf, cloves)",
+      "Oil",
+      "Salt"
+    ],
+    "lbi5": [
+      "Basmati rice",
+      "Coconut milk",
+      "Onion",
+      "Whole spices",
+      "Ghee",
+      "Salt"
+    ],
+    "lbi6": [
+      "Basmati rice",
+      "Pomegranate",
+      "Nuts",
+      "Raisins",
+      "Saffron",
+      "Ghee",
+      "Whole spices"
+    ],
+    "lbi7": [
+      "Basmati rice",
+      "Peas",
+      "Cumin seeds",
+      "Whole spices",
+      "Oil",
+      "Salt"
+    ],
+    "lbi8": [
+      "Basmati rice",
+      "Tomato",
+      "Onion",
+      "Cumin seeds",
+      "Oil",
+      "Salt"
+    ],
+    "lbi9": [
+      "Rice",
+      "Moong dal",
+      "Carrot",
+      "Beans",
+      "Ghee",
+      "Turmeric powder",
+      "Cumin seeds",
+      "Salt"
+    ],
+    "lbi10": [
+      "Basmati rice",
+      "Chicken pieces",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Mint leaves",
+      "Saffron"
+    ],
+    "lbi11": [
+      "Basmati rice",
+      "Mutton pieces",
+      "Onion",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Mint leaves",
+      "Saffron"
+    ],
+    "lbi12": [
+      "Basmati rice",
+      "Eggs (hard boiled)",
+      "Onion",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Saffron"
+    ],
+    "lbi13": [
+      "Basmati rice",
+      "Prawns",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee",
+      "Mint leaves"
+    ],
+    "lbi14": [
+      "Basmati rice",
+      "Fish",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Oil",
+      "Curry leaves"
+    ],
+    "lbi15": [
+      "Basmati rice",
+      "Fried chicken 65",
+      "Onion",
+      "Ginger",
+      "Garlic",
+      "Biryani masala",
+      "Ghee"
+    ],
+    "lbi16": [
+      "Basmati rice",
+      "Mixed vegetables",
+      "Onion",
+      "Whole spices",
+      "Ghee"
+    ],
+    "lbi17": [
+      "Basmati rice",
+      "Dum aloo (baby potato)",
+      "Onion",
+      "Biryani masala",
+      "Ghee"
+    ],
+    "ds1": [
+      "Semiya (vermicelli)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "ds2": [
+      "Rava (semolina)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "ds3": [
+      "Poha",
+      "Onion",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Peanuts",
+      "Lemon",
+      "Oil"
+    ],
+    "ds4": [
+      "Rice",
+      "Moong dal",
+      "Pepper powder",
+      "Cumin seeds",
+      "Ginger",
+      "Ghee",
+      "Salt"
+    ],
+    "ds5": [
+      "Rava (semolina)",
+      "Moong dal",
+      "Pepper powder",
+      "Cumin seeds",
+      "Ginger",
+      "Ghee",
+      "Salt"
+    ],
+    "ds6": [
+      "Rice",
+      "Curd (yogurt)",
+      "Ginger",
+      "Mustard seeds",
+      "Curry leaves",
+      "Salt"
+    ],
+    "ds7": [
+      "Toor dal",
+      "Rice",
+      "Ghee",
+      "Cumin seeds",
+      "Pepper powder",
+      "Salt"
+    ],
+    "ds8": [
+      "Rice",
+      "Lemon",
+      "Mustard seeds",
+      "Peanuts",
+      "Turmeric powder",
+      "Curry leaves",
+      "Oil"
+    ],
+    "ds9": [
+      "Rice",
+      "Tomato",
+      "Onion",
+      "Green chilli",
+      "Oil",
+      "Mustard seeds"
+    ],
+    "ds10": [
+      "Rice",
+      "Coconut (grated)",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "ds11": [
+      "Rice",
+      "Moong dal",
+      "Carrot",
+      "Beans",
+      "Ghee",
+      "Turmeric powder",
+      "Cumin seeds",
+      "Salt"
+    ],
+    "ds12": [
+      "Toor dal",
+      "Rice",
+      "Mixed vegetables",
+      "Ghee",
+      "Turmeric powder",
+      "Cumin seeds",
+      "Salt"
+    ],
+    "ds13": [
+      "Sabudana (tapioca pearls)",
+      "Peanuts",
+      "Potato",
+      "Green chilli",
+      "Ghee",
+      "Salt"
+    ],
+    "ds14": [
+      "Ragi flour",
+      "Water",
+      "Milk",
+      "Jaggery"
+    ],
+    "ds15": [
+      "Toor dal",
+      "Rice",
+      "Tamarind",
+      "Vegetables (carrot, beans)",
+      "Ghee",
+      "Sambar powder"
+    ],
+    "ds16": [
+      "Broken wheat (daliya)",
+      "Mixed vegetables",
+      "Cumin seeds",
+      "Ghee",
+      "Salt"
+    ],
+    "ds17": [
+      "Oats",
+      "Coconut (grated)",
+      "Onion",
+      "Mustard seeds",
+      "Curry leaves",
+      "Green chilli",
+      "Oil"
+    ],
+    "ds18": [
+      "Basmati rice",
+      "Ghee",
+      "Whole spices",
+      "Salt"
+    ],
+    "ds19": [
+      "Basmati rice",
+      "Coconut milk",
+      "Whole spices",
+      "Ghee",
+      "Salt"
+    ],
+    "ds20": [
+      "Basmati rice",
+      "Cumin seeds",
+      "Ghee",
+      "Salt"
+    ],
+    "ds21": [
+      "Toor dal",
+      "Rice",
+      "Tamarind",
+      "Sambar powder",
+      "Onion",
+      "Tomato",
+      "Oil"
+    ],
+    "ds22": [
+      "Rice",
+      "Brinjal",
+      "Vangi bath powder",
+      "Onion",
+      "Oil",
+      "Peanuts"
+    ],
+    "ds23": [
+      "Rava (semolina)",
+      "Ghee",
+      "Onion",
+      "Tomato",
+      "Spices",
+      "Salt"
+    ],
+    "ds24": [
+      "Basmati rice",
+      "Mixed vegetables",
+      "Cumin seeds",
+      "Whole spices",
+      "Oil"
+    ],
+    "ds25": [
+      "Basmati rice",
+      "Peas",
+      "Cumin seeds",
+      "Whole spices",
+      "Oil"
+    ],
+    "ds26": [
+      "Basmati rice",
+      "Pomegranate",
+      "Nuts",
+      "Raisins",
+      "Saffron",
+      "Ghee"
+    ],
+    "ds27": [
+      "Basmati rice",
+      "Mixed vegetables",
+      "Biryani masala",
+      "Ghee",
+      "Onion"
+    ],
+    "ds28": [
+      "Rice",
+      "Mixed vegetables",
+      "Egg or paneer (optional)",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "ds29": [
+      "Rice",
+      "Curd (yogurt)",
+      "Besan",
+      "Cumin seeds",
+      "Ghee",
+      "Salt"
+    ],
+    "ds30": [
+      "Broken wheat",
+      "Moong dal",
+      "Ghee",
+      "Pepper powder",
+      "Cumin seeds"
+    ],
+    "ds31": [
+      "Poha",
+      "Onion",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Lemon",
+      "Oil"
+    ],
+    "ds32": [
+      "Rice",
+      "Coconut milk",
+      "Thai green curry paste",
+      "Mixed vegetables",
+      "Kaffir lime leaves",
+      "Basil",
+      "Oil"
+    ],
+    "ds33": [
+      "Rice",
+      "Mixed vegetables (spinach, carrot, mushroom, bean sprouts)",
+      "Soy sauce",
+      "Sesame oil",
+      "Egg (optional)",
+      "Gochujang (optional)"
+    ],
+    "ds34": [
+      "Pasta (penne or spaghetti)",
+      "Tomato",
+      "Onion",
+      "Carrot",
+      "Beans",
+      "Tomato paste",
+      "Garlic",
+      "Olive oil",
+      "Salt",
+      "Basil"
+    ],
+    "ds35": [
+      "Masoor dal (red lentils)",
+      "Tomato",
+      "Onion",
+      "Garlic",
+      "Cumin seeds",
+      "Lemon",
+      "Whole wheat bread",
+      "Olive oil"
+    ],
+    "dt_idli": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "dt2": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "dt_dosa": [
+      "Idli/dosa batter",
+      "Oil"
+    ],
+    "dt4": [
+      "Idli/dosa batter",
+      "Oil"
+    ],
+    "dt5": [
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Carrot",
+      "Oil",
+      "Mustard seeds",
+      "Salt"
+    ],
+    "dt6": [
+      "Idli/dosa batter",
+      "Oil",
+      "Curry leaves"
+    ],
+    "dt7": [
+      "Chana dal",
+      "Toor dal",
+      "Urad dal",
+      "Red chilli",
+      "Ginger",
+      "Oil",
+      "Salt"
+    ],
+    "dt8": [
+      "Idli/dosa batter",
+      "Onion",
+      "Tomato",
+      "Oil",
+      "Salt"
+    ],
+    "dt9": [
+      "Rava (semolina)",
+      "Rice flour",
+      "Onion",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dt10": [
+      "Rice",
+      "Water",
+      "Oil",
+      "Salt"
+    ],
+    "dt11": [
+      "Idli/dosa batter",
+      "Oil",
+      "Salt"
+    ],
+    "dt12": [
+      "Wheat flour (atta)",
+      "Curd (yogurt)",
+      "Oil",
+      "Salt"
+    ],
+    "dt13": [
+      "Oats",
+      "Rava (semolina)",
+      "Curd (yogurt)",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dt14": [
+      "Besan (chickpea flour)",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dt15": [
+      "Rice flour",
+      "Onion",
+      "Carrot",
+      "Coconut (grated)",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dt16": [
+      "Idli/dosa batter",
+      "Pepper",
+      "Cumin seeds",
+      "Ginger",
+      "Salt"
+    ],
+    "dt17": [
+      "Idli/dosa batter",
+      "Idli podi",
+      "Ghee"
+    ],
+    "dt18": [
+      "Idli/dosa batter",
+      "Ghee",
+      "Oil"
+    ],
+    "dsi1": [
+      "Coconut",
+      "Green chilli",
+      "Ginger",
+      "Roasted chana dal",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "dsi2": [
+      "Tomato",
+      "Onion",
+      "Red chilli",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "dsi3": [
+      "Onion",
+      "Red chilli",
+      "Tamarind",
+      "Oil",
+      "Mustard seeds",
+      "Curry leaves"
+    ],
+    "dsi4": [
+      "Mint leaves",
+      "Coriander leaves",
+      "Green chilli",
+      "Ginger",
+      "Lemon",
+      "Salt"
+    ],
+    "dsi5": [
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dsi6": [
+      "Tomato",
+      "Tamarind",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dsi7": [
+      "Toor dal",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dsi8": [
+      "Urad dal",
+      "Sesame seeds",
+      "Red chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dsi9": [
+      "Mixed vegetables",
+      "Coconut milk",
+      "Onion",
+      "Cashews",
+      "Ginger",
+      "Garlic",
+      "Oil",
+      "Garam masala"
+    ],
+    "dsi10": [
+      "Potato (boiled)",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Oil"
+    ],
+    "dsi11": [
+      "Curd (yogurt)"
+    ],
+    "dsi12": [
+      "Mango or lemon pickle"
+    ],
+    "db_chapathi": [
+      "Wheat flour (atta)",
+      "Oil",
+      "Salt"
+    ],
+    "db_pulka": [
+      "Wheat flour (atta)",
+      "Oil",
+      "Salt"
+    ],
+    "db_ragi": [
+      "Ragi flour",
+      "Water",
+      "Salt"
+    ],
+    "db_phulka": [
+      "Wheat flour (atta)",
+      "Ghee"
+    ],
+    "db_thepla": [
+      "Wheat flour (atta)",
+      "Methi leaves",
+      "Curd (yogurt)",
+      "Turmeric powder",
+      "Oil"
+    ],
+    "db_aloo_para": [
+      "Wheat flour (atta)",
+      "Potato (boiled, mashed)",
+      "Onion",
+      "Green chilli",
+      "Garam masala",
+      "Oil"
+    ],
+    "db_gobi_para": [
+      "Wheat flour (atta)",
+      "Cauliflower (grated)",
+      "Green chilli",
+      "Garam masala",
+      "Oil"
+    ],
+    "db_methi_para": [
+      "Wheat flour (atta)",
+      "Methi leaves",
+      "Oil",
+      "Salt",
+      "Turmeric powder"
+    ],
+    "db_naan": [
+      "Maida",
+      "Curd (yogurt)",
+      "Baking powder",
+      "Oil",
+      "Salt"
+    ],
+    "db_butter_naan": [
+      "Maida",
+      "Curd (yogurt)",
+      "Butter",
+      "Baking powder",
+      "Salt"
+    ],
+    "db_tandoori": [
+      "Wheat flour (atta)",
+      "Curd (yogurt)",
+      "Yeast",
+      "Salt"
+    ],
+    "db_bhatura": [
+      "Maida",
+      "Curd (yogurt)",
+      "Baking soda",
+      "Oil",
+      "Salt"
+    ],
+    "db_roti": [
+      "Wheat flour (atta)",
+      "Oil",
+      "Salt"
+    ],
+    "dg1": [
+      "Toor dal",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Turmeric powder",
+      "Red chilli powder",
+      "Ghee"
+    ],
+    "dg2": [
+      "Chana dal or toor dal",
+      "Onion",
+      "Tomato",
+      "Cumin seeds",
+      "Garlic",
+      "Ghee",
+      "Oil"
+    ],
+    "dg3": [
+      "Urad dal",
+      "Rajma",
+      "Butter",
+      "Cream",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala"
+    ],
+    "dg4": [
+      "Toor dal",
+      "Tamarind",
+      "Sambar powder",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dg5": [
+      "Tomato",
+      "Tamarind",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dg6": [
+      "Tomato",
+      "Pepper powder",
+      "Cumin seeds",
+      "Garlic",
+      "Mustard seeds",
+      "Oil"
+    ],
+    "dg7": [
+      "Curd (yogurt)",
+      "Toor dal",
+      "Coconut",
+      "Vegetables",
+      "Mustard seeds",
+      "Curry leaves",
+      "Oil"
+    ],
+    "dg8": [
+      "Chickpea flour (besan)",
+      "Curd (yogurt)",
+      "Onion",
+      "Pakoras",
+      "Ghee",
+      "Cumin seeds"
+    ],
+    "dg9": [
+      "Mixed vegetables",
+      "Coconut milk",
+      "Onion",
+      "Cashews",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg10": [
+      "Mixed vegetables",
+      "Onion",
+      "Coconut",
+      "Cashews",
+      "Ginger",
+      "Garlic",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg11": [
+      "Potato (boiled)",
+      "Onion",
+      "Tomato",
+      "Mustard seeds",
+      "Turmeric powder",
+      "Oil"
+    ],
+    "dg12": [
+      "Potato",
+      "Onion",
+      "Tomato",
+      "Cumin seeds",
+      "Turmeric powder",
+      "Red chilli powder",
+      "Oil"
+    ],
+    "dg13": [
+      "Potato",
+      "Cauliflower",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Turmeric powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg14": [
+      "Potato",
+      "Peas",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg15": [
+      "Baby potatoes",
+      "Curd (yogurt)",
+      "Kashmiri red chilli powder",
+      "Cumin seeds",
+      "Asafoetida (hing)",
+      "Oil"
+    ],
+    "dg16": [
+      "Potato",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Red chilli powder",
+      "Oil"
+    ],
+    "dg17": [
+      "Okra (bhindi)",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Red chilli powder",
+      "Oil"
+    ],
+    "dg18": [
+      "Palak (spinach)",
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg19": [
+      "Spinach",
+      "Paneer",
+      "Onion",
+      "Garlic",
+      "Ginger",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg20": [
+      "Spinach",
+      "Potato",
+      "Onion",
+      "Garlic",
+      "Ginger",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg21": [
+      "Palak (spinach)",
+      "Sweet corn",
+      "Onion",
+      "Garlic",
+      "Ginger",
+      "Cream",
+      "Oil"
+    ],
+    "dg22": [
+      "Methi leaves",
+      "Peas",
+      "Cream",
+      "Onion",
+      "Ginger",
+      "Garlic",
+      "Oil"
+    ],
+    "dg23": [
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Butter",
+      "Cream",
+      "Ginger",
+      "Garlic",
+      "Garam masala"
+    ],
+    "dg24": [
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Capsicum",
+      "Cumin seeds",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg25": [
+      "Paneer",
+      "Cream",
+      "Onion",
+      "Cashews",
+      "Spices",
+      "Oil"
+    ],
+    "dg26": [
+      "Paneer",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Oil"
+    ],
+    "dg27": [
+      "Mushrooms",
+      "Onion",
+      "Capsicum",
+      "Ginger",
+      "Garlic",
+      "Cumin seeds",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg28": [
+      "Chickpeas (chana)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil",
+      "Coriander leaves"
+    ],
+    "dg29": [
+      "Chickpeas (chana)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Anardana powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg30": [
+      "Rajma (kidney beans)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg31": [
+      "Masoor dal (brown lentils)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cumin seeds",
+      "Oil"
+    ],
+    "dg32": [
+      "Masoor dal (red lentils)",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Turmeric powder",
+      "Oil"
+    ],
+    "dg33": [
+      "Black-eyed peas (lobia)",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg34": [
+      "Butternut squash",
+      "Spinach",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Garam masala",
+      "Coconut milk",
+      "Oil"
+    ],
+    "dg35": [
+      "Tofu",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg36": [
+      "Mixed vegetables (capsicum, onion, tomato, carrot)",
+      "Ginger",
+      "Garlic",
+      "Tomato sauce",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg37": [
+      "Mixed vegetables",
+      "Coconut milk",
+      "Onion",
+      "Cashews",
+      "Raisins",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg38": [
+      "Paneer (crumbled)",
+      "Onion",
+      "Tomato",
+      "Green chilli",
+      "Cumin seeds",
+      "Oil",
+      "Coriander leaves"
+    ],
+    "dg39": [
+      "Mixed vegetables (carrot, beans, potato, peas)",
+      "Onion",
+      "Tomato",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg40": [
+      "Mushrooms",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Cream",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg41": [
+      "Eggs (hard boiled)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg42": [
+      "Eggs (hard boiled)",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg43": [
+      "Eggs (hard boiled)",
+      "Onion",
+      "Tomato",
+      "Butter",
+      "Cream",
+      "Ginger",
+      "Garlic",
+      "Garam masala"
+    ],
+    "dg44": [
+      "Chicken",
+      "Onion",
+      "Tomato",
+      "Butter",
+      "Cream",
+      "Ginger",
+      "Garlic",
+      "Garam masala"
+    ],
+    "dg45": [
+      "Chicken pieces",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg46": [
+      "Chicken",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Cream",
+      "Oil"
+    ],
+    "dg47": [
+      "Chicken",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Chettinad masala",
+      "Oil",
+      "Sesame oil"
+    ],
+    "dg48": [
+      "Chicken",
+      "Onion",
+      "Coconut milk",
+      "Cashews",
+      "Ginger",
+      "Garlic",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg49": [
+      "Fish",
+      "Onion",
+      "Tomato",
+      "Tamarind",
+      "Red chilli powder",
+      "Turmeric powder",
+      "Sesame oil"
+    ],
+    "dg50": [
+      "Mutton",
+      "Onion",
+      "Tomato",
+      "Ginger",
+      "Garlic",
+      "Red chilli powder",
+      "Garam masala",
+      "Oil"
+    ],
+    "dg51": [
+      "Coconut milk",
+      "Mixed vegetables (eggplant, zucchini, bell pepper)",
+      "Green curry paste",
+      "Kaffir lime leaves",
+      "Basil",
+      "Fish sauce or soy",
+      "Oil"
+    ],
+    "dg52": [
+      "Coconut milk",
+      "Mixed vegetables",
+      "Red curry paste",
+      "Lemongrass",
+      "Kaffir lime leaves",
+      "Soy sauce",
+      "Oil"
+    ],
+    "dg53": [
+      "Chickpeas",
+      "Coconut milk",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Cumin seeds",
+      "Paprika",
+      "Olive oil"
+    ],
+    "dn1": [
+      "Maggi masala noodles packet (noodles + tastemaker)",
+      "Water"
+    ],
+    "dn2": [
+      "Maggi noodles",
+      "Mixed vegetables (carrot, beans, peas)",
+      "Tastemaker",
+      "Water"
+    ],
+    "dn3": [
+      "Maggi noodles",
+      "Egg",
+      "Mixed vegetables",
+      "Tastemaker",
+      "Oil",
+      "Water"
+    ],
+    "dn4": [
+      "Maggi noodles",
+      "Cheese",
+      "Tastemaker",
+      "Butter",
+      "Water"
+    ],
+    "dn5": [
+      "Maggi oats noodles packet",
+      "Water"
+    ],
+    "dn6": [
+      "Yippee noodles packet",
+      "Water"
+    ],
+    "dn7": [
+      "Yippee noodles",
+      "Mixed vegetables",
+      "Tastemaker",
+      "Water"
+    ],
+    "dn8": [
+      "Yippee noodles",
+      "Egg",
+      "Tastemaker",
+      "Oil",
+      "Water"
+    ],
+    "dn9": [
+      "Hakka noodles",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Tomato sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "dn10": [
+      "Hakka noodles",
+      "Schezwan sauce",
+      "Mixed vegetables",
+      "Oil",
+      "Garlic"
+    ],
+    "dn11": [
+      "Instant noodles",
+      "Vegetable broth",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Water"
+    ],
+    "dn12": [
+      "Egg noodles",
+      "Egg",
+      "Soy sauce",
+      "Oil",
+      "Garlic",
+      "Spring onion"
+    ],
+    "dn13": [
+      "Hakka noodles",
+      "Mixed vegetables (cabbage, carrot, capsicum)",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "dn14": [
+      "Hakka noodles or spaghetti",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Oyster sauce or hoisin",
+      "Oil",
+      "Garlic"
+    ],
+    "dn15": [
+      "Rice noodles",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Curry powder",
+      "Oil",
+      "Garlic"
+    ],
+    "dn16": [
+      "Rice noodles",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Lime",
+      "Oil",
+      "Garlic"
+    ],
+    "dn17": [
+      "Ramen noodles",
+      "Vegetable stock",
+      "Soy sauce",
+      "Sesame oil",
+      "Soft-boiled egg (optional)",
+      "Spring onion"
+    ],
+    "dn18": [
+      "Hakka noodles",
+      "Butter",
+      "Garlic",
+      "Mixed herbs",
+      "Salt"
+    ],
+    "dn19": [
+      "Noodles",
+      "Lemon",
+      "Coriander leaves",
+      "Green chilli",
+      "Oil",
+      "Salt"
+    ],
+    "dn20": [
+      "Noodles",
+      "Peanut butter",
+      "Soy sauce",
+      "Sesame oil",
+      "Garlic",
+      "Lime"
+    ],
+    "dn21": [
+      "Egg noodles or hakka noodles",
+      "Mixed vegetables",
+      "Egg",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "dn22": [
+      "Egg noodles or spaghetti",
+      "Chicken (sliced)",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "dp1": [
+      "Pasta (penne or fusilli)",
+      "Tomato (canned or fresh)",
+      "Onion",
+      "Garlic",
+      "Olive oil",
+      "Basil",
+      "Salt"
+    ],
+    "dp2": [
+      "Pasta",
+      "Tomato",
+      "Garlic",
+      "Red chilli flakes",
+      "Olive oil",
+      "Basil"
+    ],
+    "dp3": [
+      "Spaghetti",
+      "Garlic",
+      "Olive oil",
+      "Red chilli flakes",
+      "Parsley",
+      "Salt"
+    ],
+    "dp4": [
+      "Pasta",
+      "Butter",
+      "Flour",
+      "Milk",
+      "Cheese",
+      "Garlic",
+      "Salt",
+      "Pepper powder"
+    ],
+    "dp5": [
+      "Pasta",
+      "Tomato sauce",
+      "Cream",
+      "Garlic",
+      "Cheese",
+      "Salt"
+    ],
+    "dp6": [
+      "Pasta",
+      "Pesto sauce (basil, pine nuts, parmesan, olive oil)",
+      "Salt"
+    ],
+    "dp7": [
+      "Pasta",
+      "Onion",
+      "Tomato",
+      "Capsicum",
+      "Paneer or chicken (optional)",
+      "Masala",
+      "Oil"
+    ],
+    "dp8": [
+      "Macaroni",
+      "Onion",
+      "Tomato",
+      "Garlic",
+      "Garam masala",
+      "Oil",
+      "Salt"
+    ],
+    "dp9": [
+      "Macaroni",
+      "Cheese sauce (butter, flour, milk, cheddar)",
+      "Salt"
+    ],
+    "dp10": [
+      "Pasta",
+      "Mixed vegetables (carrot, beans, corn)",
+      "Tomato sauce",
+      "Garlic",
+      "Olive oil"
+    ],
+    "dp11": [
+      "Pasta",
+      "Spinach",
+      "Sweet corn",
+      "Cream",
+      "Garlic",
+      "Cheese",
+      "Salt"
+    ],
+    "dp12": [
+      "Pasta",
+      "Mushrooms",
+      "Cream or butter",
+      "Garlic",
+      "Parsley",
+      "Salt"
+    ],
+    "dp13": [
+      "Pasta",
+      "Tomato sauce",
+      "Vegetables",
+      "Cheese (mozzarella)",
+      "Olive oil",
+      "Salt"
+    ],
+    "dp14": [
+      "Lasagna sheets",
+      "Tomato sauce",
+      "Béchamel sauce (butter, flour, milk)",
+      "Mixed vegetables or paneer",
+      "Mozzarella",
+      "Salt"
+    ],
+    "dp15": [
+      "Penne pasta",
+      "Butter",
+      "Cream",
+      "Fresh herbs (oregano, basil)",
+      "Garlic",
+      "Salt"
+    ],
+    "dl1": [
+      "Bread slices",
+      "Mixed vegetables (cucumber, tomato, capsicum)",
+      "Cheese",
+      "Butter",
+      "Chutney"
+    ],
+    "dl2": [
+      "Bread slices",
+      "Cheese",
+      "Butter"
+    ],
+    "dl3": [
+      "Bread slices",
+      "Potato (boiled)",
+      "Cucumber",
+      "Tomato",
+      "Cheese",
+      "Butter",
+      "Chutney"
+    ],
+    "dl4": [
+      "Whole wheat tortilla",
+      "Paneer (marinated, grilled)",
+      "Onion",
+      "Capsicum",
+      "Coriander chutney"
+    ],
+    "dl5": [
+      "Bread slices",
+      "Eggs (hard boiled)",
+      "Mayonnaise",
+      "Salt",
+      "Pepper powder",
+      "Lettuce"
+    ],
+    "dl6": [
+      "Whole grain bread",
+      "Avocado",
+      "Lemon",
+      "Salt",
+      "Red chilli flakes",
+      "Egg (optional)"
+    ],
+    "dl7": [
+      "Whole grain toast",
+      "Baked beans (canned)",
+      "Butter",
+      "Salt"
+    ],
+    "dl8": [
+      "Bread slices",
+      "Egg",
+      "Milk",
+      "Sugar",
+      "Cinnamon",
+      "Butter"
+    ],
+    "dl9": [
+      "Bread slices",
+      "Egg",
+      "Onion",
+      "Tomato",
+      "Butter",
+      "Salt"
+    ],
+    "dl10": [
+      "Tomato",
+      "Onion",
+      "Garlic",
+      "Cream or milk",
+      "Vegetable stock",
+      "Butter",
+      "Salt",
+      "Bread for dipping"
+    ],
+    "dl11": [
+      "Sweet corn (canned)",
+      "Cornflour",
+      "Egg white",
+      "Vegetable stock",
+      "Salt"
+    ],
+    "dl12": [
+      "Mixed vegetables",
+      "Vegetable stock",
+      "Garlic",
+      "Pepper powder",
+      "Salt"
+    ],
+    "dl13": [
+      "Mushrooms",
+      "Onion",
+      "Garlic",
+      "Cream or coconut milk",
+      "Butter",
+      "Salt"
+    ],
+    "dl14": [
+      "Mixed vegetables",
+      "Vegetable stock",
+      "Vinegar",
+      "Soy sauce",
+      "Cornflour",
+      "Salt"
+    ],
+    "dl15": [
+      "Miso paste",
+      "Tofu",
+      "Spring onion",
+      "Seaweed (optional)",
+      "Vegetable stock"
+    ],
+    "dl16": [
+      "Masoor dal",
+      "Vegetable stock",
+      "Garlic",
+      "Cumin seeds",
+      "Lemon",
+      "Salt"
+    ],
+    "dl17": [
+      "Rice",
+      "Rasam (tomato-pepper)",
+      "Ghee"
+    ],
+    "dl18": [
+      "Flour tortilla",
+      "Paneer or beans",
+      "Cheese",
+      "Capsicum",
+      "Onion",
+      "Oil"
+    ],
+    "dl19": [
+      "Rice",
+      "Black beans",
+      "Onion",
+      "Capsicum",
+      "Salsa",
+      "Guacamole (avocado, lemon)",
+      "Cheese"
+    ],
+    "dl20": [
+      "Pita bread",
+      "Hummus (chickpea)",
+      "Cucumber",
+      "Tomato",
+      "Onion",
+      "Feta cheese (optional)"
+    ],
+    "dl21": [
+      "Cucumber",
+      "Tomato",
+      "Bell pepper",
+      "Onion",
+      "Olives",
+      "Feta cheese",
+      "Olive oil",
+      "Lemon"
+    ],
+    "dl22": [
+      "Romaine lettuce",
+      "Croutons",
+      "Parmesan",
+      "Caesar dressing (mayo, lemon, garlic)",
+      "Salt"
+    ],
+    "dl23": [
+      "Eggs (boiled)",
+      "Bread toast",
+      "Butter",
+      "Salt"
+    ],
+    "dl24": [
+      "Egg (omelette)",
+      "Mixed salad leaves",
+      "Cucumber",
+      "Tomato",
+      "Olive oil",
+      "Salt"
+    ],
+    "dl25": [
+      "Rice",
+      "Egg",
+      "Soy sauce",
+      "Spring onion",
+      "Sesame oil",
+      "Salt"
+    ],
+    "dl26": [
+      "Rice",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Sesame oil",
+      "Garlic",
+      "Salt"
+    ],
+    "dl27": [
+      "Whole wheat roti",
+      "Paneer tikka (paneer, spices, grilled)",
+      "Onion",
+      "Capsicum",
+      "Chutney"
+    ],
+    "dl28": [
+      "Paneer (marinated, grilled)",
+      "Onion",
+      "Capsicum",
+      "Mixed salad",
+      "Chutney"
+    ],
+    "dl29": [
+      "Cauliflower florets",
+      "Soy sauce",
+      "Vinegar",
+      "Cornflour",
+      "Garlic",
+      "Spring onion",
+      "Rice"
+    ],
+    "dl30": [
+      "Paneer",
+      "Capsicum",
+      "Onion",
+      "Soy sauce",
+      "Vinegar",
+      "Cornflour",
+      "Oil",
+      "Rice"
+    ],
+    "dl31": [
+      "Mushrooms",
+      "Garlic",
+      "Butter or olive oil",
+      "Fresh herbs (parsley, thyme)",
+      "Salt"
+    ],
+    "dl32": [
+      "Hakka noodles",
+      "Mixed vegetables",
+      "Soy sauce",
+      "Oil",
+      "Garlic"
+    ],
+    "dl33": [
+      "Chickpeas (chole)",
+      "Bhatura (maida, curd)",
+      "Onion",
+      "Tomato",
+      "Spices"
+    ],
+    "dl34": [
+      "Chickpeas (chana masala)",
+      "Basmati rice (jeera)",
+      "Cumin seeds",
+      "Ghee"
+    ],
+    "dl35": [
+      "Eggs",
+      "Tomato (canned or fresh)",
+      "Onion",
+      "Capsicum",
+      "Garlic",
+      "Cumin seeds",
+      "Paprika",
+      "Olive oil",
+      "Bread"
+    ],
+    "dl36": [
+      "Corn tortillas",
+      "Black beans or kidney beans",
+      "Onion",
+      "Capsicum",
+      "Cheese",
+      "Salsa",
+      "Avocado or guacamole"
+    ],
+    "dl37": [
+      "Burger bun",
+      "Veg patty (potato, onion, breadcrumbs) or chicken patty",
+      "Lettuce",
+      "Tomato",
+      "Onion",
+      "Cheese",
+      "Sauce"
+    ],
+    "dl38": [
+      "Cooked grain (quinoa or rice)",
+      "Chickpeas (roasted)",
+      "Mixed greens",
+      "Cucumber",
+      "Tomato",
+      "Lemon-tahini dressing"
+    ],
+    "dl39": [
+      "Quinoa (cooked)",
+      "Cucumber",
+      "Tomato",
+      "Onion",
+      "Feta cheese",
+      "Olives",
+      "Olive oil",
+      "Lemon"
+    ],
+    "bbf1": [
+      "Ragi flour",
+      "Water",
+      "Ghee",
+      "Jaggery"
+    ],
+    "bbf14": [
+      "Idli/dosa batter",
+      "Salt"
+    ],
+    "bbl1": [
+      "Rice",
+      "Moong dal",
+      "Carrot",
+      "Beans",
+      "Ghee",
+      "Turmeric powder",
+      "Cumin seeds",
+      "Salt"
+    ],
+    "bbs1": [
+      "Banana"
+    ],
+    "bbs7": [
+      "Curd (yogurt)",
+      "Banana or mango (optional)"
+    ],
+    "bbsp1": [
+      "Tomato",
+      "Onion",
+      "Garlic",
+      "Pepper powder",
+      "Salt",
+      "Water"
+    ],
+    "bbfg1": [
+      "Banana"
+    ],
+    "bbd6": [
+      "Rice",
+      "Moong dal",
+      "Mixed vegetables (carrot, beans)",
+      "Ghee",
+      "Turmeric powder",
+      "Cumin seeds"
+    ]
+  }
+}

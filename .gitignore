@@ -1,0 +1,11 @@
+# Keep only the 7 app files + docs
+scripts/
+*.xlsx
+*.csv
+*.py
+*.sh
+Food_Menu.html
+menu_data.json
+REMOVE_PASSWORD.md
+~$*
+.DS_Store

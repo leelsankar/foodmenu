@@ -1,0 +1,3498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Menu — Meal Planner</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8b3a2a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p: #8b3a2a; --p2: #c45c26; --p3: #2d6a4f;
+            --bg: #fff9f2; --card: #fff; --cream: #fef3e2;
+            --text: #3d2914; --muted: #7a6558; --nv: #b91c1c; --today: #fff3cd;
+            --border: #ecd9c8; --shadow: 0 4px 24px rgba(61,41,20,.08);
+            --radius: 14px;
+        }
+        body.dark {
+            --p: #e07a5f; --p2: #f4a261; --p3: #52b788;
+            --bg: #1a1208; --card: #231a0f; --cream: #2a1e0f;
+            --text: #f2e8dc; --muted: #a89080; --nv: #fc8181; --today: #3a2e10;
+            --border: #3d2e1e; --shadow: 0 4px 24px rgba(0,0,0,.4);
+        }
+        body.dark header { background: linear-gradient(145deg, #3a1e10 0%, #1e0d06 100%); }
+        body.dark .week-empty-card { background: linear-gradient(135deg, var(--cream) 0%, var(--card) 100%); }
+        body.dark input, body.dark select, body.dark textarea {
+            background: var(--card); color: var(--text); border-color: var(--border);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Nunito', system-ui, sans-serif;
+            background: var(--bg) url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c45c26' fill-opacity='0.04'%3E%3Cpath d='M30 8c8 0 14 6 14 14s-6 14-14 14-14-6-14-14 6-14 14-14z'/%3E%3C/g%3E%3C/svg%3E");
+            color: var(--text); font-size: 14px; line-height: 1.5;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(145deg, #d4622a 0%, #8b3a2a 55%, #5c2e1a 100%);
+            color: #fff; padding: .9rem 1rem 0; position: sticky; top: 0; z-index: 50;
+            box-shadow: var(--shadow);
+            position: relative; overflow: hidden;
+        }
+        header::before {
+            content: ''; position: absolute; right: -20px; top: -10px; width: 140px; height: 140px;
+            opacity: .12; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cellipse cx='60' cy='65' rx='48' ry='12' fill='%23fff'/%3E%3Ccircle cx='60' cy='55' r='38' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M25 55 Q60 20 95 55' fill='none' stroke='%23fff' stroke-width='4'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+        header > * { position: relative; z-index: 1; }
+        header h1 { font-family: 'Fraunces', Georgia, serif; font-size: 1.35rem; font-weight: 700; }
+        header h1 { font-size:1.15rem; line-height:1.25; }
+        header .sub { font-size:.75rem; opacity:.92; margin-top:.2rem; }
+        .header-top {
+            display:flex; align-items:flex-start; justify-content:space-between;
+            gap:.75rem; flex-wrap:wrap;
+        }
+        .header-title { flex:1; min-width:140px; }
+        .planner-switch {
+            display:inline-flex; align-self:center;
+            background:rgba(0,0,0,.22); border-radius:999px;
+            padding:3px; flex-shrink:0;
+        }
+        .planner-opt {
+            border:none; background:transparent; color:rgba(255,255,255,.9);
+            font-size:.72rem; font-weight:600; padding:.38rem .7rem;
+            border-radius:999px; cursor:pointer; white-space:nowrap;
+            transition:background .15s, color .15s, box-shadow .15s;
+        }
+        .planner-opt:hover:not(.active) { background:rgba(255,255,255,.1); }
+        .planner-opt.active {
+            background:#fff; color:var(--p);
+            box-shadow:0 1px 6px rgba(0,0,0,.18);
+        }
+        header.planner-baby .planner-opt.active { color: #5c4d7a; }
+        header.planner-baby { background: linear-gradient(145deg, #7b5ea7, #4a3568); }
+        .family-badge {
+            display: inline-block; font-size: .7rem; background: rgba(255,255,255,.2);
+            padding: .2rem .5rem; border-radius: 999px; margin-top: .35rem;
+        }
+        .btn-icon {
+            background: rgba(255,255,255,.2); border: none; color: #fff;
+            width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem;
+        }
+        .tabs { display: flex; gap: .2rem; margin-top: .55rem; }
+        .tab-btn {
+            flex: 1; padding: .55rem .4rem; border: none; background: rgba(255,255,255,.12);
+            color: #fff; font-size: .78rem; font-weight: 700; cursor: pointer;
+            border-radius: 10px 10px 0 0; transition: background .15s;
+        }
+        .tab-btn.active { background: var(--bg); color: var(--p); box-shadow: 0 -2px 8px rgba(0,0,0,.06); }
+        main { max-width: 1020px; margin: 0 auto; padding: .85rem .75rem 2rem; }
+        footer.app-foot {
+            text-align: center; font-size: .7rem; color: var(--muted);
+            padding: 1rem; margin-top: .5rem;
+        }
+        .panel { display:none; } .panel.active { display:block; }
+        .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-bottom:.6rem; }
+        .toolbar .range { flex:1; font-weight:600; font-size:.88rem; min-width:150px; }
+        .btn { padding:.45rem .85rem; border:none; border-radius:6px; font-size:.78rem; font-weight:600; cursor:pointer; }
+        .btn-p { background:var(--p2); color:#fff; }
+        .btn-s { background:#e9ecef; }
+        .btn-x { background:#1d3557; color:#fff; }
+        .btn-shuffle { background:#7b2cbf; color:#fff; }
+        .btn-shuffle:hover { background:#6a1fb0; }
+        .hint { font-size:.74rem; color:var(--muted); margin-bottom:.55rem; }
+        .hint strong { color:var(--p); }
+        .week-wrap { background:var(--card); border-radius:10px; box-shadow:var(--shadow); }
+        .week-table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+        table.week { width:100%; border-collapse:collapse; font-size:.76rem; min-width:700px; }
+        table.week th { background:var(--p); color:#fff; padding:.5rem .35rem; font-size:.68rem; text-align:left; }
+        table.week td { border-bottom:1px solid var(--border); padding:.4rem .35rem; vertical-align:top; max-width:170px; }
+        table.week tr.today td { background:var(--today); }
+        table.week .day-name { font-weight:700; }
+        table.week .date-sm { font-size:.65rem; color:var(--muted); font-weight:400; }
+        .cell {
+            cursor:pointer; border-radius:4px; min-height:2em; padding:.25rem;
+            font-size:.72rem; line-height:1.35;
+        }
+        .cell:hover { background:rgba(45,106,79,.1); }
+        .cell.empty { color:#adb5bd; font-style:italic; }
+        .cell.bf { border-left:3px solid #457b9d; }
+        .cell.lu { border-left:3px solid var(--p2); }
+        .cell.di { border-left:3px solid #e76f51; }
+        .cell.sn { border-left:3px solid #9b59b6; }
+        table.week.baby { min-width:920px; }
+        .modal-head.sn { background:#9b59b6; }
+        .seg.bb-sn h3 { color:#9b59b6; }
+        /* Menu catalog */
+        .menu-search { width:100%; padding:.5rem .65rem; border:1px solid var(--border); border-radius:8px; margin-bottom:.75rem; }
+        .meal-card { background:var(--card); border-radius:10px; padding:.75rem; margin-bottom:.65rem; box-shadow:var(--shadow); }
+        .meal-card > h2 { font-size:.9rem; color:var(--p); margin-bottom:.5rem; padding-bottom:.35rem; border-bottom:2px solid var(--border); }
+        .seg { margin-bottom:.65rem; }
+        .seg h3 { font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-bottom:.35rem; }
+        .seg.bf-s1 h3 { color:#457b9d; }
+        .seg.bf-s2 h3 { color:#2d6a4f; }
+        .seg.bf-s3 h3 { color:#6a4c93; }
+        .seg.lu-s1 h3 { color:#2d6a4f; }
+        .seg.lu-s2 h3 { color:#40916c; }
+        .seg.lu-s3 h3 { color:#e9c46a; }
+        .seg.lu-s4 h3 { color:#bc6c25; }
+        .seg.di-s1 h3 { color:#457b9d; }
+        .seg.di-s2 h3 { color:#e76f51; }
+        .seg.di-s3 h3 { color:#6a4c93; }
+        .seg.di-s4 h3 { color:#e63946; }
+        .seg.di-s5 h3 { color:#457b9d; }
+        .seg.di-s6 h3 { color:#bc6c25; }
+        .tags { display:flex; flex-wrap:wrap; gap:.3rem; }
+        .tag {
+            display:inline-flex; align-items:center; gap:.2rem;
+            font-size:.7rem; background:#f1f3f5; padding:.18rem .3rem .18rem .45rem; border-radius:4px;
+        }
+        .tag.nv { border-left:2px solid var(--nv); }
+        .tag .rm {
+            width:17px; height:17px; border:none; border-radius:50%;
+            background:#fde8e8; color:var(--nv); font-size:.7rem; font-weight:700;
+            cursor:pointer; line-height:1; flex-shrink:0;
+        }
+        .tag .rm:hover { background:var(--nv); color:#fff; }
+        .tag.custom { background:#e3f2fd; border:1px dashed #457b9d; }
+        .seg-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.35rem; }
+        .seg-head h3 { margin:0; }
+        .btn-add {
+            padding:.2rem .5rem; border:none; border-radius:4px;
+            background:var(--p2); color:#fff; font-size:.68rem; font-weight:700; cursor:pointer; flex-shrink:0;
+        }
+        .btn-add:hover { background:var(--p); }
+        .add-form label { display:block; font-size:.78rem; font-weight:600; margin-bottom:.25rem; }
+        .add-form input[type="text"] {
+            width:100%; padding:.5rem .65rem; border:1px solid var(--border); border-radius:8px;
+            font-size:.88rem; margin-bottom:.65rem;
+        }
+        .add-form .nv-row { display:flex; align-items:center; gap:.4rem; font-size:.78rem; margin-bottom:.5rem; }
+        .hidden-block { background:#fff8e6; border:1px dashed #e9c46a; border-radius:8px; padding:.6rem; margin-bottom:.65rem; }
+        .hidden-block h4 { font-size:.72rem; color:#856404; margin-bottom:.35rem; }
+        .tag.restore { background:#e8f5e9; }
+        .tag.restore .rm { background:var(--p2); color:#fff; font-size:.65rem; }
+        .manage-note { font-size:.74rem; background:#e8f5e9; padding:.45rem .6rem; border-radius:6px; margin-bottom:.55rem; }
+        /* Modal */
+        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; align-items:flex-end; justify-content:center; }
+        .overlay.open { display:flex; }
+        @media (min-width:560px) { .overlay { align-items:center; padding:1rem; } }
+        .modal {
+            background:var(--card); width:100%; max-width:480px; max-height:90vh;
+            border-radius:14px 14px 0 0; display:flex; flex-direction:column;
+            box-shadow:0 -8px 30px rgba(0,0,0,.2);
+        }
+        @media (min-width:560px) { .modal { border-radius:14px; max-height:85vh; } }
+        .modal-head { padding:.7rem 1rem; color:#fff; display:flex; justify-content:space-between; align-items:center; }
+        .modal-head.bf { background:#457b9d; }
+        .modal-head.lu { background:var(--p2); }
+        .modal-head.di { background:#e76f51; }
+        .modal-head h2 { font-size:.92rem; }
+        .modal-close { background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer; line-height:1; }
+        .modal-body { overflow-y:auto; padding:.75rem 1rem; flex:1; }
+        .modal-foot { padding:.6rem 1rem; border-top:1px solid var(--border); display:flex; gap:.5rem; justify-content:flex-end; }
+        .seg-pick { margin-bottom:.85rem; padding:.55rem; border-radius:8px; background:#fafafa; }
+        .seg-pick h4 { font-size:.72rem; color:var(--p); margin-bottom:.35rem; font-weight:700; }
+        .seg-pick h4 span { font-weight:400; color:var(--muted); }
+        .pills { display:flex; flex-wrap:wrap; gap:.28rem; max-height:130px; overflow-y:auto; }
+        .pill {
+            padding:.32rem .5rem; border:1.5px solid #dee2e6; border-radius:6px;
+            background:#fff; cursor:pointer; font-size:.7rem;
+        }
+        .pill.on { border-color:var(--p2); background:#d8f3dc; font-weight:600; }
+        .pill.nv { border-left:3px solid var(--nv); }
+        .preview { font-size:.75rem; margin-top:.5rem; padding:.45rem; background:#fff; border-radius:6px; border:1px dashed var(--border); }
+        .mode-tabs { display:flex; gap:.25rem; margin-bottom:.5rem; flex-wrap:wrap; }
+        .mode-tab {
+            padding:.3rem .55rem; border:1px solid var(--border); border-radius:6px;
+            background:#fff; font-size:.68rem; font-weight:600; cursor:pointer;
+        }
+        .mode-tab.on { background:var(--p2); color:#fff; border-color:var(--p2); }
+        .day-pills { display:flex; flex-wrap:wrap; gap:.3rem; margin-bottom:.65rem; }
+        .day-pill {
+            padding:.32rem .55rem; border:1px solid var(--border); border-radius:999px;
+            background:#fff; font-size:.72rem; font-weight:600; cursor:pointer;
+        }
+        .day-pill.on { background:var(--p2); color:#fff; border-color:var(--p2); }
+        .day-pill.today:not(.on) { border-color:var(--p2); }
+        .shop-section { margin-bottom:1rem; }
+        .shop-section h3 { font-size:.82rem; color:var(--p); margin-bottom:.4rem; }
+        table.shop { width:100%; border-collapse:collapse; font-size:.78rem; background:var(--card); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+        table.shop th { background:var(--p); color:#fff; padding:.45rem .5rem; text-align:left; font-size:.7rem; }
+        table.shop td { border-bottom:1px solid var(--border); padding:.4rem .5rem; vertical-align:top; }
+        table.shop tr:last-child td { border-bottom:none; }
+        .shop-who { font-weight:600; white-space:nowrap; }
+        .shop-who.adult { color:var(--p2); }
+        .shop-who.baby { color:#6a4c93; }
+        .shop-empty { text-align:center; color:var(--muted); padding:1.5rem; font-size:.8rem; }
+        .seg.bb-soup h3 { color:#e76f51; }
+        .seg.bb-finger h3 { color:#bc6c25; }
+        /* Setup wizard */
+        .overlay.setup-force { z-index: 400; }
+        .setup-modal { max-width: 420px; border-radius: var(--radius); overflow: hidden; }
+        .setup-hero {
+            background: linear-gradient(180deg, var(--cream), #fff);
+            padding: 1.25rem; text-align: center;
+        }
+        .setup-hero svg { width: 100px; height: 100px; }
+        .setup-body { padding: 1rem 1.25rem 1.25rem; }
+        .setup-body h2 { font-family: 'Fraunces', serif; color: var(--p); font-size: 1.2rem; margin-bottom: .25rem; }
+        .setup-body > p { color: var(--muted); font-size: .82rem; margin-bottom: 1rem; }
+        .setup-field { margin-bottom: 1rem; }
+        .setup-field label { display: block; font-weight: 700; font-size: .82rem; margin-bottom: .35rem; color: var(--text); }
+        .setup-field input, .setup-field select {
+            width: 100%; padding: .6rem .75rem; border: 2px solid var(--border);
+            border-radius: 10px; font-size: 1rem; font-family: inherit;
+        }
+        .setup-field input:focus, .setup-field select:focus { outline: none; border-color: var(--p2); }
+        .setup-steps { display: flex; gap: .35rem; margin-bottom: 1rem; }
+        .setup-step-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+        .setup-step-dot.on { background: var(--p2); }
+        .shop-view-tabs { display: flex; gap: .35rem; margin-bottom: .75rem; }
+        .shop-view-tab {
+            padding: .4rem .75rem; border: 2px solid var(--border); border-radius: 999px;
+            background: #fff; font-size: .75rem; font-weight: 700; cursor: pointer;
+        }
+        .shop-view-tab.on { background: var(--p2); color: #fff; border-color: var(--p2); }
+        .grocery-list { list-style: none; }
+        .grocery-item {
+            display: flex; align-items: flex-start; gap: .6rem;
+            padding: .55rem .65rem; border-bottom: 1px solid var(--border);
+            cursor: pointer; transition: background .12s;
+        }
+        .grocery-item:hover { background: var(--cream); }
+        .grocery-item.done { opacity: .55; }
+        .grocery-item.done .grocery-name { text-decoration: line-through; }
+        .grocery-item input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--p3); flex-shrink: 0; }
+        .grocery-name { font-weight: 600; font-size: .82rem; }
+        .grocery-meta { font-size: .68rem; color: var(--muted); margin-top: .1rem; }
+        .week-menu-recap { font-size: .74rem; margin-bottom: 1rem; }
+        .week-menu-recap details { margin-bottom: .4rem; }
+        .week-menu-recap summary { font-weight: 700; cursor: pointer; color: var(--p); padding: .35rem 0; }
+        .progress-bar {
+            height: 6px; background: var(--border); border-radius: 3px; margin-bottom: .75rem; overflow: hidden;
+        }
+        .progress-bar span { display: block; height: 100%; background: var(--p3); border-radius: 3px; transition: width .2s; }
+        .card-panel {
+            background: var(--card); border-radius: var(--radius);
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+        }
+        .btn { border-radius: 10px; font-family: inherit; transition: transform .1s, filter .15s; }
+        .btn:active { transform: scale(.98); }
+        .week-wrap { border-radius: var(--radius); }
+        table.week th { font-family: 'Fraunces', Georgia, serif; letter-spacing: .02em; }
+        .meal-card { border: 1px solid var(--border); border-radius: var(--radius); }
+        .kitchen-strip {
+            display: flex; align-items: center; gap: .75rem;
+            background: linear-gradient(90deg, var(--cream), #fff);
+            border: 1px dashed var(--border); border-radius: var(--radius);
+            padding: .65rem .85rem; margin-bottom: .75rem;
+        }
+        .kitchen-strip svg { width: 52px; height: 52px; flex-shrink: 0; }
+        .kitchen-strip p { font-size: .78rem; color: var(--muted); margin: 0; }
+        .kitchen-strip strong { color: var(--p); }
+        .grocery-list { border-radius: var(--radius); overflow: hidden; }
+        .grocery-item:last-child { border-bottom: none; }
+        .shop-buy-hint {
+            font-size: .72rem; color: var(--p3); font-weight: 700;
+            margin-bottom: .5rem; display: flex; align-items: center; gap: .35rem;
+        }
+        #setupCancel { margin-right: auto; }
+        .qty-panel {
+            margin: .45rem 0 .65rem; padding: .55rem .65rem;
+            background: var(--cream); border-radius: 10px; border: 1px dashed var(--border);
+        }
+        .qty-panel label { font-size: .72rem; font-weight: 700; color: var(--p); display: block; margin-bottom: .35rem; }
+        .qty-row { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+        .qty-btn {
+            width: 32px; height: 32px; border: 2px solid var(--border); border-radius: 8px;
+            background: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: var(--p);
+        }
+        .qty-btn:hover { border-color: var(--p2); background: var(--cream); }
+        .qty-val {
+            min-width: 4.5rem; text-align: center; font-weight: 700; font-size: .88rem;
+            padding: .25rem .5rem; background: #fff; border-radius: 8px; border: 1px solid var(--border);
+        }
+        .qty-presets { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .35rem; }
+        .qty-preset {
+            padding: .22rem .5rem; border: 1px solid var(--border); border-radius: 999px;
+            background: #fff; font-size: .68rem; font-weight: 600; cursor: pointer;
+        }
+        .qty-preset.on { background: var(--p2); color: #fff; border-color: var(--p2); }
+        .diet-bar {
+            display: flex; flex-wrap: wrap; gap: .35rem; align-items: center;
+            margin-bottom: .65rem; padding: .5rem .65rem;
+            background: var(--cream); border-radius: 10px; border: 1px solid var(--border);
+            font-size: .72rem;
+        }
+        .diet-bar span.lbl { font-weight: 700; color: var(--muted); margin-right: .25rem; }
+        .diet-chip {
+            padding: .2rem .5rem; border-radius: 999px; background: #fff;
+            border: 1px solid var(--border); font-weight: 600; color: var(--p);
+        }
+        .diet-setup-link { margin-left: auto; color: var(--p2); font-weight: 700; cursor: pointer; border: none; background: none; font-size: .72rem; }
+        .setup-pref-grid { display: flex; flex-wrap: wrap; gap: .4rem; }
+        .setup-pref {
+            padding: .45rem .65rem; border: 2px solid var(--border); border-radius: 10px;
+            background: #fff; font-size: .75rem; font-weight: 600; cursor: pointer; text-align: left;
+        }
+        .setup-pref.on { border-color: var(--p2); background: #fff5eb; color: var(--p); }
+        .child-row {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: .5rem;
+            margin-bottom: .5rem; align-items: center;
+        }
+        .child-row input, .child-row select {
+            padding: .5rem .6rem; border: 2px solid var(--border); border-radius: 8px;
+            font-size: .85rem; font-family: inherit;
+        }
+        .planner-switch { flex-wrap: wrap; max-width: 100%; }
+        .planner-opt { font-size: .68rem; padding: .35rem .55rem; }
+        .seg-details { margin-bottom: .5rem; }
+        .seg-details summary {
+            cursor: pointer; font-size: .72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .04em; color: var(--muted); padding: .35rem 0; list-style: none;
+        }
+        .seg-details summary::-webkit-details-marker { display: none; }
+        .seg-details summary::before { content: '▸ '; }
+        .seg-details[open] summary::before { content: '▾ '; }
+        .seg-details .seg-inner { padding-top: .25rem; }
+        .bf-egg-block {
+            margin-bottom: .75rem; padding: .55rem .65rem;
+            background: #fff8e6; border-radius: 10px; border: 1px solid #f0d78c;
+        }
+        .bf-egg-block h4 { font-size: .75rem; color: #856404; margin-bottom: .35rem; }
+        .day-actions { text-align: center; vertical-align: middle; width: 42px; }
+        .btn-shuffle-day {
+            border: none; background: #f3e8ff; color: #6b21a8;
+            width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+            font-size: 1rem; line-height: 1; transition: background .12s, transform .1s;
+        }
+        .btn-shuffle-day:hover { background: #e9d5ff; }
+        .btn-shuffle-day:active { transform: scale(.95); }
+        table.week.baby .btn-shuffle-day { background: #ede9fe; color: #5b21b6; }
+        .trip-pills-wrap { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.65rem; }
+        .trip-lbl { font-size:.72rem; font-weight:700; color:var(--muted); }
+        .shop-day-block { margin-bottom:.75rem; }
+        .shop-day-block > summary {
+            font-weight:800; font-size:.85rem; color:var(--p); padding:.5rem .65rem;
+            background:var(--cream); border-radius:10px; cursor:pointer; list-style:none;
+        }
+        .shop-day-block > summary::-webkit-details-marker { display:none; }
+        .shop-day-block > summary::before { content:'▸ '; }
+        .shop-day-block[open] > summary::before { content:'▾ '; }
+        .shop-day-inner { padding:.5rem .35rem 0; }
+        .shop-filters { display:flex; gap:.35rem; flex-wrap:wrap; margin-bottom:.65rem; }
+        .shop-filter-btn {
+            border:1px solid var(--border); background:var(--card); color:var(--text);
+            font-size:.72rem; font-weight:700; padding:.35rem .65rem; border-radius:999px; cursor:pointer;
+        }
+        .shop-filter-btn.on { background:var(--p2); color:#fff; border-color:var(--p2); }
+        .shop-day-hdr {
+            font-family:'Fraunces',Georgia,serif; font-size:.95rem; font-weight:700;
+            color:var(--p); margin:.85rem 0 .4rem; padding-bottom:.25rem; border-bottom:2px solid var(--border);
+        }
+        .shop-meal-lbl { font-size:.68rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--p2); margin:.5rem 0 .25rem; }
+        .shop-dish-row { margin-bottom:.55rem; }
+        .shop-dish-name { font-weight:700; font-size:.82rem; margin-bottom:.2rem; }
+        .shop-dish-who { font-size:.65rem; color:var(--muted); font-weight:600; margin-left:.35rem; }
+        .shop-ing-line {
+            display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+            padding:.28rem 0; border-bottom:1px solid #f5ebe0; font-size:.78rem;
+        }
+        .shop-ing-line:last-child { border-bottom:none; }
+        .shop-add-ing { display:flex; gap:.35rem; margin-top:.35rem; }
+        .shop-add-ing input { flex:1; font-size:.72rem; padding:.3rem .45rem; border:1px solid var(--border); border-radius:6px; }
+        .shop-add-ing button { font-size:.68rem; padding:.3rem .5rem; }
+        .shop-meal-block { margin-bottom:.5rem; border-left:3px solid var(--border); padding-left:.5rem; }
+        .shop-meal-title { font-size:.72rem; font-weight:800; text-transform:uppercase; color:var(--muted); margin-bottom:.35rem; }
+        .shop-dish-card {
+            background:#fff; border:1px solid var(--border); border-radius:10px;
+            padding:.5rem .65rem; margin-bottom:.45rem;
+        }
+        .shop-dish-name { font-weight:700; font-size:.82rem; color:var(--p); margin-bottom:.35rem; }
+        .shop-ing { display:flex; align-items:flex-start; gap:.45rem; padding:.3rem 0; font-size:.78rem; cursor:pointer; }
+        .shop-ing.done { opacity:.55; text-decoration:line-through; }
+        .shop-ing input { margin-top:2px; accent-color:var(--p3); }
+        .ing-badge {
+            font-size:.62rem; font-weight:800; padding:.12rem .4rem; border-radius:999px; margin-left:auto;
+        }
+        .ing-badge.home { background:#d8f3dc; color:#1b4332; }
+        .ing-badge.buy { background:#fff3cd; color:#856404; }
+        .ing-badge.low { background:#fde8e8; color:#b91c1c; }
+        .btn-cooked {
+            width:100%; margin-top:.5rem; padding:.45rem; border:1px dashed var(--p2);
+            background:#fff5eb; border-radius:8px; font-size:.75rem; font-weight:700;
+            color:var(--p2); cursor:pointer;
+        }
+        .btn-cooked:hover { background:var(--cream); }
+        .pantry-grid { display:flex; flex-wrap:wrap; gap:.35rem; }
+        .pantry-chip {
+            display:flex; align-items:center; gap:.35rem; padding:.35rem .55rem;
+            border:2px solid var(--border); border-radius:999px; font-size:.74rem; cursor:pointer;
+            background:#fff;
+        }
+        .pantry-chip.on { border-color:var(--p3); background:#e8f5e9; }
+        .pantry-add { display:flex; gap:.4rem; margin-top:.65rem; flex-wrap:wrap; }
+        .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; }
+        /* Mobile: one card per day — no horizontal scroll */
+        .week-cards { display:none; flex-direction:column; gap:.65rem; padding:.65rem; }
+        .day-card {
+            border:1px solid var(--border); border-radius:var(--radius);
+            overflow:hidden; background:#fff;
+        }
+        .day-card.today { border-color:var(--p2); box-shadow:0 0 0 2px rgba(196,92,38,.15); }
+        .day-card-head {
+            display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+            padding:.5rem .65rem; background:var(--cream); border-bottom:1px solid var(--border);
+        }
+        .day-card-head strong { font-size:.88rem; color:var(--p); }
+        .day-card-head .date-sm { display:block; font-size:.68rem; color:var(--muted); font-weight:600; }
+        .day-card-meals { padding:.35rem .5rem .5rem; }
+        .day-meal {
+            display:grid; grid-template-columns:5.2rem 1fr; gap:.35rem .5rem;
+            align-items:start; padding:.4rem 0; border-bottom:1px solid #f5ebe0;
+        }
+        .day-meal:last-child { border-bottom:none; }
+        .day-meal-lbl {
+            font-size:.65rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:.03em; padding-top:.2rem;
+        }
+        .day-meal.bf .day-meal-lbl { color:#457b9d; }
+        .day-meal.lu .day-meal-lbl { color:var(--p2); }
+        .day-meal.di .day-meal-lbl { color:#e76f51; }
+        .day-meal.sn .day-meal-lbl { color:#9b59b6; }
+        .day-card .cell { max-width:none; min-height:2.4em; }
+        .day-card .btn-shuffle-day { width:auto; height:auto; padding:.35rem .55rem; font-size:.78rem; }
+        /* Empty-state welcome card */
+        .week-empty-card {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef3e2 100%);
+            border: 2px dashed var(--p2); border-radius: var(--radius);
+            padding: 1.4rem 1.2rem; text-align: center; margin: .5rem 0 1rem;
+        }
+        .week-empty-card h3 { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; color:var(--p); margin-bottom:.4rem; }
+        .week-empty-card p { font-size:.8rem; color:var(--muted); margin-bottom:.85rem; line-height:1.55; }
+        .week-empty-actions { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; }
+        /* Planned-badge in menu catalog */
+        .tag-planned { font-size:.6rem; font-weight:800; background:#d8f3dc; color:#1b4332;
+            border-radius:999px; padding:.1rem .4rem; margin-left:.3rem; vertical-align:middle; }
+        /* Pantry nudge box */
+        .pantry-nudge {
+            background:#e8f5e9; border:1px solid #a8d5b5; border-radius:10px;
+            padding:.65rem .85rem; font-size:.78rem; margin-bottom:.75rem;
+            display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+        }
+        .pantry-nudge strong { color:#1b4332; }
+        .pantry-nudge button { margin-left:auto; white-space:nowrap; }
+        /* Shop empty onboarding */
+        .shop-onboard {
+            background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.1rem 1rem; text-align:center;
+        }
+        .shop-onboard p { font-size:.83rem; color:var(--muted); margin-bottom:.75rem; }
+        /* Ingredient edit link in catalog */
+        .tag-ing-edit {
+            font-size:.6rem; color:var(--p2); font-weight:700; cursor:pointer;
+            border:none; background:none; padding:.1rem .25rem; margin-left:.2rem;
+            opacity:.6; vertical-align:middle;
+        }
+        .tag-ing-edit:hover { opacity:1; }
+        /* Day note pill */
+        .note-pill {
+            font-size:.65rem; color:var(--muted); font-style:italic;
+            background:var(--cream); border-radius:6px; padding:.15rem .4rem;
+            margin-top:.2rem; cursor:pointer; border:1px dashed var(--border);
+            display:inline-block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+        }
+        .note-pill.has-note { color:var(--p); border-color:var(--p2); background:#fff5eb; }
+        /* Recently-used strip in picker */
+        .recent-strip { margin-bottom:.6rem; }
+        .recent-strip h5 { font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
+        .recent-strip .pills { flex-wrap:wrap; }
+        /* Grocery category group */
+        .shop-cat-hdr {
+            font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
+            color:var(--muted); padding:.55rem 0 .2rem; border-top:1px solid var(--border); margin-top:.4rem;
+        }
+        .shop-cat-hdr:first-child { border-top:none; margin-top:0; }
+        /* Extra shop items */
+        .extra-items-wrap { margin-top:.85rem; border-top:1px solid var(--border); padding-top:.65rem; }
+        .extra-items-wrap h5 { font-size:.72rem; font-weight:800; color:var(--muted); margin-bottom:.35rem; }
+        .extra-item-row { display:flex; align-items:center; gap:.4rem; padding:.25rem 0; }
+        .extra-item-row span { flex:1; font-size:.78rem; }
+        .extra-item-row button { font-size:.7rem; padding:.15rem .4rem; }
+        .extra-add-row { display:flex; gap:.35rem; margin-top:.35rem; }
+        .extra-add-row input { flex:1; font-size:.78rem; padding:.35rem .5rem; border:1px solid var(--border); border-radius:8px; background:var(--card); color:var(--text); }
+        /* Dark mode toggle */
+        .btn-dark { background:rgba(255,255,255,.15); border:none; color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; }
+        .btn-dark:hover { background:rgba(255,255,255,.25); }
+        @media (max-width: 768px) {
+            .week-cards { display:flex; }
+            .week-table-scroll { display:none; }
+            main { padding:.65rem .55rem 2rem; }
+            .toolbar .range { min-width:0; font-size:.8rem; }
+            .toolbar .hint { display:none; }
+            .header-top { gap:.5rem; }
+            .planner-switch { width:100%; justify-content:flex-start; }
+        }
+        @media (min-width: 769px) {
+            .week-table-scroll { display:block; }
+        }
+    </style>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<header id="appHeader">
+    <div class="header-top">
+        <div class="header-title">
+            <h1 id="appTitle">Family Menu</h1>
+            <p class="sub" id="headerSub">Indian family meal planner</p>
+            <span class="family-badge" id="familyBadge">2 adults</span>
+        </div>
+        <button type="button" class="btn-icon" id="settingsBtn" title="Family settings">⚙️</button>
+        <button type="button" class="btn-dark" id="darkModeBtn" title="Toggle dark mode">🌙</button>
+        <div class="planner-switch" id="plannerSwitch" role="tablist" aria-label="Plan for">
+            <button type="button" class="planner-opt active" data-person="adult" role="tab" aria-selected="true">Adults</button>
+        </div>
+    </div>
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="week">📅 Week plan</button>
+        <button class="tab-btn" data-tab="menu">📚 Menu list</button>
+        <button class="tab-btn" data-tab="shop">🛒 Shopping</button>
+    </nav>
+</header>
+
+<main>
+    <section id="panel-week" class="panel active">
+        <div class="kitchen-strip" id="kitchenStrip">
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+                <ellipse cx="40" cy="62" rx="28" ry="6" fill="#ecd9c8"/>
+                <circle cx="40" cy="38" r="24" fill="#fef3e2" stroke="#c45c26" stroke-width="2"/>
+                <ellipse cx="40" cy="38" rx="16" ry="5" fill="#f4a261" opacity=".55"/>
+                <path d="M18 36 Q40 14 62 36" fill="none" stroke="#8b3a2a" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="58" cy="22" r="6" fill="#ffd166" opacity=".9"/>
+            </svg>
+            <p id="kitchenStripText"><strong>Vanakkam!</strong> Plan a warm South Indian week — tap any day to customize.</p>
+        </div>
+        <div class="toolbar">
+            <button class="btn btn-s" id="prevWeek">◀</button>
+            <span class="range" id="weekRange">—</span>
+            <button class="btn btn-s" id="nextWeek">▶</button>
+            <button class="btn btn-shuffle" id="shuffleBtn" title="Random plan for all 7 days">🎲 Shuffle week</button>
+            <button class="btn btn-s" id="copyWeekBtn" title="Copy last week's meals to this week">📋 Copy last week</button>
+            <button class="btn btn-x" id="exportBtn">📥 Excel</button>
+        </div>
+        <p class="hint" id="hintAdult"><strong>🎲 Shuffle week</strong> fills Mon–Sun randomly · <strong>Tap any cell</strong> to change one meal · Adults: <strong>2 boiled eggs</strong> at breakfast</p>
+        <p class="hint" id="hintBaby" style="display:none"><strong>🎲 Shuffle week</strong> or <strong>🎲 on one day</strong> · Tap cells to edit · Menus match child age</p>
+        <div class="week-wrap card-panel" id="weekTable"></div>
+    </section>
+
+    <section id="panel-menu" class="panel">
+        <p class="manage-note" id="manageNote">Tap <strong>+ Add</strong> on any section to add your own dish · <strong>×</strong> hides built-in dishes · <strong>×</strong> on blue tags removes your custom dish</p>
+        <div class="diet-bar" id="dietBar"></div>
+        <input class="menu-search" id="menuSearch" type="search" placeholder="Search dishes…">
+        <div id="hiddenBlock"></div>
+        <div id="menuCatalog"></div>
+    </section>
+
+    <section id="panel-shop" class="panel">
+        <div class="kitchen-strip">
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+                <rect x="12" y="28" width="56" height="40" rx="6" fill="#fef3e2" stroke="#c45c26" stroke-width="2"/>
+                <path d="M20 36h40M20 44h32M20 52h24" stroke="#8b3a2a" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="58" cy="48" r="8" fill="#2d6a4f" opacity=".85"/>
+                <path d="M55 48l2 2 4-5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <p><strong>Shopping & pantry</strong> — updates when you change the week plan. Tick what you already have at home.</p>
+        </div>
+        <div id="pantryNudge" class="pantry-nudge" style="display:none">
+            <span>🏠 <strong>Set up your pantry</strong> — tell us what you have at home and the list shows only what to buy.</span>
+            <button type="button" class="btn btn-s" id="pantryNudgeBtn">Set up now</button>
+        </div>
+        <div class="shop-view-tabs">
+            <button type="button" class="shop-view-tab on" data-shopview="meals">📋 By meal</button>
+            <button type="button" class="shop-view-tab" data-shopview="trip">🛒 Shop list</button>
+            <button type="button" class="shop-view-tab" data-shopview="pantry">🏠 My pantry</button>
+        </div>
+        <div id="shopMealFilters" class="shop-filters" style="display:none">
+            <button type="button" class="shop-filter-btn on" data-shopfilter="all">All</button>
+            <button type="button" class="shop-filter-btn" data-shopfilter="buy">To buy</button>
+            <button type="button" class="shop-filter-btn" data-shopfilter="home">At home</button>
+        </div>
+        <div id="shopTripWrap" class="trip-pills-wrap" style="display:none">
+            <span class="trip-lbl">Shop for:</span>
+            <div class="day-pills" id="shopTripPills"></div>
+        </div>
+        <div class="progress-bar"><span id="shopProgress" style="width:0%"></span></div>
+        <p class="hint" id="shopSummary"></p>
+        <div class="toolbar" style="margin-bottom:.5rem">
+            <button type="button" class="btn btn-s" id="setupPantryBtn">Set up pantry</button>
+            <button type="button" class="btn btn-s" id="markAllBoughtBtn">✓ All bought</button>
+            <button type="button" class="btn btn-s" id="clearShopChecks">Clear ticks</button>
+            <button type="button" class="btn btn-s" id="shareShopBtn">🔗 Share</button>
+            <button type="button" class="btn btn-x" id="exportShopBtn">📥 Excel</button>
+        </div>
+        <div id="shopContent"></div>
+    </section>
+</main>
+
+<footer class="app-foot" id="appFoot">Family Menu · Plans stay on your device</footer>
+
+<div class="overlay setup-force" id="setupOverlay">
+    <div class="modal setup-modal">
+        <div class="setup-hero">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+                <ellipse cx="60" cy="78" rx="42" ry="10" fill="#ecd9c8"/>
+                <circle cx="60" cy="52" r="36" fill="#fef3e2" stroke="#c45c26" stroke-width="3"/>
+                <ellipse cx="60" cy="52" rx="28" ry="8" fill="#f4a261" opacity=".6"/>
+                <path d="M30 50 Q60 18 90 50" fill="none" stroke="#8b3a2a" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="setup-body">
+            <div class="setup-steps">
+                <div class="setup-step-dot on" data-s="0"></div>
+                <div class="setup-step-dot" data-s="1"></div>
+                <div class="setup-step-dot" data-s="2"></div>
+            </div>
+            <h2 id="setupTitle">Welcome!</h2>
+            <p id="setupDesc">Tell us about your family so we can tailor menus.</p>
+            <div id="setupPane0">
+                <div class="setup-field">
+                    <label for="setupName">Who is planning meals? (your name)</label>
+                    <input type="text" id="setupName" placeholder="e.g. Leela" autocomplete="name" maxlength="40">
+                </div>
+                <div class="setup-field">
+                    <label for="setupAdults">How many adults are you planning meals for?</label>
+                    <input type="number" id="setupAdults" min="1" max="10" value="2">
+                </div>
+            </div>
+            <div id="setupPane1" style="display:none">
+                <div class="setup-field">
+                    <label>What kind of meals do you want to see? (pick all that apply)</label>
+                    <div class="setup-pref-grid" id="setupDietPrefs"></div>
+                    <p class="hint" style="margin-top:.5rem">Menus stay organised — only sections that match your choices appear in the picker.</p>
+                </div>
+            </div>
+            <div id="setupPane2" style="display:none">
+                <div class="setup-field">
+                    <label for="setupChildCount">How many children need a separate menu?</label>
+                    <input type="number" id="setupChildCount" min="0" max="6" value="0">
+                    <p class="hint" style="margin-top:.35rem">Each child gets their own week plan (different ages = different textures).</p>
+                </div>
+                <div id="setupChildrenList"></div>
+            </div>
+            <div class="modal-foot" style="border:none;padding:.5rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem">
+                <button type="button" class="btn btn-s" id="setupCancel" style="display:none">Cancel</button>
+                <button type="button" class="btn btn-s" id="setupBack" style="display:none">Back</button>
+                <button type="button" class="btn btn-p" id="setupNext" style="margin-left:auto">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="addOverlay">
+    <div class="modal" style="max-width:400px">
+        <div class="modal-head" style="background:var(--p2)">
+            <h2 id="addModalTitle">Add dish</h2>
+            <button type="button" class="modal-close" id="addModalClose">&times;</button>
+        </div>
+        <div class="modal-body add-form">
+            <label for="addItemName">Dish name</label>
+            <input id="addItemName" type="text" placeholder="e.g. Beetroot poriyal" autocomplete="off">
+            <label class="nv-row"><input type="checkbox" id="addItemNv"> Non-vegetarian (egg, chicken, fish…)</label>
+            <p class="hint" id="addItemHint"></p>
+        </div>
+        <div class="modal-foot">
+            <button type="button" class="btn btn-s" id="addItemCancel">Cancel</button>
+            <button type="button" class="btn btn-p" id="addItemSave">Add dish</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="overlay">
+    <div class="modal">
+        <div class="modal-head" id="modalHead"><h2 id="modalTitle">Pick meal</h2><button class="modal-close" id="modalClose">&times;</button></div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-foot">
+            <button class="btn btn-s" id="clearMealBtn">Clear meal</button>
+            <button class="btn btn-s" id="cancelMealBtn" style="margin-left:.25rem">✕ Cancel</button>
+            <button class="btn btn-p" id="saveMealBtn" style="margin-left:auto">Save</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="ingOverlay" style="display:none">
+    <div class="modal" style="max-width:420px">
+        <div class="modal-head" style="background:var(--p3)">
+            <h2 id="ingModalTitle">Ingredients</h2>
+            <button type="button" class="modal-close" id="ingModalClose">&times;</button>
+        </div>
+        <div class="modal-body" id="ingModalBody"></div>
+        <div class="modal-foot">
+            <button type="button" class="btn btn-s" id="ingModalDone">Done</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const I = (id, name, nv = false, tags = null) => ({ id, name, nonveg: nv, tags });
+
+const DIET_OPTS = [
+    { id: 'southIndian',  label: 'South Indian',         icon: '🍛', group: 'cuisine' },
+    { id: 'northIndian',  label: 'North Indian',          icon: '🫓', group: 'cuisine' },
+    { id: 'global',       label: 'Global / International',icon: '🌍', group: 'cuisine' },
+    { id: 'asian',        label: 'Asian',                 icon: '🍜', group: 'cuisine' },
+    { id: 'mediterranean',label: 'Mediterranean',         icon: '🫒', group: 'cuisine' },
+    { id: 'mexican',      label: 'Mexican',               icon: '🌮', group: 'cuisine' },
+    { id: 'continental',  label: 'Continental / Western', icon: '🥐', group: 'cuisine' },
+    { id: 'traditional',  label: 'South Indian home',     icon: '🏠', group: 'cuisine' },
+    { id: 'healthy',      label: 'Healthy',               icon: '🥗', group: 'nutrition' },
+    { id: 'light',        label: 'Light meals',           icon: '☀️', group: 'nutrition' },
+    { id: 'highProtein',  label: 'High protein',          icon: '💪', group: 'nutrition' },
+    { id: 'lowCarb',      label: 'Low carb',              icon: '🥬', group: 'nutrition' },
+    { id: 'highFiber',    label: 'High fibre',            icon: '🌾', group: 'nutrition' },
+    { id: 'highCarb',     label: 'High carb / Fuel',      icon: '⚡', group: 'nutrition' },
+    { id: 'vegan',        label: 'Vegan',                 icon: '🌱', group: 'nutrition' },
+    { id: 'glutenFree',   label: 'Gluten free',           icon: '🌿', group: 'nutrition' },
+    { id: 'quick',        label: 'Under 15 minutes',      icon: '⏱️', group: 'nutrition' },
+];
+
+const DEFAULT_DIET_PREFS = ['southIndian', 'northIndian', 'global', 'traditional', 'healthy', 'light'];
+
+function possessiveName(name) {
+    const n = (name || '').trim();
+    if (!n) return '';
+    return /s$/i.test(n) ? `${n}'` : `${n}'s`;
+}
+
+function familyMenuTitle(name) {
+    const p = possessiveName(name);
+    return p ? `${p} Family Menu` : 'Family Menu';
+}
+
+function getItemTags(item, listKey) {
+    if (item.tags?.length) return item.tags;
+    if (listKey === 'bfEgg') return ['eggs', 'highProtein'];
+    if (listKey === 'bfHealthy') return ['healthy', 'light'];
+    return ['traditional'];
+}
+
+function matchesDiet(item, listKey) {
+    const prefs = getProfile().dietPrefs || DEFAULT_DIET_PREFS;
+    const tags = getItemTags(item, listKey);
+    return tags.some(t => prefs.includes(t));
+}
+
+/** Old menu IDs → consolidated item + default quantity */
+const LEGACY_QTY_MAP = {
+    lb1: ['lb_rice', 'tumbler', 1], lb2: ['lb_rice', 'tumbler', 1.5], lb3: ['lb_rice', 'tumbler', 2],
+    lb4: ['lb_chapathi', 'count', 2], lb5: ['lb_chapathi', 'count', 3], lb6: ['lb_chapathi', 'count', 4], lb7: ['lb_chapathi', 'count', 6],
+    lb8: ['lb_pulka', 'count', 2], lb9: ['lb_pulka', 'count', 3], lb10: ['lb_pulka', 'count', 4],
+    lb11: ['lb_ragi', 'count', 2], lb12: ['lb_ragi', 'count', 3], lb13: ['lb_adai', 'count', 2],
+    lb14: ['lb_phulka', 'count', 3], lb15: ['lb_parotta', 'count', 2],
+    db1: ['db_chapathi', 'count', 2], db2: ['db_chapathi', 'count', 3], db3: ['db_pulka', 'count', 2], db4: ['db_pulka', 'count', 3],
+    db5: ['db_ragi', 'count', 2], db6: ['db_phulka', 'count', 2], db7: ['db_thepla', 'count', 2],
+    db8: ['db_aloo_para', 'count', 2], db9: ['db_gobi_para', 'count', 2], db10: ['db_methi_para', 'count', 2],
+    db11: ['db_naan', 'count', 2], db12: ['db_butter_naan', 'count', 2], db13: ['db_tandoori', 'count', 2],
+    db14: ['db_bhatura', 'count', 2], db15: ['db_roti', 'count', 2],
+    dt1: ['dt_idli', 'count', 3], dt3: ['dt_dosa', 'count', 2],
+};
+
+const TUMBLER_OPTS = [0.5, 1, 1.5, 2, 2.5, 3];
+
+function defaultEggCount() {
+    return (getProfile().adults || 2) * 2;
+}
+
+function qtyTypeForItem(listKey, id) {
+    if (!id) return null;
+    if (listKey === 'luBase') return id === 'lb_rice' ? 'tumbler' : 'count';
+    if (listKey === 'diBread') return 'count';
+    if (listKey === 'diTiffin') {
+        if (id === 'dt_idli' || id === 'dt_mini_idli') return 'count';
+        if (id === 'dt_dosa') return 'count';
+    }
+    return null;
+}
+
+function defaultQtyFor(listKey, id) {
+    const adults = getProfile().adults || 2;
+    const t = qtyTypeForItem(listKey, id);
+    if (t === 'tumbler') return adults >= 4 ? 2 : adults >= 2 ? 1.5 : 1;
+    if (t === 'count') {
+        if (listKey === 'diTiffin' && id === 'dt_dosa') return Math.max(1, Math.min(3, adults));
+        return Math.max(2, adults);
+    }
+    return null;
+}
+
+function formatTumbler(v) {
+    if (v === 0.5) return '½ tumbler';
+    if (v === 1.5) return '1½ tumblers';
+    return v === 1 ? '1 tumbler' : `${v} tumblers`;
+}
+
+function formatWithQty(name, qtyVal, type) {
+    if (!name || qtyVal == null || !type) return name || '';
+    if (type === 'tumbler') return `${name} (${formatTumbler(qtyVal)})`;
+    if (type === 'count') return `${name} (${qtyVal})`;
+    return name;
+}
+
+function ensureDraftQty(draft, meal) {
+    if (!draft) return draft;
+    if (!draft.qty) draft.qty = {};
+    if (meal === 'bf') {
+        if (draft.eggStyle == null && draft.eggCount > 0) draft.eggStyle = 'be1';
+        if (draft.eggStyle && draft.eggStyle !== 'be0' && draft.eggCount == null) {
+            draft.eggCount = defaultEggCount();
+        }
+    }
+    return draft;
+}
+
+function migrateDraftIds(draft, meal) {
+    if (!draft) return draft;
+    ensureDraftQty(draft, meal);
+    const remap = (field, listKey) => {
+        const id = draft[field];
+        if (!id || !LEGACY_QTY_MAP[id]) return;
+        const [newId, type, val] = LEGACY_QTY_MAP[id];
+        draft[field] = newId;
+        draft.qty[field] = val;
+    };
+    if (meal === 'lu') {
+        remap('base', 'luBase');
+    }
+    if (meal === 'di') {
+        remap('bread', 'diBread');
+        remap('tiffin', 'diTiffin');
+    }
+    return draft;
+}
+
+
+let MENU_LISTS = {};
+let MENU = {};
+let BABY_MENU = {};
+
+function hydrateMenus(data) {
+    MENU_LISTS = data.lists || {};
+    const bindMenu = (meta) => {
+        const out = {};
+        for (const [meal, m] of Object.entries(meta)) {
+            out[meal] = {
+                title: m.title,
+                segments: m.segments.map((s) => ({
+                    key: s.key,
+                    label: s.label,
+                    hint: s.hint || '',
+                    cls: s.cls || '',
+                    listKey: s.listKey,
+                    collapsed: !!s.collapsed,
+                    items: MENU_LISTS[s.listKey] || [],
+                })),
+            };
+        }
+        return out;
+    };
+    MENU = bindMenu(data.adultMenu);
+    BABY_MENU = bindMenu(data.babyMenu);
+}
+
+async function loadMenus() {
+    const r = await fetch('menus.json', { cache: 'no-cache' });
+    if (!r.ok) throw new Error('menus.json');
+    hydrateMenus(await r.json());
+}
+
+function baseList(listKey) {
+    return MENU_LISTS[listKey] || [];
+}
+
+const WEEK_KEY = 'familyMenu_week_v6';
+const WEEK_KEY_BABY = 'familyMenu_baby_week_v1';
+const HIDDEN_KEY = 'familyMenu_hidden_v2';
+const HIDDEN_KEY_BABY = 'familyMenu_baby_hidden_v1';
+const CUSTOM_KEY = 'familyMenu_custom_v1';
+const CUSTOM_KEY_BABY = 'familyMenu_baby_custom_v1';
+const PROFILE_KEY = 'familyMenu_profile_v1';
+const SHOP_CHECKS_KEY = 'familyMenu_shopChecks_v1';
+const INVENTORY_KEY = 'familyMenu_pantry_v1';
+const USER_INGREDIENTS_KEY = 'familyMenu_userIngredients_v1';
+const NOTES_KEY = 'familyMenu_notes_v1';
+const EXTRA_SHOP_KEY = 'familyMenu_extraShop_v1';
+const RECENT_DISHES_KEY = 'familyMenu_recentDishes_v1';
+const DARK_MODE_KEY = 'familyMenu_darkMode_v1';
+const TRIP_CHUNKS = [['Monday', 'Tuesday', 'Wednesday'], ['Thursday', 'Friday', 'Saturday'], ['Sunday']];
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+let shopView = 'meals';
+let shopIngFilter = 'all';
+let shopTrip = 'next3';
+let INGREDIENT_DB = { dishes: {}, staples: [] };
+let setupStep = 0;
+
+
+let planner = 'adult'; // 'adult' | 'child:<id>'
+let shopDay = dayName(new Date());
+let weekMonday = getMonday(new Date());
+let editDay = null, editMeal = null; // adult: bf|lu|di — baby: bf|lu|sn|di
+let draft = null;
+let addListKey = null;
+
+const CHILD_AGE_OPTS = [
+    { value: 8, label: '6–9 months (infant)' },
+    { value: 11, label: '9–12 months (~1 year)' },
+    { value: 15, label: '1–1½ years' },
+    { value: 21, label: '1½–2 years' },
+    { value: 30, label: '2–3 years' },
+    { value: 42, label: '3+ years (toddler)' },
+];
+
+function childPlannerId(childId) { return 'child:' + childId; }
+
+function normalizeProfile(p) {
+    if (!p.children?.length && p.babyMonths >= 6) {
+        p.children = [{ id: 'c1', name: 'Child 1', ageMonths: p.babyMonths }];
+    }
+    if (!p.children) p.children = [];
+    return p;
+}
+
+function getChildren() {
+    return normalizeProfile({ ...getProfile() }).children.filter(c => c && c.ageMonths >= 6);
+}
+
+function isChildPlanner() { return planner.startsWith('child:'); }
+function isBaby() { return isChildPlanner(); }
+
+function activeChild() {
+    if (!isChildPlanner()) return null;
+    const id = planner.slice(6);
+    return getChildren().find(c => c.id === id) || null;
+}
+
+function childStorageKey(kind, childId) {
+    return `familyMenu_${kind}_${childId}_v1`;
+}
+
+function activeMenu() { return isChildPlanner() ? BABY_MENU : MENU; }
+function weekStoreKey() {
+    const c = activeChild();
+    return c ? childStorageKey('child_week', c.id) : WEEK_KEY;
+}
+function hiddenStoreKey() {
+    const c = activeChild();
+    return c ? childStorageKey('child_hidden', c.id) : HIDDEN_KEY;
+}
+function customStoreKey() {
+    const c = activeChild();
+    return c ? childStorageKey('child_custom', c.id) : CUSTOM_KEY;
+}
+
+function childAgeShort(months) {
+    const o = CHILD_AGE_OPTS.find(x => x.value === months);
+    if (o) return o.label.replace(/ \(.*\)/, '').replace('~', '');
+    if (months < 13) return '1 yr';
+    if (months < 24) return '1–2 yr';
+    if (months < 36) return '2–3 yr';
+    return '3+ yr';
+}
+
+function migrateLegacyBabyData() {
+    const children = getChildren();
+    if (!children.length) return;
+    const c0 = children[0].id;
+    const pairs = [
+        [WEEK_KEY_BABY, childStorageKey('child_week', c0)],
+        [HIDDEN_KEY_BABY, childStorageKey('child_hidden', c0)],
+        [CUSTOM_KEY_BABY, childStorageKey('child_custom', c0)],
+    ];
+    pairs.forEach(([oldK, newK]) => {
+        const data = localStorage.getItem(oldK);
+        if (data && !localStorage.getItem(newK)) localStorage.setItem(newK, data);
+    });
+}
+function babyItems(meal) {
+    return baseList(babyListKey(meal));
+}
+function babyListKey(meal) {
+    if (meal === 'bf') return 'bbBf';
+    if (meal === 'lu') return 'bbLu';
+    if (meal === 'sn') return 'bbSn';
+    return 'bbDi';
+}
+function draftKey(meal) {
+    if (meal === 'bf') return 'bfDraft';
+    if (meal === 'lu') return 'luDraft';
+    if (meal === 'sn') return 'snDraft';
+    return 'diDraft';
+}
+function mealTextKey(meal) {
+    if (meal === 'bf') return 'breakfast';
+    if (meal === 'lu') return 'lunch';
+    if (meal === 'sn') return 'snack';
+    return 'dinner';
+}
+
+function getMonday(d) {
+    const x = new Date(d);
+    const day = x.getDay();
+    x.setDate(x.getDate() - (day === 0 ? 6 : day - 1));
+    x.setHours(0,0,0,0);
+    return x;
+}
+function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function isoDate(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function weekKey() { return isoDate(weekMonday); }
+function dateFor(i) { return isoDate(addDays(weekMonday, i)); }
+function dayName(d) { return DAYS[(d.getDay() + 6) % 7]; }
+function fmtShort(s) { return new Date(s+'T12:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'}); }
+function fmtLong(s) { return new Date(s+'T12:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'}); }
+function byId(arr, id) { return arr.find(x => x.id === id); }
+function names(arr, ids) { return (ids || []).map(id => byId(arr, id)?.name).filter(Boolean); }
+
+function loadCustom() {
+    try { return JSON.parse(localStorage.getItem(customStoreKey())) || {}; } catch { return {}; }
+}
+function saveCustom(c) { localStorage.setItem(customStoreKey(), JSON.stringify(c)); }
+function mergedItems(listKey) {
+    return [...baseList(listKey), ...(loadCustom()[listKey] || [])];
+}
+function lookup(listKey, id) {
+    if (!id) return null;
+    return mergedItems(listKey).find(x => x.id === id);
+}
+function namesFor(listKey, ids) {
+    return (ids || []).map(id => lookup(listKey, id)?.name).filter(Boolean);
+}
+function segmentByListKey(listKey) {
+    for (const menu of [MENU, BABY_MENU]) {
+        for (const m of Object.values(menu)) {
+            const s = m.segments.find(x => x.listKey === listKey);
+            if (s) return s;
+        }
+    }
+    return null;
+}
+
+function emptyDraft(meal) {
+    if (isBaby()) return babyMealUsesCombo(meal) ? { main: null, soup: null, finger: null } : { item: null };
+    if (meal === 'bf') return { mode: 'single', single: null, main: null, sides: [], healthy: null, eggStyle: null, eggCount: 0, qty: {} };
+    if (meal === 'lu') return { base: null, curry: null, poriyals: [], sides: [], variety: null, biryani: null, qty: {} };
+    return { mode: 'single', single: null, tiffin: null, sides: [], bread: null, gravy: null, quick: null, qty: {} };
+}
+
+function babyMealUsesCombo(meal) { return meal === 'lu' || meal === 'sn'; }
+
+function normalizeBabyDraft(d, meal) {
+    if (!d) return emptyDraft(meal);
+    if (babyMealUsesCombo(meal)) {
+        if (d.item && !d.main) { d.main = d.item; d.item = null; }
+        return { main: d.main || null, soup: d.soup || null, finger: d.finger || null };
+    }
+    if (d.main && !d.item) return { item: d.main };
+    return { item: d.item || null };
+}
+
+function buildBabyText(d, meal) {
+    if (!d) return '';
+    if (babyMealUsesCombo(meal)) {
+        const parts = [];
+        if (d.main) parts.push(lookup(meal === 'lu' ? 'bbLu' : 'bbSn', d.main)?.name);
+        if (d.soup) parts.push(lookup('bbSoup', d.soup)?.name);
+        if (d.finger) parts.push(lookup('bbFinger', d.finger)?.name);
+        return parts.filter(Boolean).join(' · ');
+    }
+    if (!d.item) return '';
+    return lookup(babyListKey(meal), babyItems(meal), d.item)?.name || '';
+}
+
+function babyHasSelection(d) {
+    if (!d) return false;
+    return !!(d.item || d.main || d.soup || d.finger);
+}
+
+function randomBabyDraft(meal) {
+    if (babyMealUsesCombo(meal)) {
+        const mainKey = meal === 'lu' ? 'bbLu' : 'bbSn';
+        const main = Math.random() < 0.85 ? pickOne(mainKey) : null;
+        const soup = Math.random() < 0.35 ? pickOne('bbSoup') : null;
+        const finger = Math.random() < 0.45 ? pickOne('bbFinger') : null;
+        return { main: main?.id || null, soup: soup?.id || null, finger: finger?.id || null };
+    }
+    const it = pickOne(babyListKey(meal), babyItems(meal));
+    return { item: it?.id || null };
+}
+
+function loadHidden() {
+    try { return JSON.parse(localStorage.getItem(hiddenStoreKey())) || {}; } catch { return {}; }
+}
+function saveHidden(h) { localStorage.setItem(hiddenStoreKey(), JSON.stringify(h)); }
+function isHidden(listKey, id) { return (loadHidden()[listKey] || []).includes(id); }
+function getProfile() {
+    try {
+        const p = JSON.parse(localStorage.getItem(PROFILE_KEY));
+        if (p) {
+            normalizeProfile(p);
+            if (!p.dietPrefs?.length) p.dietPrefs = [...DEFAULT_DIET_PREFS];
+            if (p.setupDone && p.plannerName?.trim()) return p;
+            if (p.setupDone) return { ...p, plannerName: p.plannerName || '', setupDone: false };
+        }
+    } catch { /* ignore */ }
+    return { plannerName: '', adults: 2, children: [], dietPrefs: [...DEFAULT_DIET_PREFS], setupDone: false };
+}
+function saveProfile(p) {
+    normalizeProfile(p);
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+}
+
+function babyAgeBand(months) {
+    if (!months || months < 6) return 'none';
+    if (months < 9) return 'infant';
+    if (months < 13) return 'baby1';
+    return 'toddler';
+}
+
+function filterBabyItem(item) {
+    const months = activeChild()?.ageMonths ?? 12;
+    const band = babyAgeBand(months);
+    if (band === 'none') return false;
+    const n = item.name.toLowerCase();
+    if (band === 'infant') {
+        return !/finger|sticks|fries|paratha strips|poori|omelette|pizza|biryani|cheese sticks|bread sticks/i.test(n);
+    }
+    return true;
+}
+
+function vis(listKey) {
+    let pool = mergedItems(listKey);
+    if (listKey.startsWith('bb')) pool = pool.filter(filterBabyItem);
+    else pool = pool.filter(i => matchesDiet(i, listKey));
+    return pool.filter(i => !isHidden(listKey, i.id));
+}
+
+function hideItem(listKey, id) {
+    const h = loadHidden();
+    if (!h[listKey]) h[listKey] = [];
+    if (!h[listKey].includes(id)) h[listKey].push(id);
+    saveHidden(h);
+    if (!draft) return;
+    if (draft.single === id) draft.single = null;
+    if (draft.main === id) draft.main = null;
+    if (draft.curry === id) draft.curry = null;
+    if (draft.base === id) draft.base = null;
+    if (draft.variety === id) draft.variety = null;
+    if (draft.biryani === id) draft.biryani = null;
+    if (draft.tiffin === id) draft.tiffin = null;
+    if (draft.bread === id) draft.bread = null;
+    if (draft.gravy === id) draft.gravy = null;
+    if (draft.quick === id) draft.quick = null;
+    if (draft.sides) draft.sides = draft.sides.filter(x => x !== id);
+    if (draft.poriyals) draft.poriyals = draft.poriyals.filter(x => x !== id);
+    if (draft.item === id) draft.item = null;
+    if (draft.soup === id) draft.soup = null;
+    if (draft.finger === id) draft.finger = null;
+}
+
+function restoreItem(listKey, id) {
+    const h = loadHidden();
+    h[listKey] = (h[listKey] || []).filter(x => x !== id);
+    saveHidden(h);
+}
+
+function addCustomItem(listKey, name, nonveg) {
+    const trimmed = (name || '').trim();
+    if (!trimmed) return false;
+    const seg = segmentByListKey(listKey);
+    if (!seg) return false;
+    const all = mergedItems(listKey, seg.items);
+    if (all.some(i => i.name.toLowerCase() === trimmed.toLowerCase())) {
+        alert('This dish is already in the list.');
+        return false;
+    }
+    const c = loadCustom();
+    if (!c[listKey]) c[listKey] = [];
+    c[listKey].push({ id: `cus_${listKey}_${Date.now()}`, name: trimmed, nonveg: !!nonveg, custom: true });
+    saveCustom(c);
+    return true;
+}
+
+function removeCustomItem(listKey, id) {
+    const c = loadCustom();
+    if (!c[listKey]) return;
+    c[listKey] = c[listKey].filter(x => x.id !== id);
+    saveCustom(c);
+    restoreItem(listKey, id);
+    if (!draft) return;
+    if (draft.single === id) draft.single = null;
+    if (draft.main === id) draft.main = null;
+    if (draft.curry === id) draft.curry = null;
+    if (draft.base === id) draft.base = null;
+    if (draft.variety === id) draft.variety = null;
+    if (draft.biryani === id) draft.biryani = null;
+    if (draft.tiffin === id) draft.tiffin = null;
+    if (draft.bread === id) draft.bread = null;
+    if (draft.gravy === id) draft.gravy = null;
+    if (draft.quick === id) draft.quick = null;
+    if (draft.sides) draft.sides = draft.sides.filter(x => x !== id);
+    if (draft.poriyals) draft.poriyals = draft.poriyals.filter(x => x !== id);
+    if (draft.item === id) draft.item = null;
+    if (draft.soup === id) draft.soup = null;
+    if (draft.finger === id) draft.finger = null;
+}
+
+function openAddModal(listKey) {
+    const seg = segmentByListKey(listKey);
+    if (!seg) return;
+    addListKey = listKey;
+    document.getElementById('addModalTitle').textContent = 'Add dish';
+    document.getElementById('addItemHint').textContent = seg.label + (seg.hint ? ' — ' + seg.hint : '');
+    document.getElementById('addItemName').value = '';
+    document.getElementById('addItemNv').checked = false;
+    document.getElementById('addOverlay').classList.add('open');
+    document.getElementById('addItemName').focus();
+}
+
+function closeAddModal() {
+    document.getElementById('addOverlay').classList.remove('open');
+    addListKey = null;
+}
+
+function submitAddItem() {
+    if (!addListKey) return;
+    if (!addCustomItem(addListKey, document.getElementById('addItemName').value, document.getElementById('addItemNv').checked)) return;
+    closeAddModal();
+    renderMenuCatalog();
+    if (document.getElementById('overlay').classList.contains('open')) renderPicker();
+}
+
+function allSegments() {
+    const out = [];
+    Object.values(activeMenu()).forEach(m => m.segments.forEach(s => { if (s.listKey) out.push(s); }));
+    return out;
+}
+
+function loadWeeks() { try { return JSON.parse(localStorage.getItem(weekStoreKey())) || {}; } catch { return {}; } }
+function saveWeeks(w) { localStorage.setItem(weekStoreKey(), JSON.stringify(w)); }
+function getWeek() {
+    const w = loadWeeks();
+    if (!w[weekKey()]) w[weekKey()] = { days: {} };
+    return w[weekKey()];
+}
+
+function buildEggLabel(d) {
+    if (!d?.eggStyle || d.eggStyle === 'be0') return '';
+    const item = lookup('bfEgg', d.eggStyle);
+    if (!item) return '';
+    const n = d.eggCount ?? defaultEggCount();
+    const name = item.name.toLowerCase();
+    if (name.includes('boiled') || name.includes('half boiled')) {
+        return n > 1 ? `${n} ${name}s` : `${n} ${name}`;
+    }
+    if (name.includes('egg') && !name.includes('eggs')) {
+        return n > 1 ? `${n} ${item.name}s` : item.name;
+    }
+    return n > 1 ? `${n} × ${item.name}` : item.name;
+}
+
+function buildBfText(d) {
+    if (!d) return '';
+    const parts = [];
+    const eggLbl = buildEggLabel(d);
+    if (eggLbl) parts.push(eggLbl);
+    if (d.mode === 'healthy' && d.healthy) {
+        parts.push(lookup('bfHealthy', d.healthy)?.name);
+    }
+    if (d.mode === 'single' && d.single) {
+        const n = lookup('bfSingle', d.single)?.name;
+        if (n) parts.push(n);
+    }
+    if (d.mode === 'main' && d.main) {
+        const m = lookup('bfMain', d.main)?.name;
+        const s = namesFor('bfSide', d.sides);
+        if (m) parts.push(m + (s.length ? ` · ${s.join(', ')}` : ''));
+    }
+    return parts.filter(Boolean).join(' · ');
+}
+
+function bfHasSelection(d) {
+    if (!d) return false;
+    if (d.eggStyle && d.eggStyle !== 'be0') return true;
+    if (d.mode === 'healthy' && d.healthy) return true;
+    if (d.mode === 'single' && d.single) return true;
+    if (d.mode === 'main' && d.main) return true;
+    return false;
+}
+
+function normalizeLuDraft(d) {
+    if (!d) return emptyDraft('lu');
+    d.poriyals = d.poriyals || d.extras || [];
+    d.sides = d.sides || [];
+    delete d.extras;
+    delete d.mode;
+    return ensureDraftQty(migrateDraftIds(d, 'lu'), 'lu');
+}
+
+function luBaseLabel(d) {
+    if (!d?.base) return null;
+    const item = lookup('luBase', d.base);
+    if (!item) return null;
+    const q = d.qty?.base ?? defaultQtyFor('luBase', d.base);
+    return formatWithQty(item.name, q, qtyTypeForItem('luBase', d.base));
+}
+
+function buildLuText(d) {
+    if (!d) return '';
+    const parts = [];
+    if (d.variety) parts.push(lookup('luVariety', d.variety)?.name);
+    if (d.biryani) parts.push(lookup('luBiryani', d.biryani)?.name);
+    const baseLbl = luBaseLabel(d);
+    if (baseLbl) parts.push(baseLbl);
+    if (d.curry) parts.push(lookup('luCurry', d.curry)?.name);
+    const por = namesFor('luPoriyal', d.poriyals);
+    const ex = namesFor('luSides', d.sides);
+    if (por.length) parts.push(por.join(', '));
+    if (ex.length) parts.push(ex.join(', '));
+    return parts.filter(Boolean).join(' · ');
+}
+
+function lunchHasSelection(d) {
+    return !!(d?.variety || d?.biryani || d?.base || d?.curry
+        || d?.poriyals?.length || d?.sides?.length);
+}
+
+function pickOne(listKey) {
+    const pool = vis(listKey);
+    if (!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+}
+function pickSome(listKey, min, max) {
+    const pool = vis(listKey);
+    if (!pool.length) return [];
+    const count = Math.min(pool.length, min + Math.floor(Math.random() * (max - min + 1)));
+    return [...pool].sort(() => Math.random() - 0.5).slice(0, count).map(x => x.id);
+}
+
+function randomBfDraft() {
+    const prefs = getProfile().dietPrefs || DEFAULT_DIET_PREFS;
+    const qty = {};
+    let eggStyle = null;
+    let eggCount = 0;
+    if (prefs.includes('traditional') && Math.random() < 0.55) {
+        const styles = vis('bfEgg').filter(e => e.id !== 'be0');
+        if (styles.length) {
+            const e = styles[Math.floor(Math.random() * styles.length)];
+            eggStyle = e.id;
+            eggCount = defaultEggCount();
+        }
+    }
+    if ((prefs.includes('healthy') || prefs.includes('light')) && Math.random() < 0.38) {
+        const h = pickOne('bfHealthy');
+        return { mode: 'healthy', healthy: h?.id || null, single: null, main: null, sides: [], eggStyle, eggCount, qty };
+    }
+    if (Math.random() < 0.45) {
+        const it = pickOne('bfSingle');
+        return { mode: 'single', single: it?.id || null, main: null, sides: [], healthy: null, eggStyle, eggCount, qty };
+    }
+    const main = pickOne('bfMain');
+    return {
+        mode: 'main', single: null, healthy: null,
+        main: main?.id || null, sides: pickSome('bfSide', 1, 2),
+        eggStyle, eggCount, qty,
+    };
+}
+
+function randomLuDraft() {
+    const r = Math.random();
+    if (r < 0.42) {
+        const base = pickOne('luBase');
+        const baseId = base?.id || null;
+        const curry = pickOne('luCurry');
+        const qty = {};
+        if (baseId) qty.base = defaultQtyFor('luBase', baseId);
+        return {
+            base: baseId, curry: curry?.id || null, qty,
+            poriyals: Math.random() < 0.55 ? pickSome('luPoriyal', 0, 2) : [],
+            sides: Math.random() < 0.35 ? pickSome('luSides', 0, 1) : [],
+            variety: null, biryani: null,
+        };
+    }
+    if (r < 0.72) {
+        const v = pickOne('luVariety');
+        return {
+            variety: v?.id || null, base: null, curry: null, biryani: null,
+            poriyals: Math.random() < 0.45 ? pickSome('luPoriyal', 0, 1) : [],
+            sides: Math.random() < 0.4 ? pickSome('luSides', 0, 1) : [],
+        };
+    }
+    const b = pickOne('luBiryani');
+    return {
+        biryani: b?.id || null, base: null, curry: null, variety: null,
+        poriyals: Math.random() < 0.35 ? pickSome('luPoriyal', 0, 1) : [],
+        sides: Math.random() < 0.35 ? pickSome('luSides', 0, 1) : [],
+    };
+}
+
+function randomDiDraft() {
+    const r = Math.random();
+    if (r < 0.25) {
+        const it = pickOne('diSingle');
+        return { mode: 'single', single: it?.id || null, tiffin: null, sides: [], bread: null, gravy: null, quick: null };
+    }
+    if (r < 0.5) {
+        const t = pickOne('diTiffin');
+        const tid = t?.id || null;
+        const qty = {};
+        if (tid) qty.tiffin = defaultQtyFor('diTiffin', tid);
+        return { mode: 'tiffin', single: null, tiffin: tid, sides: pickSome('diSide', 1, 2), bread: null, gravy: null, quick: null, qty };
+    }
+    if (r < 0.75) {
+        const bread = pickOne('diBread');
+        const breadId = bread?.id || null;
+        const gravy = pickOne('diGravy');
+        const qty = {};
+        if (breadId) qty.bread = defaultQtyFor('diBread', breadId);
+        return { mode: 'bread', single: null, tiffin: null, sides: [], bread: breadId, gravy: gravy?.id || null, quick: null, qty };
+    }
+    const pools = [
+        ['diNoodles'], ['diPasta'], ['diLight'],
+    ];
+    const [key, items] = pools[Math.floor(Math.random() * pools.length)];
+    const q = pickOne(key, items);
+    return { mode: 'quick', single: null, tiffin: null, sides: [], bread: null, gravy: null, quick: q?.id || null };
+}
+
+function saveDayMeals(day, dayIndex, bfD, luD, diD) {
+    return {
+        breakfast: buildBfText(bfD),
+        lunch: buildLuText(luD),
+        dinner: buildDiText(diD),
+        bfDraft: JSON.parse(JSON.stringify(bfD)),
+        luDraft: JSON.parse(JSON.stringify(luD)),
+        diDraft: JSON.parse(JSON.stringify(diD)),
+        date: dateFor(dayIndex),
+        savedAt: new Date().toISOString(),
+    };
+}
+
+function shuffleBabyWeek() {
+    const week = getWeek();
+    const hasPlan = DAYS.some(d => {
+        const x = week.days[d] || {};
+        return x.breakfast || x.lunch || x.snack || x.dinner;
+    });
+    if (hasPlan && !confirm('Shuffle will replace the full baby week (all meals & snacks). Continue?')) return;
+
+    const weeks = loadWeeks();
+    const k = weekKey();
+    weeks[k] = { days: {} };
+    const meals = ['bf', 'lu', 'sn', 'di'];
+    DAYS.forEach((day, i) => {
+        const row = { date: dateFor(i) };
+        meals.forEach(m => {
+            const dr = randomBabyDraft(m);
+            row[mealTextKey(m)] = buildBabyText(dr, m);
+            row[draftKey(m)] = dr;
+        });
+        weeks[k].days[day] = row;
+    });
+    saveWeeks(weeks);
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+function dayHasPlannedMeals(day) {
+    const d = getWeek().days[day] || {};
+    if (isChildPlanner()) {
+        return !!(d.breakfast || d.lunch || d.snack || d.dinner);
+    }
+    return !!(d.breakfast || d.lunch || d.dinner);
+}
+
+function shuffleDay(day) {
+    const i = DAYS.indexOf(day);
+    if (i < 0) return;
+    const d = getWeek().days[day] || {};
+    const label = isChildPlanner()
+        ? `all meals & snacks for ${day}`
+        : `breakfast, lunch & dinner for ${day}`;
+    if (dayHasPlannedMeals(day) && !confirm(`Shuffle ${label} only? Other days stay the same.`)) return;
+
+    const weeks = loadWeeks();
+    const k = weekKey();
+    if (!weeks[k]) weeks[k] = { days: {} };
+
+    if (isChildPlanner()) {
+        const row = { date: dateFor(i) };
+        ['bf', 'lu', 'sn', 'di'].forEach(m => {
+            const dr = randomBabyDraft(m);
+            row[mealTextKey(m)] = buildBabyText(dr, m);
+            row[draftKey(m)] = dr;
+        });
+        weeks[k].days[day] = row;
+    } else {
+        weeks[k].days[day] = saveDayMeals(day, i, randomBfDraft(), randomLuDraft(), randomDiDraft());
+    }
+    saveWeeks(weeks);
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+function shuffleWeek() {
+    if (isBaby()) { shuffleBabyWeek(); return; }
+    const week = getWeek();
+    const hasPlan = DAYS.some(d => week.days[d]?.breakfast || week.days[d]?.lunch || week.days[d]?.dinner);
+    if (hasPlan && !confirm('Shuffle will replace the full week (all breakfasts, lunches & dinners). Continue?')) return;
+
+    const weeks = loadWeeks();
+    const k = weekKey();
+    weeks[k] = { days: {} };
+    DAYS.forEach((day, i) => {
+        weeks[k].days[day] = saveDayMeals(day, i, randomBfDraft(), randomLuDraft(), randomDiDraft());
+    });
+    saveWeeks(weeks);
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+function diItemLabel(listKey, field, d) {
+    const id = d[field];
+    if (!id) return null;
+    const item = lookup(listKey, id);
+    if (!item) return null;
+    const q = d.qty?.[field] ?? defaultQtyFor(listKey, id);
+    return formatWithQty(item.name, q, qtyTypeForItem(listKey, id));
+}
+
+function buildDiText(d) {
+    if (!d) return '';
+    if (d.mode === 'single' && d.single) return lookup('diSingle', d.single)?.name || '';
+    if (d.mode === 'tiffin' && d.tiffin) {
+        const t = diItemLabel('diTiffin', 'tiffin', d) || lookup('diTiffin', d.tiffin)?.name;
+        const s = namesFor('diSide', d.sides);
+        return t + (s.length ? ` · ${s.join(', ')}` : '');
+    }
+    if (d.mode === 'bread' && d.bread && d.gravy) {
+        const b = diItemLabel('diBread', 'bread', d) || lookup('diBread', d.bread)?.name;
+        return `${b} · ${lookup('diGravy', d.gravy)?.name}`;
+    }
+    if (d.mode === 'quick' && d.quick) {
+        return lookup('diNoodles', d.quick)?.name
+            || lookup('diPasta', d.quick)?.name
+            || lookup('diLight', d.quick)?.name || '';
+    }
+    return '';
+}
+
+function bindWeekInteractions(root) {
+    root.querySelectorAll('.cell').forEach(c => {
+        c.addEventListener('click', () => openPicker(c.dataset.day, c.dataset.meal));
+    });
+    root.querySelectorAll('.btn-shuffle-day').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            shuffleDay(btn.dataset.shuffleDay);
+        });
+    });
+    root.querySelectorAll('[data-note-day]').forEach(el => {
+        el.addEventListener('click', e => {
+            e.stopPropagation();
+            editDayNote(el.dataset.noteDay);
+        });
+    });
+}
+
+function renderWeekTable() {
+    const week = getWeek();
+    const today = dayName(new Date());
+    const sun = dateFor(6);
+    const isCurrentWeek = weekKey() === isoDate(getMonday(new Date()));
+    document.getElementById('weekRange').textContent = `${fmtShort(weekKey())} – ${fmtShort(sun)}`;
+
+    const mealBlocks = isChildPlanner()
+        ? [
+            { key: 'bf', label: 'Breakfast', field: 'breakfast' },
+            { key: 'lu', label: 'Lunch', field: 'lunch' },
+            { key: 'sn', label: 'Snack', field: 'snack' },
+            { key: 'di', label: 'Dinner', field: 'dinner' },
+        ]
+        : [
+            { key: 'bf', label: 'Breakfast', field: 'breakfast' },
+            { key: 'lu', label: 'Lunch', field: 'lunch' },
+            { key: 'di', label: 'Dinner', field: 'dinner' },
+        ];
+
+    const notes = loadNotes();
+    const cards = DAYS.map((day, i) => {
+        const d = week.days[day] || {};
+        const isToday = day === today && isCurrentWeek;
+        const note = notes[weekKey()]?.[day] || '';
+        const mealsHtml = mealBlocks.map(m => {
+            const t = d[m.field] || '';
+            return `<div class="day-meal ${m.key}">
+                <span class="day-meal-lbl">${m.label}</span>
+                <div class="cell ${m.key} ${t ? '' : 'empty'}" data-day="${day}" data-meal="${m.key}" role="button" tabindex="0">${t || 'Tap to add'}</div>
+            </div>`;
+        }).join('');
+        const notePill = `<div class="note-pill ${note ? 'has-note' : ''}" data-note-day="${day}" title="${note || 'Add a note for this day'}">${note || '+ Add note'}</div>`;
+        return `<article class="day-card ${isToday ? 'today' : ''}">
+            <header class="day-card-head">
+                <div><strong>${day}</strong><span class="date-sm">${fmtShort(dateFor(i))}</span></div>
+                <button type="button" class="btn-shuffle-day" data-shuffle-day="${day}" title="Shuffle ${day} only">🎲 Day</button>
+            </header>
+            <div class="day-card-meals">${mealsHtml}</div>
+            ${notePill}
+        </article>`;
+    }).join('');
+
+    const tableHead = `<tr><th>Day</th>${mealBlocks.map(m => `<th>${m.label}</th>`).join('')}<th title="Shuffle one day">🎲</th></tr>`;
+    const tableRows = DAYS.map((day, i) => {
+        const d = week.days[day] || {};
+        const isToday = day === today && isCurrentWeek;
+        const cells = mealBlocks.map(m => {
+            const t = d[m.field] || '';
+            return `<td><div class="cell ${m.key} ${t ? '' : 'empty'}" data-day="${day}" data-meal="${m.key}">${t || 'Tap to add'}</div></td>`;
+        }).join('');
+        const note = notes[weekKey()]?.[day] || '';
+        return `<tr class="${isToday ? 'today' : ''}">
+            <td class="day-name">${day.slice(0, 3)}<br><span class="date-sm">${fmtShort(dateFor(i))}</span><br><span class="note-pill ${note?'has-note':''}" data-note-day="${day}" style="margin-top:.2rem">${note || '✎'}</span></td>
+            ${cells}
+            <td class="day-actions"><button type="button" class="btn-shuffle-day" data-shuffle-day="${day}" title="Shuffle ${day} only">🎲</button></td>
+        </tr>`;
+    }).join('');
+
+    const hasAnyMeal = DAYS.some(d => {
+        const row = week.days[d] || {};
+        return row.breakfast || row.lunch || row.dinner || row.snack;
+    });
+    const emptyCard = !hasAnyMeal ? `
+        <div class="week-empty-card">
+            <h3>👋 Start planning your week!</h3>
+            <p>Tap any day below to choose meals, or shuffle the whole week in one go.<br>Shopping list builds automatically once you add meals.</p>
+            <div class="week-empty-actions">
+                <button class="btn btn-shuffle" id="emptyShuffleBtn">🎲 Shuffle full week</button>
+                <button class="btn btn-s" id="emptyTapHint">Tap Monday to start</button>
+            </div>
+        </div>` : '';
+
+    const tableClass = isChildPlanner() ? 'week baby' : 'week';
+    document.getElementById('weekTable').innerHTML = `
+        ${emptyCard}
+        <div class="week-cards">${cards}</div>
+        <div class="week-table-scroll">
+            <table class="${tableClass}">
+                <thead>${tableHead}</thead>
+                <tbody>${tableRows}</tbody>
+            </table>
+        </div>`;
+
+    const wt = document.getElementById('weekTable');
+    bindWeekInteractions(wt);
+    wt.querySelector('#emptyShuffleBtn')?.addEventListener('click', shuffleWeek);
+    wt.querySelector('#emptyTapHint')?.addEventListener('click', () => openPicker('Monday', 'bf'));
+}
+
+function openPicker(day, meal) {
+    editDay = day;
+    editMeal = meal;
+    const week = getWeek();
+    const saved = week.days[day];
+    const key = draftKey(meal);
+    draft = saved?.[key] ? JSON.parse(JSON.stringify(saved[key])) : emptyDraft(meal);
+    if (isBaby()) draft = normalizeBabyDraft(draft, meal);
+    else if (meal === 'lu') draft = normalizeLuDraft(draft);
+    else if (meal === 'bf') draft = ensureDraftQty(migrateDraftIds(draft, 'bf'), 'bf');
+    else if (meal === 'di') draft = ensureDraftQty(migrateDraftIds(draft, 'di'), 'di');
+
+    const childName = activeChild()?.name?.trim() || 'Child';
+    const titles = isBaby()
+        ? { bf: `${childName} breakfast`, lu: `${childName} lunch`, sn: 'Evening snack', di: `${childName} dinner` }
+        : { bf: 'Breakfast', lu: 'Lunch', di: 'Dinner' };
+    document.getElementById('modalTitle').textContent = `${day} — ${titles[meal]}`;
+    const head = document.getElementById('modalHead');
+    head.className = 'modal-head ' + meal;
+    renderPicker();
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePicker() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    editDay = editMeal = draft = null;
+}
+
+function renderPills(container, items, selected, multi, onChange) {
+    const sel = new Set(Array.isArray(selected) ? selected : (selected ? [selected] : []));
+    container.innerHTML = items.map(it => {
+        const on = sel.has(it.id);
+        return `<button type="button" class="pill ${on?'on':''} ${it.nonveg?'nv':''}" data-id="${it.id}">${it.name}</button>`;
+    }).join('');
+    container.querySelectorAll('.pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            let next;
+            if (multi) {
+                const arr = [...sel];
+                next = arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id];
+            } else {
+                next = sel.has(id) ? null : id;
+            }
+            onChange(next);
+        });
+    });
+}
+
+function segBlock(title, hint, items, selected, multi, onChange, id) {
+    return `<div class="seg-pick" id="${id}">
+        <h4>${title}${hint ? ` <span>— ${hint}</span>` : ''}</h4>
+        <div class="pills"></div>
+    </div>`;
+}
+
+function updatePreview() {
+    const el = document.getElementById('pickPreview');
+    if (!el) return;
+    const t = isBaby() ? buildBabyText(draft, editMeal) : (editMeal === 'bf' ? buildBfText(draft) : editMeal === 'lu' ? buildLuText(draft) : buildDiText(draft));
+    el.textContent = t || 'Nothing selected yet';
+}
+
+function bindQtyStepper(panel, getVal, setVal, opts) {
+    const { min, max, step, presets, format } = opts;
+    const show = () => {
+        const v = getVal();
+        panel.querySelector('.qty-val').textContent = format ? format(v) : String(v);
+        panel.querySelectorAll('.qty-preset').forEach(b => {
+            b.classList.toggle('on', parseFloat(b.dataset.v) === v);
+        });
+    };
+    panel.querySelector('.qty-minus')?.addEventListener('click', () => {
+        const v = getVal();
+        const next = Math.max(min, +(v - step).toFixed(1));
+        setVal(next);
+        show();
+        updatePreview();
+    });
+    panel.querySelector('.qty-plus')?.addEventListener('click', () => {
+        const v = getVal();
+        const next = Math.min(max, +(v + step).toFixed(1));
+        setVal(next);
+        show();
+        updatePreview();
+    });
+    panel.querySelectorAll('.qty-preset').forEach(b => {
+        b.addEventListener('click', () => {
+            setVal(parseFloat(b.dataset.v));
+            show();
+            updatePreview();
+        });
+    });
+    show();
+}
+
+function renderEggQtyPanel() {
+    document.getElementById('eggQtyPanel')?.remove();
+    if (!draft?.eggStyle || draft.eggStyle === 'be0') return;
+    const preview = document.getElementById('pickPreview');
+    if (!preview) return;
+    const adults = getProfile().adults || 2;
+    const def = defaultEggCount();
+    if (!draft.eggCount) draft.eggCount = def;
+    const eggName = lookup('bfEgg', draft.eggStyle)?.name || 'Eggs';
+    const panel = document.createElement('div');
+    panel.id = 'eggQtyPanel';
+    panel.className = 'qty-panel';
+    panel.innerHTML = `
+        <label>${eggName} — how many? <span style="font-weight:400;color:var(--muted)">(${adults} adults → ${def})</span></label>
+        <div class="qty-row">
+            <button type="button" class="qty-btn qty-minus" aria-label="Fewer">−</button>
+            <span class="qty-val"></span>
+            <button type="button" class="qty-btn qty-plus" aria-label="More">+</button>
+        </div>`;
+    preview.after(panel);
+    bindQtyStepper(panel, () => draft.eggCount, v => { draft.eggCount = v; }, { min: 1, max: 24, step: 1, format: v => `${v}` });
+}
+
+function renderFieldQtyPanel(segId, fieldKey, listKey, itemId) {
+    const seg = document.getElementById(segId);
+    seg?.querySelector('.qty-panel')?.remove();
+    if (!seg || !itemId) return;
+    const type = qtyTypeForItem(listKey, itemId);
+    if (!type) return;
+    if (!draft.qty) draft.qty = {};
+    if (draft.qty[fieldKey] == null) draft.qty[fieldKey] = defaultQtyFor(listKey, itemId);
+
+    const panel = document.createElement('div');
+    panel.className = 'qty-panel';
+    const item = lookup(listKey, itemId);
+    const title = type === 'tumbler' ? `${item?.name || 'Rice'} — how much?` : `${item?.name || 'Item'} — how many?`;
+
+    if (type === 'tumbler') {
+        const presets = TUMBLER_OPTS.map(v =>
+            `<button type="button" class="qty-preset" data-v="${v}">${formatTumbler(v)}</button>`
+        ).join('');
+        panel.innerHTML = `
+            <label>${title}</label>
+            <div class="qty-row">
+                <button type="button" class="qty-btn qty-minus">−</button>
+                <span class="qty-val"></span>
+                <button type="button" class="qty-btn qty-plus">+</button>
+            </div>
+            <div class="qty-presets">${presets}</div>`;
+        seg.appendChild(panel);
+        bindQtyStepper(panel, () => draft.qty[fieldKey], v => { draft.qty[fieldKey] = v; }, {
+            min: 0.5, max: 3, step: 0.5, format: formatTumbler,
+        });
+    } else {
+        panel.innerHTML = `
+            <label>${title}</label>
+            <div class="qty-row">
+                <button type="button" class="qty-btn qty-minus">−</button>
+                <span class="qty-val"></span>
+                <button type="button" class="qty-btn qty-plus">+</button>
+            </div>`;
+        seg.appendChild(panel);
+        bindQtyStepper(panel, () => draft.qty[fieldKey], v => { draft.qty[fieldKey] = v; }, {
+            min: 1, max: 12, step: 1, format: v => `${v}`,
+        });
+    }
+}
+
+function renderRecentStrip(meal) {
+    const listKeyMap = {
+        bf: ['bfSingle', 'bfMain', 'bfHealthy'],
+        lu: ['luBase', 'luCurry', 'luVariety'],
+        di: ['diSingle', 'diTiffin', 'diBread'],
+        sn: [],
+    };
+    const keys = listKeyMap[meal] || [];
+    const seen = new Set();
+    const recents = [];
+    keys.forEach(lk => {
+        getRecentDishes(lk).forEach(it => {
+            if (!seen.has(it.id)) { seen.add(it.id); recents.push({ ...it, listKey: lk }); }
+        });
+    });
+    if (!recents.length) return '';
+    return `<div class="recent-strip">
+        <h5>Recently used</h5>
+        <div class="pills">${recents.slice(0, 8).map(it =>
+            `<button type="button" class="pill recent-pill" data-lk="${it.listKey}" data-id="${it.id}">${it.name}</button>`
+        ).join('')}</div>
+    </div>`;
+}
+
+function renderPicker() {
+    const body = document.getElementById('modalBody');
+    let html = '<div class="preview" id="pickPreview"></div>';
+    html += renderRecentStrip(editMeal);
+
+    if (isBaby()) {
+        const cn = activeChild()?.name?.trim() || 'Child';
+        const labels = { bf: 'Breakfast', lu: 'Lunch', sn: 'Evening snack', di: 'Dinner' };
+        html += `<p class="hint" style="margin-bottom:.5rem">Picking for <strong>${cn}</strong> — ${labels[editMeal].toLowerCase()}. Tap again to clear.</p>`;
+        if (babyMealUsesCombo(editMeal)) {
+            const mainKey = editMeal === 'lu' ? 'bbLu' : 'bbSn';
+            html += segBlock(editMeal === 'lu' ? 'Lunch main' : 'Fruits & light', 'Optional', mainKey, draft.main, false, null, 'pBbMain');
+            html += segBlock('Soups', 'Optional', 'bbSoup', draft.soup, false, null, 'pBbSoup');
+            html += segBlock('Finger foods', 'Optional', 'bbFinger', draft.finger, false, null, 'pBbFinger');
+        } else {
+            html += segBlock(labels[editMeal], 'Soft, mashed or finger-food friendly', babyListKey(editMeal), draft.item, false, null, 'pBaby');
+        }
+        body.innerHTML = html;
+        updatePreview();
+        const bindBaby = (id, lk, sel, fn) => {
+            const box = document.getElementById(id)?.querySelector('.pills');
+            if (box) renderPills(box, vis(lk), sel, false, v => { fn(v); updatePreview(); });
+        };
+        if (babyMealUsesCombo(editMeal)) {
+            const mk = editMeal === 'lu' ? 'bbLu' : 'bbSn';
+            bindBaby('pBbMain', mk, draft.main, v => { draft.main = v; });
+            bindBaby('pBbSoup', 'bbSoup', draft.soup, v => { draft.soup = v; });
+            bindBaby('pBbFinger', 'bbFinger', draft.finger, v => { draft.finger = v; });
+        } else {
+            bindBaby('pBaby', babyListKey(editMeal), draft.item, v => { draft.item = v; });
+        }
+        return;
+    }
+
+    if (editMeal === 'bf') {
+        html += `<div class="bf-egg-block" id="pEggBlock"><h4>🥚 Egg (optional — pick style)</h4><div class="pills" id="pEggPills"></div></div>`;
+        html += `<div class="mode-tabs">
+            <button class="mode-tab ${draft.mode==='healthy'?'on':''}" data-m="healthy">Healthy & light</button>
+            <button class="mode-tab ${draft.mode==='single'?'on':''}" data-m="single">South Indian</button>
+            <button class="mode-tab ${draft.mode==='main'?'on':''}" data-m="main">Tiffin + sides</button>
+        </div>`;
+        if (draft.mode === 'healthy') {
+            html += segBlock('Healthy breakfast', 'Oats, cereal, smoothies…', 'bfHealthy', draft.healthy, false, null, 'pHealthy');
+        } else if (draft.mode === 'single') {
+            html += segBlock('Single item', 'Upma, poha, pongal…', 'bfSingle', draft.single, false, null, 'pSingle');
+        } else {
+            html += segBlock('Main dish', 'Idli, dosa, paniyaram…', 'bfMain', draft.main, false, null, 'pMain');
+            html += segBlock('Sides', 'Pick 1 or more', 'bfSide', draft.sides, true, null, 'pSides');
+        }
+    }
+
+    if (editMeal === 'lu') {
+        html += `<p class="hint" style="margin-bottom:.55rem">Pick anything from your lunch menu — e.g. lemon rice + poriyal + raita. All sections are optional.</p>`;
+        html += segBlock('Variety rice', 'Optional', 'luVariety', draft.variety, false, null, 'pVariety');
+        html += segBlock('Biryani & pulao', 'Optional', 'luBiryani', draft.biryani, false, null, 'pBiryani');
+        html += segBlock('Rice / roti', 'Pick one — adjust quantity below', 'luBase', draft.base, false, null, 'pBase');
+        html += segBlock('Curry', 'Sambar, kulambu, dal…', 'luCurry', draft.curry, false, null, 'pCurry');
+        html += segBlock('Poriyal / dry subzi', 'Optional — pick many', 'luPoriyal', draft.poriyals, true, null, 'pPoriyal');
+        html += segBlock('Sides', 'Raita, salad, pickle…', 'luSides', draft.sides, true, null, 'pLuSides');
+    }
+
+    if (editMeal === 'di') {
+        html += `<div class="mode-tabs">
+            <button class="mode-tab ${draft.mode==='single'?'on':''}" data-m="single">Indian light</button>
+            <button class="mode-tab ${draft.mode==='tiffin'?'on':''}" data-m="tiffin">Tiffin</button>
+            <button class="mode-tab ${draft.mode==='bread'?'on':''}" data-m="bread">Roti + gravy</button>
+            <button class="mode-tab ${draft.mode==='quick'?'on':''}" data-m="quick">Noodles / pasta / quick</button>
+        </div>`;
+        if (draft.mode === 'single') {
+            html += segBlock('Indian light dinner', 'One dish', 'diSingle', draft.single, false, null, 'pDiSingle');
+        } else if (draft.mode === 'tiffin') {
+            html += segBlock('Tiffin', 'Idli, dosa — adjust count below', 'diTiffin', draft.tiffin, false, null, 'pTiffin');
+            html += segBlock('Sides', 'Chutney, sambar…', 'diSide', draft.sides, true, null, 'pDiSides');
+        } else if (draft.mode === 'bread') {
+            html += segBlock('Bread', 'Pick one — adjust count below', 'diBread', draft.bread, false, null, 'pBread');
+            html += segBlock('Gravy', 'Dal, kurma, curry', 'diGravy', draft.gravy, false, null, 'pGravy');
+        } else {
+            html += segBlock('Instant noodles', 'Maggi, Yippee, hakka…', 'diNoodles', draft.quick, false, null, 'pNoodles');
+            html += segBlock('Pasta', 'Tomato, white sauce, macaroni…', 'diPasta', draft.quick, false, null, 'pPasta');
+            html += segBlock('Soups & quick meals', 'Sandwich, soup, bowl…', 'diLight', draft.quick, false, null, 'pLight');
+        }
+    }
+
+    body.innerHTML = html;
+    updatePreview();
+
+    body.querySelectorAll('.recent-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lk = btn.dataset.lk, id = btn.dataset.id;
+            const fieldMap = {
+                bfSingle: 'single', bfMain: 'main', bfHealthy: 'healthy',
+                luBase: 'base', luCurry: 'curry', luVariety: 'variety',
+                diSingle: 'single', diTiffin: 'tiffin', diBread: 'bread',
+            };
+            const modeMap = {
+                bfSingle: 'single', bfMain: 'main', bfHealthy: 'healthy',
+                diSingle: 'single', diTiffin: 'tiffin', diBread: 'bread',
+            };
+            if (modeMap[lk]) draft.mode = modeMap[lk];
+            const field = fieldMap[lk];
+            if (field) draft[field] = id;
+            renderPicker();
+        });
+    });
+
+    body.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const keepEgg = editMeal === 'bf' ? { eggStyle: draft.eggStyle, eggCount: draft.eggCount } : {};
+            draft = emptyDraft(editMeal);
+            draft.mode = tab.dataset.m;
+            if (editMeal === 'bf') Object.assign(draft, keepEgg);
+            renderPicker();
+        });
+    });
+
+    const bind = (id, listKey, sel, multi, fn) => {
+        const box = document.getElementById(id)?.querySelector('.pills');
+        if (box) renderPills(box, vis(listKey), sel, multi, v => { fn(v); updatePreview(); });
+    };
+
+    if (editMeal === 'bf') {
+        const eggBox = document.getElementById('pEggPills');
+        if (eggBox) {
+            const eggSel = draft.eggStyle || 'be0';
+            renderPills(eggBox, vis('bfEgg'), eggSel, false, v => {
+                draft.eggStyle = v || 'be0';
+                if (draft.eggStyle === 'be0') draft.eggCount = 0;
+                else if (!draft.eggCount) draft.eggCount = defaultEggCount();
+                renderEggQtyPanel();
+                updatePreview();
+            });
+        }
+        renderEggQtyPanel();
+        if (draft.mode === 'healthy') {
+            bind('pHealthy', 'bfHealthy', draft.healthy, false, v => { draft.healthy = v; updatePreview(); });
+        } else if (draft.mode === 'single') {
+            bind('pSingle', 'bfSingle', draft.single, false, v => { draft.single = v; updatePreview(); });
+        } else {
+            bind('pMain', 'bfMain', draft.main, false, v => { draft.main = v; updatePreview(); });
+            bind('pSides', 'bfSide', draft.sides, true, v => { draft.sides = v; updatePreview(); });
+        }
+    }
+    if (editMeal === 'lu') {
+        bind('pVariety', 'luVariety', draft.variety, false, v => { draft.variety = v; updatePreview(); });
+        bind('pBiryani', 'luBiryani', draft.biryani, false, v => { draft.biryani = v; updatePreview(); });
+        bind('pBase', 'luBase', draft.base, false, v => {
+            draft.base = v;
+            if (v) draft.qty.base = defaultQtyFor('luBase', v);
+            else delete draft.qty?.base;
+            renderFieldQtyPanel('pBase', 'base', 'luBase', draft.base);
+            updatePreview();
+        });
+        renderFieldQtyPanel('pBase', 'base', 'luBase', draft.base);
+        bind('pCurry', 'luCurry', draft.curry, false, v => { draft.curry = v; updatePreview(); });
+        bind('pPoriyal', 'luPoriyal', draft.poriyals, true, v => { draft.poriyals = v; updatePreview(); });
+        bind('pLuSides', 'luSides', draft.sides, true, v => { draft.sides = v; updatePreview(); });
+    }
+    if (editMeal === 'di') {
+        if (draft.mode === 'single') bind('pDiSingle', 'diSingle', draft.single, false, v => { draft.single = v; updatePreview(); });
+        else if (draft.mode === 'tiffin') {
+            bind('pTiffin', 'diTiffin', draft.tiffin, false, v => {
+                draft.tiffin = v;
+                if (v) draft.qty.tiffin = defaultQtyFor('diTiffin', v);
+                else delete draft.qty?.tiffin;
+                renderFieldQtyPanel('pTiffin', 'tiffin', 'diTiffin', draft.tiffin);
+                updatePreview();
+            });
+            renderFieldQtyPanel('pTiffin', 'tiffin', 'diTiffin', draft.tiffin);
+            bind('pDiSides', 'diSide', draft.sides, true, v => { draft.sides = v; updatePreview(); });
+        } else if (draft.mode === 'bread') {
+            bind('pBread', 'diBread', draft.bread, false, v => {
+                draft.bread = v;
+                if (v) draft.qty.bread = defaultQtyFor('diBread', v);
+                else delete draft.qty?.bread;
+                renderFieldQtyPanel('pBread', 'bread', 'diBread', draft.bread);
+                updatePreview();
+            });
+            renderFieldQtyPanel('pBread', 'bread', 'diBread', draft.bread);
+            bind('pGravy', 'diGravy', draft.gravy, false, v => { draft.gravy = v; updatePreview(); });
+        } else {
+            const setQuick = v => { draft.quick = v; updatePreview(); };
+            bind('pNoodles', 'diNoodles', draft.quick, false, setQuick);
+            bind('pPasta', 'diPasta', draft.quick, false, setQuick);
+            bind('pLight', 'diLight', draft.quick, false, setQuick);
+        }
+    }
+}
+
+function saveMeal() {
+    if (!editDay || !editMeal) return;
+    if (isBaby()) {
+        if (!babyHasSelection(draft)) { alert('Pick a dish for this meal.'); return; }
+        const text = buildBabyText(draft, editMeal);
+        const weeks = loadWeeks();
+        const k = weekKey();
+        if (!weeks[k]) weeks[k] = { days: {} };
+        if (!weeks[k].days[editDay]) weeks[k].days[editDay] = {};
+        const day = weeks[k].days[editDay];
+        day[mealTextKey(editMeal)] = text;
+        day[draftKey(editMeal)] = JSON.parse(JSON.stringify(draft));
+        saveWeeks(weeks);
+        closePicker();
+        renderWeekTable();
+        renderShoppingIfActive();
+        return;
+    }
+    if (editMeal === 'lu') draft = normalizeLuDraft(draft);
+    const text = editMeal === 'bf' ? buildBfText(draft) : editMeal === 'lu' ? buildLuText(draft) : buildDiText(draft);
+
+    if (editMeal === 'bf') {
+        if (!bfHasSelection(draft)) {
+            alert('Pick an egg style and/or a breakfast item (healthy, South Indian, or tiffin).');
+            return;
+        }
+        if (draft.mode === 'healthy' && !draft.healthy && (!draft.eggStyle || draft.eggStyle === 'be0')) {
+            alert('Pick a healthy item or an egg.'); return;
+        }
+        if (draft.mode === 'main' && draft.main && !draft.sides?.length) {
+            alert('Pick at least one side (chutney or sambar) for tiffin.'); return;
+        }
+        if (draft.mode === 'single' && !draft.single && (!draft.eggStyle || draft.eggStyle === 'be0')) {
+            alert('Pick a dish or an egg.'); return;
+        }
+        if (draft.mode === 'main' && !draft.main && (!draft.eggStyle || draft.eggStyle === 'be0')) {
+            alert('Pick tiffin or an egg.'); return;
+        }
+    }
+    if (editMeal === 'lu' && !lunchHasSelection(draft)) {
+        alert('Pick at least one lunch item (variety rice, biryani, rice/roti, curry, poriyal, or sides).');
+        return;
+    }
+    if (editMeal === 'di') {
+        if (draft.mode === 'single' && !draft.single) { alert('Pick a dinner item.'); return; }
+        if (draft.mode === 'tiffin' && !draft.tiffin) { alert('Pick tiffin main.'); return; }
+        if (draft.mode === 'bread' && (!draft.bread || !draft.gravy)) { alert('Pick roti and gravy.'); return; }
+        if (draft.mode === 'quick' && !draft.quick) { alert('Pick one noodles / pasta / quick meal.'); return; }
+    }
+
+    // Record recently used
+    const recLk = { bf: { single:'bfSingle', main:'bfMain', healthy:'bfHealthy' }, lu: { base:'luBase', curry:'luCurry', variety:'luVariety' }, di: { single:'diSingle', tiffin:'diTiffin', bread:'diBread' } }[editMeal] || {};
+    Object.entries(recLk).forEach(([mode, lk]) => { if (draft[mode]) recordRecentDish(lk, draft[mode]); });
+
+    const weeks = loadWeeks();
+    const k = weekKey();
+    if (!weeks[k]) weeks[k] = { days: {} };
+    if (!weeks[k].days[editDay]) weeks[k].days[editDay] = {};
+    const day = weeks[k].days[editDay];
+    const draftKey = editMeal === 'bf' ? 'bfDraft' : editMeal === 'lu' ? 'luDraft' : 'diDraft';
+    day[editMeal === 'bf' ? 'breakfast' : editMeal === 'lu' ? 'lunch' : 'dinner'] = text;
+    day[draftKey] = JSON.parse(JSON.stringify(draft));
+    saveWeeks(weeks);
+    closePicker();
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+function clearMeal() {
+    if (!editDay || !editMeal) return;
+    const weeks = loadWeeks();
+    const day = weeks[weekKey()]?.days[editDay];
+    if (day) {
+        delete day[mealTextKey(editMeal)];
+        delete day[draftKey(editMeal)];
+        saveWeeks(weeks);
+    }
+    closePicker();
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+function exportExcel() {
+    const week = getWeek();
+    if (isChildPlanner()) {
+        const child = activeChild();
+        if (!DAYS.some(d => { const x = week.days[d]||{}; return x.breakfast||x.lunch||x.snack||x.dinner; })) {
+            alert('No meals planned for this child yet.'); return;
+        }
+        const label = child?.name || 'Child';
+        const age = child ? childAgeShort(child.ageMonths) : '';
+        const rows = [
+            [`${label} — Weekly Menu (${age})`], [],
+            ['Week starting', fmtLong(weekKey())], [],
+            ['Day', 'Date', 'Breakfast', 'Lunch', 'Evening snack', 'Dinner'],
+        ];
+        DAYS.forEach((day, i) => {
+            const d = week.days[day] || {};
+            rows.push([day, fmtShort(dateFor(i)), d.breakfast||'—', d.lunch||'—', d.snack||'—', d.dinner||'—']);
+        });
+        rows.push([], ['Note', 'Textures matched to age · no whole nuts · ask paediatrician for new foods']);
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        ws['!cols'] = [{wch:10},{wch:12},{wch:36},{wch:36},{wch:28},{wch:36}];
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, label.slice(0, 20));
+        XLSX.writeFile(wb, `${label.replace(/\s+/g,'_')}_Menu_${weekKey()}.xlsx`);
+        return;
+    }
+    if (!DAYS.some(d => week.days[d]?.breakfast || week.days[d]?.lunch || week.days[d]?.dinner)) {
+        alert('No meals planned yet.'); return;
+    }
+    const rows = [
+        ['Family Weekly Menu — Indian'], [],
+        ['Week starting', fmtLong(weekKey())], [],
+        ['Day', 'Date', 'Breakfast', 'Lunch', 'Dinner'],
+    ];
+    DAYS.forEach((day, i) => {
+        const d = week.days[day] || {};
+        rows.push([day, fmtShort(dateFor(i)), d.breakfast || '—', d.lunch || '—', d.dinner || '—']);
+    });
+    rows.push([], ['Note', 'Adults: 2 boiled eggs at breakfast']);
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [{wch:10},{wch:12},{wch:42},{wch:42},{wch:36}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Week');
+    XLSX.writeFile(wb, `Family_Menu_${weekKey()}.xlsx`);
+}
+
+function renderHiddenBlock() {
+    const h = loadHidden();
+    const tags = [];
+    allSegments().forEach(seg => {
+        (h[seg.listKey] || []).forEach(id => {
+            const it = lookup(seg.listKey, seg.items, id);
+            if (it) tags.push({ listKey: seg.listKey, it });
+        });
+    });
+    const el = document.getElementById('hiddenBlock');
+    if (!tags.length) { el.innerHTML = ''; return; }
+    el.innerHTML = `<div class="hidden-block"><h4>Hidden (${tags.length}) — tap ↩ to restore</h4>
+        <div class="tags">${tags.map(({ listKey, it }) =>
+            `<span class="tag restore ${it.nonveg?'nv':''}">${it.name}
+                <button type="button" class="rm" data-list="${listKey}" data-id="${it.id}">↩</button></span>`
+        ).join('')}</div></div>`;
+    el.querySelectorAll('.rm').forEach(btn => btn.addEventListener('click', () => {
+        restoreItem(btn.dataset.list, btn.dataset.id);
+        renderHiddenBlock();
+        renderMenuCatalog();
+    }));
+}
+
+function renderDietBar() {
+    const el = document.getElementById('dietBar');
+    if (!el || isBaby()) { if (el) el.style.display = 'none'; return; }
+    el.style.display = '';
+    const prefs = getProfile().dietPrefs || DEFAULT_DIET_PREFS;
+    const chips = prefs.map(id => {
+        const o = DIET_OPTS.find(x => x.id === id);
+        return o ? `<span class="diet-chip">${o.icon} ${o.label}</span>` : '';
+    }).join('');
+    el.innerHTML = `<span class="lbl">Showing menus for:</span>${chips}
+        <button type="button" class="diet-setup-link" id="dietChangeBtn">Change in ⚙️ settings</button>`;
+    document.getElementById('dietChangeBtn')?.addEventListener('click', () => openSetup(true));
+}
+
+function renderMenuCatalog() {
+    const q = (document.getElementById('menuSearch').value || '').toLowerCase();
+    renderHiddenBlock();
+    renderDietBar();
+
+    // Build a set of dish IDs planned this week (for badges)
+    const plannedIds = new Set(collectWeekPlanItems().map(p => p.id).filter(Boolean));
+
+    let html = '';
+    Object.keys(activeMenu()).forEach(mealKey => {
+        const m = activeMenu()[mealKey];
+        let card = '';
+        m.segments.forEach(seg => {
+            if (!seg.listKey) return;
+            const pool = mergedItems(seg.listKey, seg.items);
+            const items = (q ? pool.filter(i => i.name.toLowerCase().includes(q)) : pool)
+                .filter(i => !isHidden(seg.listKey, i.id))
+                .filter(i => matchesDiet(i, seg.listKey));
+            const addBtn = `<button type="button" class="btn-add" data-add="${seg.listKey}">+ Add</button>`;
+            const open = seg.collapsed && !q ? '' : ' open';
+            card += `<details class="seg-details ${seg.cls}"${open}>`;
+            card += `<summary>${seg.label}</summary>`;
+            card += `<div class="seg-inner"><div class="seg-head" style="margin-bottom:.35rem"><span></span>${addBtn}</div>`;
+            if (seg.hint) card += `<p class="hint" style="margin:0 0 .35rem">${seg.hint}</p>`;
+            if (!items.length) {
+                card += `<p class="hint">Hidden by diet filter or search — change ⚙️ preferences</p></div></details>`;
+                return;
+            }
+            card += `<div class="tags">${items.map(i => {
+                const rm = `<button type="button" class="rm" data-list="${seg.listKey}" data-id="${i.id}" data-custom="${i.custom?'1':'0'}">×</button>`;
+                const planned = plannedIds.has(i.id) ? `<span class="tag-planned">✓ this week</span>` : '';
+                const ingEdit = i.id ? `<button type="button" class="tag-ing-edit" data-ing-id="${i.id}" data-ing-name="${i.name}" title="Add/view ingredients for this dish">🧂</button>` : '';
+                return `<span class="tag ${i.nonveg?'nv':''} ${i.custom?'custom':''}">${i.name}${planned}${ingEdit}${rm}</span>`;
+            }).join('')}</div></div></details>`;
+        });
+        if (card) html += `<div class="meal-card"><h2>${m.title}</h2>${card}</div>`;
+    });
+    document.getElementById('menuCatalog').innerHTML = html || '<p class="hint">No matches.</p>';
+    document.getElementById('menuCatalog').querySelectorAll('.rm').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const { list, id, custom } = btn.dataset;
+            if (custom === '1') {
+                if (!confirm('Remove this custom dish from your menu?')) return;
+                removeCustomItem(list, id);
+            } else {
+                hideItem(list, id);
+            }
+            renderHiddenBlock();
+            renderMenuCatalog();
+            if (document.getElementById('overlay').classList.contains('open')) renderPicker();
+        });
+    });
+    document.getElementById('menuCatalog').querySelectorAll('.btn-add').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            openAddModal(btn.dataset.add);
+        });
+    });
+    document.getElementById('menuCatalog').querySelectorAll('.tag-ing-edit').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            openIngredientEditor(btn.dataset.ingId, btn.dataset.ingName);
+        });
+    });
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'menu') renderMenuCatalog();
+        if (btn.dataset.tab === 'shop') renderShopping();
+    });
+});
+
+document.getElementById('prevWeek').addEventListener('click', () => { weekMonday = addDays(weekMonday, -7); renderWeekTable(); renderShoppingIfActive(); });
+document.getElementById('nextWeek').addEventListener('click', () => { weekMonday = addDays(weekMonday, 7); renderWeekTable(); renderShoppingIfActive(); });
+document.getElementById('exportShopBtn').addEventListener('click', exportShoppingExcel);
+document.getElementById('shuffleBtn').addEventListener('click', shuffleWeek);
+document.getElementById('exportBtn').addEventListener('click', exportExcel);
+document.getElementById('modalClose').addEventListener('click', closePicker);
+document.getElementById('cancelMealBtn').addEventListener('click', closePicker);
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closePicker(); });
+document.getElementById('saveMealBtn').addEventListener('click', saveMeal);
+document.getElementById('clearMealBtn').addEventListener('click', clearMeal);
+document.getElementById('ingModalClose').addEventListener('click', closeIngredientEditor);
+document.getElementById('ingModalDone').addEventListener('click', closeIngredientEditor);
+document.getElementById('ingOverlay').addEventListener('click', e => { if (e.target.id === 'ingOverlay') closeIngredientEditor(); });
+document.getElementById('pantryNudgeBtn')?.addEventListener('click', () => {
+    initPantryFromStaples();
+    document.querySelector('.shop-view-tab[data-shopview="pantry"]')?.click();
+});
+document.getElementById('menuSearch').addEventListener('input', renderMenuCatalog);
+document.getElementById('addModalClose').addEventListener('click', closeAddModal);
+document.getElementById('addItemCancel').addEventListener('click', closeAddModal);
+document.getElementById('addItemSave').addEventListener('click', submitAddItem);
+document.getElementById('addOverlay').addEventListener('click', e => { if (e.target.id === 'addOverlay') closeAddModal(); });
+document.getElementById('addItemName').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitAddItem();
+});
+
+const GROCERY_RULES = [
+    { re: /khichdi|khichdi|pongal/i, items: ['Rice', 'Toor dal or moong dal', 'Mixed vegetables', 'Ghee', 'Turmeric', 'Cumin', 'Ginger'] },
+    { re: /idli|dosa|uttapam|paniyaram/i, items: ['Idli/dosa batter (or rice + urad dal)', 'Oil', 'Mustard seeds', 'Curry leaves'] },
+    { re: /sambar|kulambu|rasam/i, items: ['Toor dal', 'Tamarind', 'Sambar powder', 'Vegetables (drumstick, onion, tomato)', 'Mustard', 'Curry leaves'] },
+    { re: /poriyal|poriyal|thoran|stir.?fry/i, items: ['Vegetable (beans, carrot, cabbage)', 'Coconut', 'Mustard', 'Curry leaves', 'Oil'] },
+    { re: /chapati|roti|paratha|poori/i, items: ['Wheat flour (atta)', 'Oil or ghee', 'Salt'] },
+    { re: /biryani|pulao|fried rice|variety rice|lemon rice|tomato rice|coconut rice/i, items: ['Basmati or sona rice', 'Onion', 'Tomato', 'Ginger-garlic', 'Spices (bay leaf, clove, cinnamon)', 'Oil/ghee'] },
+    { re: /curd|yogurt|raita/i, items: ['Curd (yogurt)', 'Cucumber or onion', 'Salt', 'Coriander'] },
+    { re: /porridge|malt|java/i, items: ['Ragi or wheat flour', 'Water or milk', 'Jaggery (optional)', 'Ghee'] },
+    { re: /pasta|noodle|maggi/i, items: ['Pasta or noodles', 'Vegetables', 'Cheese or butter (optional)', 'Tomato sauce'] },
+    { re: /soup/i, items: ['Vegetables', 'Water/stock', 'Pepper', 'Salt', 'Butter or ghee'] },
+    { re: /egg|omelette|bhurji/i, items: ['Eggs', 'Pepper', 'Salt', 'Butter or oil', 'Onion (optional)'] },
+    { re: /oats|muesli|cornflakes|kellogg/i, items: ['Oats or cereal', 'Milk', 'Banana', 'Honey (optional)'] },
+    { re: /paneer/i, items: ['Paneer', 'Onion', 'Tomato', 'Capsicum', 'Spices', 'Oil'] },
+    { re: /fish|chicken|meat/i, items: ['Chicken or fish', 'Onion', 'Tomato', 'Ginger-garlic', 'Turmeric', 'Chilli powder'] },
+    { re: /upma|poha|semiya/i, items: ['Rava or poha or semiya', 'Onion', 'Mustard', 'Curry leaves', 'Green chilli', 'Oil'] },
+    { re: /pickle|papad/i, items: ['Pickle or papad (store-bought)'] },
+];
+
+const GROCERY_BY_ID = {
+    bbf1: ['Ragi flour', 'Water or milk', 'Ghee', 'Jaggery optional'],
+    bbl1: ['Rice', 'Moong dal', 'Vegetables', 'Ghee', 'Turmeric'],
+    bbs1: ['Banana'],
+    bbs7: ['Curd', 'Optional fruit'],
+};
+INGREDIENT_DB.dishes = { ...GROCERY_BY_ID };
+INGREDIENT_DB.staples = [
+    'Rice', 'Toor dal', 'Moong dal', 'Wheat flour (atta)', 'Ragi flour', 'Oil', 'Ghee',
+    'Onion', 'Tomato', 'Potato', 'Curd', 'Milk', 'Eggs', 'Tamarind', 'Sambar powder',
+    'Mustard seeds', 'Curry leaves', 'Coconut', 'Salt', 'Sugar', 'Oats', 'Poha', 'Rava',
+];
+
+function groceriesForDish(dishName, id) {
+    if (id && GROCERY_BY_ID[id]) return [...GROCERY_BY_ID[id]];
+    const n = (dishName || '').toLowerCase();
+    for (const r of GROCERY_RULES) {
+        if (r.re.test(n)) return [...r.items];
+    }
+    if (/rice/i.test(n)) return ['Rice', 'Spices', 'Oil', 'Vegetables'];
+    if (/dal/i.test(n)) return ['Dal', 'Turmeric', 'Ghee', 'Onion', 'Tomato'];
+    return ['Ingredients for: ' + dishName, 'Vegetables as needed', 'Spices', 'Oil/ghee'];
+}
+
+function normGroceryItem(s) {
+    return s.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function loadShopChecks() {
+    try { return JSON.parse(localStorage.getItem(SHOP_CHECKS_KEY)) || {}; } catch { return {}; }
+}
+function saveShopChecks(c) { localStorage.setItem(SHOP_CHECKS_KEY, JSON.stringify(c)); }
+
+function loadPantry() {
+    try { return JSON.parse(localStorage.getItem(INVENTORY_KEY)) || { items: {} }; } catch { return { items: {} }; }
+}
+function savePantry(p) { localStorage.setItem(INVENTORY_KEY, JSON.stringify(p)); }
+
+function pantryHas(name) {
+    const k = normGroceryItem(name);
+    const it = loadPantry().items[k];
+    return !!(it && it.inStock !== false);
+}
+
+function initPantryFromStaples() {
+    const p = { items: {} };
+    const staples = INGREDIENT_DB.staples || [];
+    staples.forEach(name => {
+        const k = normGroceryItem(name);
+        p.items[k] = { name, inStock: true };
+    });
+    savePantry(p);
+}
+
+async function loadIngredientDb() {
+    const base = { dishes: { ...GROCERY_BY_ID, ...INGREDIENT_DB.dishes }, staples: INGREDIENT_DB.staples || [] };
+    try {
+        const r = await fetch('ingredients.json');
+        if (r.ok) {
+            const data = await r.json();
+            INGREDIENT_DB = {
+                dishes: { ...base.dishes, ...(data.dishes || {}) },
+                staples: data.staples || base.staples,
+            };
+            return;
+        }
+    } catch { /* file:// or offline */ }
+    INGREDIENT_DB = base;
+}
+
+function lookupName(listKey, id) {
+    return lookup(listKey, id)?.name || id;
+}
+
+function pushPlanItem(out, day, who, meal, id, listKey, label) {
+    if (!id) return;
+    out.push({
+        day, who, meal: label || meal,
+        id, listKey,
+        name: lookupName(listKey, id),
+    });
+}
+
+function itemsFromBfDraft(d) {
+    const out = [];
+    if (!d) return out;
+    if (d.eggStyle && d.eggStyle !== 'be0') {
+        out.push({ id: d.eggStyle, listKey: 'bfEgg', name: lookupName('bfEgg', d.eggStyle) });
+    }
+    if (d.mode === 'healthy' && d.healthy) {
+        out.push({ id: d.healthy, listKey: 'bfHealthy' });
+    }
+    if (d.mode === 'single' && d.single) {
+        out.push({ id: d.single, listKey: 'bfSingle' });
+    }
+    if (d.mode === 'main') {
+        if (d.main) out.push({ id: d.main, listKey: 'bfMain' });
+        (d.sides || []).forEach(id => out.push({ id, listKey: 'bfSide' }));
+    }
+    return out.map(x => ({ ...x, name: x.name || lookupName(x.listKey, x.id) }));
+}
+
+function itemsFromLuDraft(d) {
+    const out = [];
+    if (!d) return out;
+    if (d.variety) out.push({ id: d.variety, listKey: 'luVariety' });
+    if (d.biryani) out.push({ id: d.biryani, listKey: 'luBiryani' });
+    if (d.base) out.push({ id: d.base, listKey: 'luBase', qty: d.qty?.base });
+    if (d.curry) out.push({ id: d.curry, listKey: 'luCurry' });
+    (d.poriyals || []).forEach(id => out.push({ id, listKey: 'luPoriyal' }));
+    (d.sides || []).forEach(id => out.push({ id, listKey: 'luSides' }));
+    return out.map(x => {
+        let name = lookupName(x.listKey, x.id);
+        if (x.listKey === 'luBase' && x.qty != null) {
+            name = formatWithQty(name, x.qty, qtyTypeForItem('luBase', x.id));
+        }
+        return { ...x, name };
+    });
+}
+
+function itemsFromDiDraft(d) {
+    const out = [];
+    if (!d) return out;
+    if (d.mode === 'single' && d.single) out.push({ id: d.single, listKey: 'diSingle' });
+    if (d.mode === 'tiffin' && d.tiffin) {
+        out.push({ id: d.tiffin, listKey: 'diTiffin', qty: d.qty?.tiffin });
+        (d.sides || []).forEach(id => out.push({ id, listKey: 'diSide' }));
+    }
+    if (d.mode === 'bread') {
+        if (d.bread) out.push({ id: d.bread, listKey: 'diBread', qty: d.qty?.bread });
+        if (d.gravy) out.push({ id: d.gravy, listKey: 'diGravy' });
+    }
+    if (d.mode === 'quick' && d.quick) {
+        const lk = lookup('diNoodles', d.quick) ? 'diNoodles'
+            : lookup('diPasta', d.quick) ? 'diPasta' : 'diLight';
+        out.push({ id: d.quick, listKey: lk });
+    }
+    return out.map(x => {
+        let name = lookupName(x.listKey, x.id);
+        if (x.qty != null && x.listKey === 'luBase') { /* noop */ }
+        if (x.qty != null && (x.listKey === 'diBread' || x.listKey === 'diTiffin')) {
+            name = formatWithQty(lookupName(x.listKey, x.id), x.qty, qtyTypeForItem(x.listKey, x.id));
+        }
+        return { ...x, name };
+    });
+}
+
+function itemsFromBabyDraft(d, meal) {
+    const out = [];
+    if (!d) return out;
+    if (babyMealUsesCombo(meal)) {
+        const mk = meal === 'lu' ? 'bbLu' : 'bbSn';
+        if (d.main) out.push({ id: d.main, listKey: mk });
+        if (d.soup) out.push({ id: d.soup, listKey: 'bbSoup' });
+        if (d.finger) out.push({ id: d.finger, listKey: 'bbFinger' });
+    } else if (d.item) {
+        const lk = babyListKey(meal);
+        out.push({ id: d.item, listKey: lk });
+    }
+    return out.map(x => ({ ...x, name: lookupName(x.listKey, x.id) }));
+}
+
+function collectWeekPlanItems() {
+    const k = weekKey();
+    const out = [];
+    const mealLabels = { bf: 'Breakfast', lu: 'Lunch', sn: 'Snack', di: 'Dinner' };
+
+    const addFromRow = (day, who, row, isChild) => {
+        if (!row) return;
+        if (isChild) {
+            ['bf', 'lu', 'sn', 'di'].forEach(m => {
+                const dr = row[draftKey(m)];
+                if (dr) {
+                    itemsFromBabyDraft(dr, m).forEach(it => {
+                        out.push({ day, who, meal: mealLabels[m], mealKey: m, id: it.id, name: it.name, listKey: it.listKey });
+                    });
+                } else {
+                    const text = row[mealTextKey(m)];
+                    if (text) splitDishText(text).forEach(name => {
+                        out.push({ day, who, meal: mealLabels[m], mealKey: m, id: null, name, listKey: null });
+                    });
+                }
+            });
+            return;
+        }
+        if (row.bfDraft) {
+            itemsFromBfDraft(row.bfDraft).forEach(it => out.push({ day, who, meal: 'Breakfast', mealKey: 'bf', ...it }));
+        } else if (row.breakfast) {
+            splitDishText(row.breakfast).forEach(name => out.push({ day, who, meal: 'Breakfast', mealKey: 'bf', id: null, name, listKey: null }));
+        }
+        if (row.luDraft) {
+            itemsFromLuDraft(row.luDraft).forEach(it => out.push({ day, who, meal: 'Lunch', mealKey: 'lu', ...it }));
+        } else if (row.lunch) {
+            splitDishText(row.lunch).forEach(name => out.push({ day, who, meal: 'Lunch', mealKey: 'lu', id: null, name, listKey: null }));
+        }
+        if (row.diDraft) {
+            itemsFromDiDraft(row.diDraft).forEach(it => out.push({ day, who, meal: 'Dinner', mealKey: 'di', ...it }));
+        } else if (row.dinner) {
+            splitDishText(row.dinner).forEach(name => out.push({ day, who, meal: 'Dinner', mealKey: 'di', id: null, name, listKey: null }));
+        }
+    };
+
+    const adultW = loadWeeksFor('adult')[k]?.days || {};
+    DAYS.forEach(day => addFromRow(day, 'Adults', adultW[day], false));
+    getChildren().forEach(child => {
+        const cw = loadWeeksFor(child.id)[k]?.days || {};
+        const who = child.name?.trim() || 'Child';
+        DAYS.forEach(day => addFromRow(day, who, cw[day], true));
+    });
+    return out;
+}
+
+function loadUserIngredients() {
+    try { return JSON.parse(localStorage.getItem(USER_INGREDIENTS_KEY)) || {}; } catch { return {}; }
+}
+function saveUserIngredients(db) { localStorage.setItem(USER_INGREDIENTS_KEY, JSON.stringify(db)); }
+function userIngredientsFor(dishId) {
+    return dishId ? (loadUserIngredients()[dishId] || []) : [];
+}
+function addUserIngredient(dishId, name) {
+    const n = name.trim();
+    if (!n || !dishId) return;
+    const db = loadUserIngredients();
+    const list = db[dishId] = db[dishId] || [];
+    const key = normGroceryItem(n);
+    if (!list.some((x) => normGroceryItem(x) === key)) list.push(n);
+    saveUserIngredients(db);
+}
+
+function openIngredientEditor(dishId, dishName) {
+    document.getElementById('ingModalTitle').textContent = `🧂 ${dishName}`;
+    renderIngredientEditorBody(dishId, dishName);
+    document.getElementById('ingOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function renderIngredientEditorBody(dishId, dishName) {
+    const builtIn = (INGREDIENT_DB.dishes[dishId] || []);
+    const userAdded = userIngredientsFor(dishId);
+    const ruleMatch = groceriesForDish(dishName, dishId);
+    const allBase = builtIn.length ? builtIn : ruleMatch;
+    let html = '';
+    if (allBase.length) {
+        html += `<p class="hint" style="margin-bottom:.45rem"><strong>Built-in ingredients</strong> (from ingredients.json or auto-detected)</p>`;
+        html += `<div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.75rem">${allBase.map(i =>
+            `<span class="tag">${i}</span>`).join('')}</div>`;
+    } else {
+        html += `<p class="hint" style="margin-bottom:.5rem">No built-in ingredients yet for this dish.</p>`;
+    }
+    html += `<p class="hint" style="margin-bottom:.35rem"><strong>Your additions</strong> — saved on this device</p>`;
+    if (userAdded.length) {
+        html += `<div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.6rem" id="ingUserTags">${userAdded.map((name, idx) =>
+            `<span class="tag custom">${name}<button type="button" class="rm" data-ing-del="${idx}">×</button></span>`
+        ).join('')}</div>`;
+    } else {
+        html += `<p style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem" id="ingUserTags">None added yet</p>`;
+    }
+    html += `<div class="shop-add-ing" style="margin-top:.25rem">
+        <input type="text" id="ingNewItem" placeholder="e.g. Curry leaves" autocomplete="off">
+        <button type="button" class="btn btn-p" id="ingAddBtn">+ Add</button>
+    </div>`;
+    const body = document.getElementById('ingModalBody');
+    body.innerHTML = html;
+    body.dataset.dishId = dishId;
+    body.dataset.dishName = dishName;
+    body.querySelectorAll('[data-ing-del]').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const idx = parseInt(btn.dataset.ingDel, 10);
+            const db = loadUserIngredients();
+            if (db[dishId]) db[dishId].splice(idx, 1);
+            saveUserIngredients(db);
+            renderIngredientEditorBody(dishId, dishName);
+        });
+    });
+    const go = () => {
+        const v = document.getElementById('ingNewItem').value;
+        if (!v.trim()) return;
+        addUserIngredient(dishId, v);
+        renderIngredientEditorBody(dishId, dishName);
+    };
+    document.getElementById('ingAddBtn').addEventListener('click', go);
+    document.getElementById('ingNewItem').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); go(); }
+    });
+}
+
+function closeIngredientEditor() {
+    document.getElementById('ingOverlay').style.display = '';
+    document.body.style.overflow = '';
+}
+
+function updatePantryNudge() {
+    const nudge = document.getElementById('pantryNudge');
+    if (!nudge) return;
+    const pantry = loadPantry();
+    const hasSetup = Object.values(pantry.items || {}).some(i => i.inStock);
+    nudge.style.display = hasSetup ? 'none' : '';
+}
+
+function ingredientsForPlanItem(item) {
+    const seen = new Set();
+    const out = [];
+    const add = (ing) => {
+        const k = normGroceryItem(ing);
+        if (seen.has(k)) return;
+        seen.add(k);
+        out.push(ing);
+    };
+    if (item.id) {
+        userIngredientsFor(item.id).forEach(add);
+        if (INGREDIENT_DB.dishes[item.id]) {
+            INGREDIENT_DB.dishes[item.id].forEach(add);
+            return out;
+        }
+    }
+    groceriesForDish(item.name, item.id).forEach(add);
+    return out;
+}
+
+function daysForShopTrip() {
+    const isThisWeek = weekKey() === isoDate(getMonday(new Date()));
+    if (shopTrip === 'next3' && isThisWeek) {
+        const idx = DAYS.indexOf(dayName(new Date()));
+        if (idx < 0) return DAYS.slice(0, 3);
+        return DAYS.slice(idx, Math.min(idx + 3, 7));
+    }
+    if (shopTrip === '0') return TRIP_CHUNKS[0];
+    if (shopTrip === '1') return TRIP_CHUNKS[1];
+    if (shopTrip === '2') return TRIP_CHUNKS[2];
+    return [...DAYS];
+}
+
+function aggregateIngredients(planItems) {
+    const map = new Map();
+    planItems.forEach(pi => {
+        ingredientsForPlanItem(pi).forEach(ing => {
+            const key = normGroceryItem(ing);
+            if (!map.has(key)) {
+                map.set(key, { key, name: ing, dishes: new Set(), meals: new Set(), atHome: pantryHas(ing) });
+            }
+            const e = map.get(key);
+            e.dishes.add(pi.name);
+            e.meals.add(`${pi.day} · ${pi.who} · ${pi.meal}`);
+            e.atHome = pantryHas(ing);
+        });
+    });
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function deductPantryForDay(day) {
+    const items = collectWeekPlanItems().filter(p => p.day === day);
+    const pantry = loadPantry();
+    let n = 0;
+    items.forEach(pi => {
+        ingredientsForPlanItem(pi).forEach(ing => {
+            const k = normGroceryItem(ing);
+            if (pantry.items[k]) {
+                pantry.items[k].inStock = false;
+                n++;
+            } else {
+                pantry.items[k] = { name: ing, inStock: false };
+                n++;
+            }
+        });
+    });
+    savePantry(pantry);
+    return n;
+}
+
+function shopIngKey(ingredientName) {
+    return normGroceryItem(ingredientName);
+}
+
+function toggleShopCheck(key) {
+    const checks = loadShopChecks();
+    const wk = weekKey();
+    if (!checks[wk]) checks[wk] = {};
+    checks[wk][key] = !checks[wk][key];
+    saveShopChecks(checks);
+}
+
+function isShopChecked(key) {
+    return !!(loadShopChecks()[weekKey()] || {})[key];
+}
+
+function rebuildPlannerSwitch() {
+    const sw = document.getElementById('plannerSwitch');
+    const children = getChildren();
+    const adultOn = planner === 'adult';
+    let html = `<button type="button" class="planner-opt ${adultOn ? 'active' : ''}" data-person="adult" role="tab" aria-selected="${adultOn}">Adults</button>`;
+    children.forEach((c, i) => {
+        const pid = childPlannerId(c.id);
+        const on = planner === pid;
+        const label = (c.name?.trim() || `Child ${i + 1}`) + ' · ' + childAgeShort(c.ageMonths);
+        html += `<button type="button" class="planner-opt ${on ? 'active' : ''}" data-person="${pid}" role="tab" aria-selected="${on}">${label}</button>`;
+    });
+    sw.innerHTML = html;
+    sw.style.display = '';
+    sw.querySelectorAll('.planner-opt').forEach(btn => {
+        btn.addEventListener('click', () => setPlanner(btn.dataset.person));
+    });
+    if (!children.length && isChildPlanner()) setPlanner('adult');
+}
+
+function applyProfileUI() {
+    const p = getProfile();
+    migrateLegacyBabyData();
+    const title = familyMenuTitle(p.plannerName);
+    document.getElementById('appTitle').textContent = title;
+    document.title = title;
+    const foot = document.getElementById('appFoot');
+    if (foot) foot.textContent = `${title} · Plans stay on your device`;
+    rebuildPlannerSwitch();
+    const children = getChildren();
+    const who = p.plannerName?.trim() || 'You';
+    const childPart = children.length
+        ? ` · ${children.length} child${children.length > 1 ? 'ren' : ''}`
+        : '';
+    document.getElementById('familyBadge').textContent =
+        `${p.adults} adult${p.adults > 1 ? 's' : ''}${childPart}`;
+    document.getElementById('hintAdult').innerHTML =
+        `<strong>🎲 Shuffle week</strong> or <strong>🎲 on a day row</strong> for that day only · Tap cells to edit · Switch tab per child`;
+    const childSummary = children.map(c => `${c.name || 'Child'} (${childAgeShort(c.ageMonths)})`).join(', ');
+    document.getElementById('headerSub').textContent = children.length
+        ? `${who} · ${p.adults} adults + ${childSummary}`
+        : `${who} · meal plan for ${p.adults} adult${p.adults > 1 ? 's' : ''}`;
+    const strip = document.getElementById('kitchenStripText');
+    if (strip) {
+        const greet = p.plannerName?.trim() ? `Hi ${p.plannerName.trim()}!` : 'Welcome!';
+        strip.innerHTML = children.length
+            ? `<strong>${greet}</strong> ${p.adults} adults + ${children.length} child menu${children.length > 1 ? 's' : ''} — use tabs above to plan each.`
+            : `<strong>${greet}</strong> South Indian + healthy breakfasts. Tap a day or shuffle the week.`;
+    }
+    renderDietBar();
+}
+
+function renderSetupDietPrefs() {
+    const el = document.getElementById('setupDietPrefs');
+    if (!el) return;
+    const selected = new Set(getProfile().dietPrefs || DEFAULT_DIET_PREFS);
+    const cuisineOpts = DIET_OPTS.filter(o => o.group === 'cuisine');
+    const nutritionOpts = DIET_OPTS.filter(o => o.group === 'nutrition');
+    el.innerHTML = `
+        <p class="hint" style="margin:0 0 .4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Cuisine style</p>
+        ${cuisineOpts.map(o => `<button type="button" class="setup-pref ${selected.has(o.id)?'on':''}" data-diet="${o.id}">${o.icon} ${o.label}</button>`).join('')}
+        <p class="hint" style="margin:.65rem 0 .4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Nutrition & style</p>
+        ${nutritionOpts.map(o => `<button type="button" class="setup-pref ${selected.has(o.id)?'on':''}" data-diet="${o.id}">${o.icon} ${o.label}</button>`).join('')}
+    `;
+    el.querySelectorAll('.setup-pref').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('on');
+        });
+    });
+}
+
+function readSetupDietPrefs() {
+    const on = [...document.querySelectorAll('#setupDietPrefs .setup-pref.on')].map(b => b.dataset.diet);
+    return on.length ? on : [...DEFAULT_DIET_PREFS];
+}
+
+function renderSetupChildrenList() {
+    const n = Math.max(0, Math.min(6, parseInt(document.getElementById('setupChildCount').value, 10) || 0));
+    const existing = getProfile().children || [];
+    const list = document.getElementById('setupChildrenList');
+    if (!n) {
+        list.innerHTML = '<p class="hint">No child menus — adults only.</p>';
+        return;
+    }
+    list.innerHTML = Array.from({ length: n }, (_, i) => {
+        const c = existing[i] || {};
+        const age = c.ageMonths || 11;
+        const name = (c.name || '').replace(/"/g, '&quot;');
+        const opts = CHILD_AGE_OPTS.map(o =>
+            `<option value="${o.value}"${o.value === age ? ' selected' : ''}>${o.label}</option>`
+        ).join('');
+        return `<div class="child-row" data-i="${i}">
+            <input type="text" class="child-name" placeholder="Child ${i + 1} name" value="${name}" maxlength="24">
+            <select class="child-age">${opts}</select>
+        </div>`;
+    }).join('');
+}
+
+function readSetupChildren() {
+    const rows = [...document.querySelectorAll('#setupChildrenList .child-row')];
+    const existing = getProfile().children || [];
+    return rows.map((row, i) => {
+        const ageMonths = parseInt(row.querySelector('.child-age').value, 10) || 0;
+        const name = row.querySelector('.child-name').value.trim() || `Child ${i + 1}`;
+        const id = existing[i]?.id || ('c' + (i + 1) + '_' + Date.now().toString(36).slice(2, 8));
+        return { id, name, ageMonths };
+    }).filter(c => c.ageMonths >= 6);
+}
+
+function openSetup(force) {
+    const p = getProfile();
+    setupStep = 0;
+    document.getElementById('setupName').value = p.plannerName || '';
+    document.getElementById('setupAdults').value = p.adults || 2;
+    document.getElementById('setupChildCount').value = (p.children || []).length || 0;
+    renderSetupChildrenList();
+    renderSetupDietPrefs();
+    const canCancel = !!p.setupDone;
+    document.getElementById('setupCancel').style.display = canCancel ? '' : 'none';
+    document.getElementById('setupOverlay').classList.toggle('setup-force', !canCancel);
+    updateSetupPane();
+    document.getElementById('setupOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSetup() {
+    document.getElementById('setupOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function updateSetupPane() {
+    document.getElementById('setupPane0').style.display = setupStep === 0 ? '' : 'none';
+    document.getElementById('setupPane1').style.display = setupStep === 1 ? '' : 'none';
+    document.getElementById('setupPane2').style.display = setupStep === 2 ? '' : 'none';
+    document.getElementById('setupBack').style.display = setupStep > 0 ? '' : 'none';
+    document.getElementById('setupNext').textContent = setupStep === 2 ? 'Start planning' : 'Next';
+    document.querySelectorAll('.setup-step-dot').forEach((d, i) => d.classList.toggle('on', i <= setupStep));
+    const titles = ['Who is planning?', 'Food preferences', 'Children'];
+    const descs = [
+        'Your name appears on the app title (e.g. Leela\'s Family Menu).',
+        'We filter menus so you are not overwhelmed — pick all styles you want.',
+        'Add each child and their age — each gets a separate weekly menu.',
+    ];
+    document.getElementById('setupTitle').textContent = titles[setupStep];
+    document.getElementById('setupDesc').textContent = descs[setupStep];
+}
+
+// ─── NOTES ───────────────────────────────────────────────────────────────────
+function loadNotes() { try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch { return {}; } }
+function saveNotes(n) { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); }
+function editDayNote(day) {
+    const notes = loadNotes();
+    const wk = weekKey();
+    const current = notes[wk]?.[day] || '';
+    const val = prompt(`Note for ${day} (leave blank to clear):`, current);
+    if (val === null) return;
+    if (!notes[wk]) notes[wk] = {};
+    if (val.trim()) notes[wk][day] = val.trim();
+    else delete notes[wk][day];
+    saveNotes(notes);
+    renderWeekTable();
+}
+
+// ─── COPY LAST WEEK ──────────────────────────────────────────────────────────
+function copyLastWeek() {
+    const lastMonday = addDays(weekMonday, -7);
+    const lastKey = isoDate(lastMonday);
+    const storeKey = weekStoreKey();
+    const all = (() => { try { return JSON.parse(localStorage.getItem(storeKey)) || {}; } catch { return {}; } })();
+    const lastWeek = all[lastKey];
+    if (!lastWeek?.days || !Object.keys(lastWeek.days).length) {
+        alert('No meals found in last week — plan at least one day first.');
+        return;
+    }
+    const current = getWeek();
+    const hasCurrent = DAYS.some(d => {
+        const r = current.days[d] || {};
+        return r.breakfast || r.lunch || r.dinner || r.snack;
+    });
+    if (hasCurrent && !confirm('This will replace any meals already planned for this week. Continue?')) return;
+    all[weekKey()] = JSON.parse(JSON.stringify(lastWeek));
+    localStorage.setItem(storeKey, JSON.stringify(all));
+    renderWeekTable();
+    renderShoppingIfActive();
+}
+
+// ─── RECENTLY USED DISHES ────────────────────────────────────────────────────
+function loadRecentDishes() { try { return JSON.parse(localStorage.getItem(RECENT_DISHES_KEY)) || {}; } catch { return {}; } }
+function saveRecentDishes(r) { localStorage.setItem(RECENT_DISHES_KEY, JSON.stringify(r)); }
+function recordRecentDish(listKey, dishId) {
+    if (!dishId || !listKey) return;
+    const r = loadRecentDishes();
+    if (!r[listKey]) r[listKey] = [];
+    r[listKey] = [dishId, ...r[listKey].filter(x => x !== dishId)].slice(0, 8);
+    saveRecentDishes(r);
+}
+function getRecentDishes(listKey) {
+    return (loadRecentDishes()[listKey] || [])
+        .map(id => mergedItems(listKey).find(x => x.id === id))
+        .filter(Boolean);
+}
+
+// ─── EXTRA SHOP ITEMS ────────────────────────────────────────────────────────
+function loadExtraShop() { try { return JSON.parse(localStorage.getItem(EXTRA_SHOP_KEY)) || {}; } catch { return {}; } }
+function saveExtraShop(e) { localStorage.setItem(EXTRA_SHOP_KEY, JSON.stringify(e)); }
+function getExtraShopItems() { return loadExtraShop()[weekKey()] || []; }
+function addExtraShopItem(name) {
+    const n = name.trim(); if (!n) return;
+    const e = loadExtraShop();
+    const wk = weekKey();
+    if (!e[wk]) e[wk] = [];
+    if (!e[wk].some(x => normGroceryItem(x) === normGroceryItem(n))) e[wk].push(n);
+    saveExtraShop(e);
+}
+function removeExtraShopItem(idx) {
+    const e = loadExtraShop(); const wk = weekKey();
+    if (e[wk]) { e[wk].splice(idx, 1); saveExtraShop(e); }
+}
+
+// ─── GROCERY CATEGORIES ──────────────────────────────────────────────────────
+const GROCERY_CATS = [
+    { label: '🥬 Vegetables & Fresh', re: /onion|tomato|potato|carrot|beans|cabbage|spinach|methi|palak|drumstick|brinjal|okra|ladyfinger|capsicum|peas|cauliflower|cucumber|beet|bitter gourd|ridge gourd|bottle gourd|raw banana|plantain|lemon|ginger|garlic|coriander|curry leaves|green chilli|banana|avocado|zucchini|courgette|bell pepper|lettuce|mushroom|kale|sweet potato|butternut|pomegranate|basil|mint|kaffir lime|lemongrass|broccoli/i },
+    { label: '🥥 Coconut & Fresh Produce', re: /coconut(?! milk| oil)|fresh fruit|mixed fruit|berries|mango|apple|orange/i },
+    { label: '🌾 Dal, Rice & Grains', re: /rice|dal|toor|moong|chana|urad|rajma|rava|semiya|ragi|oats|wheat|atta|maida|poha|sabudana|cornflakes|muesli|quinoa|jowar|bajra|lentil|chickpea|pasta|noodles|macaroni|bread|tortilla|pita|lasagna|spaghetti|penne|fusilli|granola|muesli|chia seeds|broken wheat|daliya|semolina/i },
+    { label: '🥛 Dairy & Eggs', re: /milk|curd|yogurt|ghee|butter|paneer|cheese|cream|eggs|egg|greek yogurt|coconut milk/i },
+    { label: '🧂 Spices & Condiments', re: /mustard|turmeric|sambar powder|rasam powder|chilli powder|coriander powder|cumin|jeera|pepper|clove|cardamom|bay leaf|cinnamon|tamarind|salt|sugar|jaggery|pickle|vinegar|soy sauce|sesame oil|olive oil|oil|groundnut|tahini|paprika|garam masala|biryani masala|curry paste|fish sauce|hoisin|oyster sauce|miso|schezwan sauce|pesto|vanilla|baking powder|baking soda|eno/i },
+    { label: '🥫 Packaged & Pantry', re: /canned|batter|idli.*batter|dosa.*batter|tomato sauce|tomato paste|coconut milk|stock|water|tastemaker|maggi|yippee|instant noodle|ramen|rice noodle|lasagna sheet/i },
+    { label: '🍗 Meat & Fish', re: /chicken|fish|mutton|prawn|shrimp|meat/i },
+    { label: '🥜 Nuts, Seeds & Protein', re: /peanut|cashew|almond|walnut|nut|seed|tofu|protein powder|hummus|peanut butter/i },
+];
+function categoryForIngredient(name) {
+    const n = name.toLowerCase();
+    for (const c of GROCERY_CATS) if (c.re.test(n)) return c.label;
+    return '🛍️ Other';
+}
+function groupByCategory(agg) {
+    const map = {};
+    agg.forEach(g => {
+        const cat = categoryForIngredient(g.name);
+        if (!map[cat]) map[cat] = [];
+        map[cat].push(g);
+    });
+    const order = GROCERY_CATS.map(c => c.label).concat(['🛍️ Other']);
+    return order.filter(c => map[c]).map(c => ({ cat: c, items: map[c] }));
+}
+
+// ─── SHARE SHOPPING LIST ─────────────────────────────────────────────────────
+async function shareShoppingList() {
+    const days = shopView === 'trip' ? daysForShopTrip() : [...DAYS];
+    const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
+    const agg = aggregateIngredients(planItems);
+    const extra = getExtraShopItems();
+    if (!agg.length && !extra.length) { alert('Nothing on the shopping list yet.'); return; }
+    const toBuy = agg.filter(g => !pantryHas(g.name) && !isShopChecked(g.key)).map(g => `• ${g.name}`);
+    const extraLines = extra.map(x => `• ${x} (extra)`);
+    const lines = [...toBuy, ...extraLines];
+    const text = `🛒 Shopping list — ${fmtLong(weekKey())}\n\n${lines.join('\n')}\n\n(via Family Menu planner)`;
+    if (navigator.share) {
+        try { await navigator.share({ title: 'Shopping list', text }); return; } catch {}
+    }
+    await navigator.clipboard.writeText(text).catch(() => {});
+    alert('List copied to clipboard — paste into WhatsApp or any app!');
+}
+
+// ─── MARK ALL BOUGHT ─────────────────────────────────────────────────────────
+function markAllBought() {
+    const days = shopView === 'trip' ? daysForShopTrip() : [...DAYS];
+    const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
+    const agg = aggregateIngredients(planItems);
+    const toBuy = agg.filter(g => !pantryHas(g.name) && !isShopChecked(g.key));
+    if (!toBuy.length) { alert('Nothing left to mark — all items already ticked!'); return; }
+    if (!confirm(`Mark all ${toBuy.length} remaining items as bought?`)) return;
+    const checks = loadShopChecks();
+    const wk = weekKey();
+    if (!checks[wk]) checks[wk] = {};
+    toBuy.forEach(g => { checks[wk][g.key] = true; });
+    saveShopChecks(checks);
+    renderShopping();
+}
+
+// ─── DARK MODE ───────────────────────────────────────────────────────────────
+function isDarkMode() { return localStorage.getItem(DARK_MODE_KEY) === '1'; }
+function applyDarkMode() {
+    const on = isDarkMode();
+    document.body.classList.toggle('dark', on);
+    const btn = document.getElementById('darkModeBtn');
+    if (btn) btn.textContent = on ? '☀️' : '🌙';
+}
+function toggleDarkMode() {
+    localStorage.setItem(DARK_MODE_KEY, isDarkMode() ? '0' : '1');
+    applyDarkMode();
+}
+
+function finishSetup() {
+    const plannerName = document.getElementById('setupName').value.trim();
+    if (!plannerName) {
+        alert('Please enter your name — it personalises your menu planner.');
+        setupStep = 0;
+        updateSetupPane();
+        return;
+    }
+    const adults = Math.max(1, Math.min(10, parseInt(document.getElementById('setupAdults').value, 10) || 2));
+    const childCount = Math.max(0, Math.min(6, parseInt(document.getElementById('setupChildCount').value, 10) || 0));
+    const children = readSetupChildren();
+    if (childCount > 0 && children.length !== childCount) {
+        alert('Please add an age for each child.');
+        setupStep = 2;
+        updateSetupPane();
+        renderSetupChildrenList();
+        return;
+    }
+    const dietPrefs = readSetupDietPrefs();
+    saveProfile({ plannerName, adults, children, dietPrefs, setupDone: true });
+    closeSetup();
+    applyProfileUI();
+    if (!Object.keys(loadPantry().items || {}).length) initPantryFromStaples();
+    updatePantryNudge();
+    renderWeekTable();
+    renderMenuCatalog();
+    renderShopping();
+}
+
+function loadWeeksFor(which) {
+    let key = WEEK_KEY;
+    if (which === 'adult') key = WEEK_KEY;
+    else if (which === 'baby') key = WEEK_KEY_BABY;
+    else key = childStorageKey('child_week', which);
+    try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
+}
+
+function splitDishText(text) {
+    if (!text || text === '—') return [];
+    return text.split(' · ').flatMap(part => {
+        part = part.trim();
+        if (!part) return [];
+        const eggPlus = part.match(/^\d+ .+?eggs? \+ (.+)$/i) || part.match(/^\d+ eggs \+ (.+)$/i);
+        if (eggPlus) return ['Eggs', eggPlus[1].trim()];
+        if (/^\d+ .*(eggs?|omelette|bhurji)/i.test(part)) return ['Eggs'];
+        if (/^no egg$/i.test(part)) return [];
+        return [part];
+    }).filter(Boolean);
+}
+
+function shoppingRowsForDay(day) {
+    const k = weekKey();
+    const adult = loadWeeksFor('adult')[k]?.days[day] || {};
+    const rows = [];
+    const push = (who, meal, text) => {
+        splitDishText(text).forEach(dish => rows.push({ who, meal, dish }));
+    };
+    push('Adults', 'Breakfast', adult.breakfast);
+    push('Adults', 'Lunch', adult.lunch);
+    push('Adults', 'Dinner', adult.dinner);
+    getChildren().forEach(child => {
+        const b = loadWeeksFor(child.id)[k]?.days[day] || {};
+        const who = child.name?.trim() || 'Child';
+        push(who, 'Breakfast', b.breakfast);
+        push(who, 'Lunch', b.lunch);
+        push(who, 'Snack', b.snack);
+        push(who, 'Dinner', b.dinner);
+    });
+    return rows;
+}
+
+function renderShoppingIfActive() {
+    if (document.getElementById('panel-shop').classList.contains('active')) renderShopping();
+}
+
+function renderTripPills() {
+    const wrap = document.getElementById('shopTripWrap');
+    const pills = document.getElementById('shopTripPills');
+    if (!wrap || !pills) return;
+    const show = shopView === 'trip';
+    wrap.style.display = show ? '' : 'none';
+    if (!show) return;
+    const opts = [
+        { id: 'next3', label: 'Next 3 days' },
+        { id: '0', label: 'Mon–Wed' },
+        { id: '1', label: 'Thu–Sat' },
+        { id: '2', label: 'Sunday' },
+        { id: 'all', label: 'Full week' },
+    ];
+    pills.innerHTML = opts.map(o =>
+        `<button type="button" class="day-pill ${shopTrip === o.id ? 'on' : ''}" data-trip="${o.id}">${o.label}</button>`
+    ).join('');
+    pills.querySelectorAll('.day-pill').forEach(btn => {
+        btn.addEventListener('click', () => { shopTrip = btn.dataset.trip; renderShopping(); });
+    });
+}
+
+function mealLabelShort(meal) {
+    const m = { bf: 'Breakfast', lu: 'Lunch', di: 'Dinner', sn: 'Snack' };
+    return m[meal] || meal;
+}
+function ingRowStatus(ing) {
+    const key = shopIngKey(ing);
+    return (pantryHas(ing) || isShopChecked(key)) ? 'home' : 'buy';
+}
+function renderIngredientRow(ing) {
+    const checkKey = shopIngKey(ing);
+    const status = ingRowStatus(ing);
+    if (shopIngFilter !== 'all' && shopIngFilter !== status) return '';
+    const badge = status === 'home'
+        ? '<span class="ing-badge home">At home</span>'
+        : '<span class="ing-badge buy">Buy</span>';
+    const checked = isShopChecked(checkKey);
+    return `<label class="shop-ing-line ${checked ? 'done' : ''}" data-ing="${checkKey}">
+        <span>${ing}</span>${badge}
+    </label>`;
+}
+function renderShoppingByMeal(el, planItems) {
+    const filtersEl = document.getElementById('shopMealFilters');
+    if (filtersEl) filtersEl.style.display = '';
+    if (!planItems.length) {
+        el.innerHTML = '<p class="shop-empty card-panel" style="padding:1.5rem">Plan meals in <strong>Week plan</strong> first — shopping updates automatically.</p>';
+        return;
+    }
+    const byDay = {};
+    planItems.forEach(p => {
+        if (!byDay[p.day]) byDay[p.day] = [];
+        byDay[p.day].push(p);
+    });
+    let html = '';
+    DAYS.forEach(day => {
+        const list = byDay[day];
+        if (!list?.length) return;
+        const i = DAYS.indexOf(day);
+        html += `<div class="shop-day-hdr">${day} · ${fmtShort(dateFor(i))}</div>`;
+        const order = ['bf', 'lu', 'sn', 'di'];
+        order.forEach(mealKey => {
+            const mealItems = list.filter(p => p.mealKey === mealKey || p.meal === mealLabelShort(mealKey));
+            if (!mealItems.length) return;
+            html += `<div class="shop-meal-lbl">${mealLabelShort(mealKey)}</div>`;
+            mealItems.forEach(dish => {
+                const ings = ingredientsForPlanItem(dish);
+                const visible = ings.map(ing => renderIngredientRow(ing)).filter(Boolean).join('');
+                if (shopIngFilter !== 'all' && !visible) return;
+                html += `<div class="shop-dish-row"><div class="shop-dish-name">${dish.name}<span class="shop-dish-who">${dish.who}</span></div>`;
+                if (!visible && shopIngFilter === 'all') {
+                    html += '<p class="hint" style="font-size:.7rem;margin:0">No ingredients yet — add below or in ingredients.json</p>';
+                } else {
+                    html += visible;
+                }
+                if (dish.id) {
+                    html += `<div class="shop-add-ing" data-dish-id="${dish.id}">
+                        <input type="text" placeholder="Add ingredient for this dish" aria-label="Add ingredient">
+                        <button type="button" class="btn btn-s shop-add-btn">+</button>
+                    </div>`;
+                }
+                html += '</div>';
+            });
+        });
+        html += `<button type="button" class="btn-cooked" data-cooked-day="${day}" style="margin:.5rem 0 .75rem">✓ We cooked ${day}</button>`;
+    });
+    el.innerHTML = html || '<p class="shop-empty card-panel">No meals this week yet.</p>';
+    bindIngredientRows(el);
+    el.querySelectorAll('.shop-add-ing').forEach(row => {
+        const dishId = row.dataset.dishId;
+        const input = row.querySelector('input');
+        const go = () => {
+            addUserIngredient(dishId, input.value);
+            input.value = '';
+            renderShopping();
+        };
+        row.querySelector('.shop-add-btn')?.addEventListener('click', go);
+        input?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); go(); } });
+    });
+}
+function bindIngredientRows(root) {
+    root.querySelectorAll('.shop-ing-line, .shop-ing').forEach(row => {
+        row.addEventListener('click', () => {
+            toggleShopCheck(row.dataset.ing);
+            renderShopping();
+        });
+    });
+    root.querySelectorAll('.shop-ing input').forEach(inp => {
+        inp.addEventListener('change', e => {
+            e.stopPropagation();
+            toggleShopCheck(inp.closest('.shop-ing')?.dataset.ing);
+            renderShopping();
+        });
+    });
+    root.querySelectorAll('.btn-cooked').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const day = btn.dataset.cookedDay;
+            if (!confirm(`Mark ${day} as cooked?\n\nWe'll assume ingredients used that day are finished — pantry items will be marked "need to buy" again.`)) return;
+            const n = deductPantryForDay(day);
+            alert(n ? `Updated pantry (${n} items marked used).` : 'No ingredients to update — add dishes to this day first.');
+            renderShopping();
+        });
+    });
+}
+
+function renderShoppingTrip(el, planItems) {
+    const days = daysForShopTrip();
+    const filtered = planItems.filter(p => days.includes(p.day));
+    const agg = aggregateIngredients(filtered);
+    if (!agg.length) {
+        el.innerHTML = '<p class="shop-empty card-panel" style="padding:1.5rem">Nothing planned for these days yet.</p>';
+        document.getElementById('shopSummary').textContent = '';
+        document.getElementById('shopProgress').style.width = '0%';
+        return;
+    }
+    const toBuy = agg.filter(g => !pantryHas(g.name) && !isShopChecked(g.key));
+    const atHome = agg.length - toBuy.length;
+    document.getElementById('shopSummary').textContent =
+        `${days.join(', ')} · ${atHome} at home · ${toBuy.length} to buy`;
+    document.getElementById('shopProgress').style.width = Math.round((atHome / agg.length) * 100) + '%';
+
+    const grouped = groupByCategory(agg);
+    const extra = getExtraShopItems();
+    let html = `<p class="hint" style="margin-bottom:.5rem">Grouped by section. Tick items as you shop.</p>`;
+    html += `<div class="card-panel" style="padding:.65rem .75rem">`;
+    grouped.forEach(({ cat, items }) => {
+        html += `<div class="shop-cat-hdr">${cat}</div>`;
+        items.forEach(g => {
+            const ck = g.key;
+            const checked = isShopChecked(ck);
+            const badge = (checked || pantryHas(g.name))
+                ? '<span class="ing-badge home">At home</span>'
+                : '<span class="ing-badge buy">Buy</span>';
+            const meta = [...g.dishes].slice(0, 2).join(', ');
+            html += `<label class="shop-ing ${checked ? 'done' : ''}" data-ing="${ck}">
+                <input type="checkbox" ${checked ? 'checked' : ''}>
+                <div><strong>${g.name}</strong><div class="grocery-meta">For: ${meta}</div></div>${badge}
+            </label>`;
+        });
+    });
+    html += `</div>`;
+    // Extra freeform items
+    html += `<div class="extra-items-wrap">
+        <h5>➕ Extra items</h5>`;
+    if (extra.length) {
+        extra.forEach((x, idx) => {
+            html += `<div class="extra-item-row"><span>${x}</span><button type="button" class="btn btn-s" data-del-extra="${idx}">✕</button></div>`;
+        });
+    }
+    html += `<div class="extra-add-row">
+        <input type="text" id="extraItemInput" placeholder="Add anything (e.g. Coconut oil 1L)" autocomplete="off">
+        <button type="button" class="btn btn-p" id="extraItemAdd">+ Add</button>
+    </div></div>`;
+    el.innerHTML = html;
+    bindIngredientRows(el);
+    el.querySelectorAll('[data-del-extra]').forEach(btn => {
+        btn.addEventListener('click', () => { removeExtraShopItem(+btn.dataset.delExtra); renderShopping(); });
+    });
+    const addExtra = () => {
+        addExtraShopItem(document.getElementById('extraItemInput').value);
+        renderShopping();
+    };
+    document.getElementById('extraItemAdd')?.addEventListener('click', addExtra);
+    document.getElementById('extraItemInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addExtra(); } });
+}
+
+function renderPantry(el) {
+    const pantry = loadPantry();
+    const keys = Object.keys(pantry.items).sort((a, b) => pantry.items[a].name.localeCompare(pantry.items[b].name));
+    let html = `<p class="hint">Tap items you <strong>currently have</strong> at home. Shopping list uses this to show Buy vs At home.</p>`;
+    html += `<div class="pantry-grid">${keys.map(k => {
+        const it = pantry.items[k];
+        return `<button type="button" class="pantry-chip ${it.inStock !== false ? 'on' : ''}" data-pk="${k}">${it.name}</button>`;
+    }).join('')}</div>`;
+    html += `<div class="pantry-add">
+        <input type="text" id="pantryNewName" placeholder="Add item (e.g. Coconut oil)">
+        <button type="button" class="btn btn-s" id="pantryAddBtn">Add</button>
+    </div>`;
+    el.innerHTML = html;
+    el.querySelectorAll('.pantry-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const k = btn.dataset.pk;
+            pantry.items[k].inStock = !pantry.items[k].inStock;
+            savePantry(pantry);
+            renderShopping();
+        });
+    });
+    document.getElementById('pantryAddBtn')?.addEventListener('click', () => {
+        const name = document.getElementById('pantryNewName').value.trim();
+        if (!name) return;
+        const k = normGroceryItem(name);
+        pantry.items[k] = { name, inStock: true };
+        savePantry(pantry);
+        renderShopping();
+    });
+}
+
+function renderShopping() {
+    const el = document.getElementById('shopContent');
+    const planItems = collectWeekPlanItems();
+    renderTripPills();
+    updatePantryNudge();
+
+    if (shopView === 'pantry') {
+        document.getElementById('shopSummary').textContent = 'What you have at home';
+        document.getElementById('shopProgress').style.width = '100%';
+        document.getElementById('shopMealFilters').style.display = 'none';
+        renderPantry(el);
+        return;
+    }
+
+    if (shopView === 'trip') {
+        document.getElementById('shopMealFilters').style.display = 'none';
+        renderShoppingTrip(el, planItems);
+        return;
+    }
+
+    // By meal view — show onboarding card if no meals planned yet
+    if (!planItems.length) {
+        document.getElementById('shopMealFilters').style.display = 'none';
+        document.getElementById('shopSummary').textContent = '';
+        document.getElementById('shopProgress').style.width = '0%';
+        el.innerHTML = `<div class="shop-onboard">
+            <p>Your shopping list appears here once you add meals to the week plan.<br>
+            Ingredients are grouped by day → meal → dish so it's easy to see what to buy.</p>
+            <button class="btn btn-p" id="shopGoToWeekBtn">📅 Go to Week plan</button>
+        </div>`;
+        el.querySelector('#shopGoToWeekBtn')?.addEventListener('click', () => {
+            document.querySelector('.tab-btn[data-tab="week"]')?.click();
+        });
+        return;
+    }
+
+    const totalIngs = new Set();
+    planItems.forEach(p => ingredientsForPlanItem(p).forEach(i => totalIngs.add(normGroceryItem(i))));
+    document.getElementById('shopSummary').textContent =
+        `${planItems.length} dishes · ${totalIngs.size} ingredients`;
+    document.getElementById('shopProgress').style.width = planItems.length ? '100%' : '0%';
+    renderShoppingByMeal(el, planItems);
+}
+
+function exportShoppingExcel() {
+    const days = shopView === 'trip' ? daysForShopTrip() : [...DAYS];
+    const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
+    const agg = aggregateIngredients(planItems);
+    if (!agg.length) { alert('Nothing on the shopping list.'); return; }
+    const checks = loadShopChecks()[weekKey()] || {};
+    const aoa = [
+        ['Family Menu — Shopping list'], [],
+        ['Week starting', fmtLong(weekKey())], [],
+        ['Ingredient', 'Status', 'Dishes'],
+    ];
+    agg.forEach(g => {
+        const st = (checks[g.key] || pantryHas(g.name)) ? 'Have at home' : 'Need to buy';
+        aoa.push([g.name, st, [...g.dishes].join('; ')]);
+    });
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = [{ wch: 28 }, { wch: 14 }, { wch: 50 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Shopping');
+    XLSX.writeFile(wb, `Shopping_${weekKey()}.xlsx`);
+}
+
+function setPlanner(p) {
+    planner = p;
+    const child = activeChild();
+    document.getElementById('appHeader').classList.toggle('planner-baby', isChildPlanner());
+    document.getElementById('hintAdult').style.display = p === 'adult' ? '' : 'none';
+    const childName = child?.name?.trim() || 'Child';
+    const months = child?.ageMonths ?? 0;
+    const hintBaby = document.getElementById('hintBaby');
+    if (hintBaby) {
+        hintBaby.style.display = isChildPlanner() ? '' : 'none';
+        if (isChildPlanner()) hintBaby.innerHTML =
+            `<strong>${childName}</strong> (${childAgeShort(months)}) — 🎲 shuffle or tap cells to edit · Menus match age`;
+    }
+    document.getElementById('manageNote').innerHTML = isChildPlanner()
+        ? `<strong>${childName}</strong> (${childAgeShort(months)}) — menus filtered for this age · <strong>+ Add</strong> / <strong>×</strong> · Red = egg/meat/fish`
+        : 'Tap <strong>+ Add</strong> on any section to add your own dish · <strong>×</strong> hides built-in dishes · <strong>×</strong> on blue tags removes your custom dish';
+    rebuildPlannerSwitch();
+    closePicker();
+    closeAddModal();
+    renderWeekTable();
+    renderHiddenBlock();
+    if (document.getElementById('panel-menu').classList.contains('active')) renderMenuCatalog();
+    renderShoppingIfActive();
+}
+document.getElementById('setupChildCount').addEventListener('input', renderSetupChildrenList);
+
+document.getElementById('settingsBtn').addEventListener('click', () => openSetup(true));
+document.getElementById('setupCancel').addEventListener('click', closeSetup);
+document.getElementById('setupNext').addEventListener('click', () => {
+    if (setupStep === 0 && !document.getElementById('setupName').value.trim()) {
+        alert('Please enter your name.');
+        return;
+    }
+    if (setupStep < 2) { setupStep++; updateSetupPane(); return; }
+    finishSetup();
+});
+document.getElementById('setupBack').addEventListener('click', () => { if (setupStep > 0) { setupStep--; updateSetupPane(); } });
+document.querySelectorAll('.shop-view-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.shop-view-tab').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        shopView = btn.dataset.shopview;
+        const filters = document.getElementById('shopMealFilters');
+        if (filters) filters.style.display = shopView === 'meals' ? '' : 'none';
+        renderShopping();
+    });
+});
+document.querySelectorAll('.shop-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.shop-filter-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        shopIngFilter = btn.dataset.shopfilter;
+        renderShopping();
+    });
+});
+document.getElementById('clearShopChecks').addEventListener('click', () => {
+    const checks = loadShopChecks();
+    delete checks[weekKey()];
+    saveShopChecks(checks);
+    renderShopping();
+});
+document.getElementById('setupPantryBtn').addEventListener('click', () => {
+    const has = Object.keys(loadPantry().items || {}).length;
+    if (has && !confirm('Reset pantry to common staples? (You can tick items again.)')) return;
+    initPantryFromStaples();
+    alert('Pantry ready — tick what you have at home under My pantry.');
+    renderShopping();
+});
+
+document.getElementById('copyWeekBtn').addEventListener('click', copyLastWeek);
+document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+document.getElementById('markAllBoughtBtn').addEventListener('click', markAllBought);
+document.getElementById('shareShopBtn').addEventListener('click', shareShoppingList);
+
+Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
+    migrateLegacyBabyData();
+    applyDarkMode();
+    if (!getProfile().setupDone) openSetup(true);
+    else applyProfileUI();
+    if (!Object.keys(loadPantry().items || {}).length) initPantryFromStaples();
+    updatePantryNudge();
+    renderWeekTable();
+    renderMenuCatalog();
+    renderShopping();
+}).catch(() => {
+    alert('Could not load menus.json or ingredients.json. Run: python3 start_server.py then open http://localhost:8000/');
+});
+
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+}
+</script>
+</body>
+</html>
