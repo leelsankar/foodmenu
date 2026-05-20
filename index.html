@@ -29,6 +29,50 @@
         body.dark input, body.dark select, body.dark textarea {
             background: var(--card); color: var(--text); border-color: var(--border);
         }
+        /* Dark mode: replace all hardcoded #fff backgrounds */
+        body.dark .cell:hover { background: rgba(255,255,255,.06); }
+        body.dark .cell.empty { color: var(--muted); }
+        body.dark .planner-opt.active { background:#fff; color:#2a1208; }
+        body.dark .btn,
+        body.dark .btn-s,
+        body.dark .btn-shuffle,
+        body.dark .btn-x { color: var(--text); }
+        body.dark .btn-s { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .btn-x { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .preview { background: var(--cream); }
+        body.dark .hidden-block { background: #2a200a; border-color: #5a4a1a; }
+        body.dark .bf-egg-block { background: #1e1800; border-color: #4a3a00; }
+        body.dark .bf-egg-block h4 { color: #c4a340; }
+        body.dark .pantry-nudge { background: #0f2010; border-color: #1e4a28; }
+        body.dark .pantry-nudge strong { color: #52b788; }
+        body.dark .shop-empty-onboard,
+        body.dark .shop-onboard { background: var(--cream); }
+        /* Any element using bare #fff bg that's inside the card context */
+        body.dark .seg-item,
+        body.dark .seg-btn,
+        body.dark .qty-btn,
+        body.dark .chip,
+        body.dark .dish-card,
+        body.dark .recent-pill { background: var(--cream); color: var(--text); border-color: var(--border); }
+        body.dark .tag-ing-edit { color: var(--p2); }
+        body.dark .note-pill { background: var(--cream); border-color: var(--border); color: var(--muted); }
+        body.dark .setup-pref { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .setup-pref.on { background: #3a1e0a; border-color: var(--p2); color: var(--p2); }
+        body.dark .share-modal { background: var(--card); }
+        body.dark .modal { background: var(--card); color: var(--text); }
+        /* Picker / modal internals */
+        body.dark .seg-pick { background: var(--cream); }
+        body.dark .pill { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .pill.on { background: #1a3a28; border-color: var(--p3); color: var(--p3); }
+        body.dark .mode-tab { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .day-pill { background: var(--cream); color: var(--text); }
+        body.dark .day-pill.today:not(.on) { border-color: var(--p2); }
+        body.dark .shop-view-tab { background: var(--cream); color: var(--text); }
+        body.dark .qty-btn { background: var(--cream); color: var(--p); }
+        body.dark .kitchen-strip { background: var(--cream); }
+        body.dark .setup-hero { background: var(--cream); }
+        body.dark .manage-note { background: #0f2010; color: var(--text); }
+        body.dark .btn-shuffle-day { background: var(--cream); color: var(--p2); }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Nunito', system-ui, sans-serif;
@@ -398,7 +442,7 @@
         .shop-dish-who { font-size:.65rem; color:var(--muted); font-weight:600; margin-left:.35rem; }
         .shop-ing-line {
             display:flex; align-items:center; justify-content:space-between; gap:.5rem;
-            padding:.28rem 0; border-bottom:1px solid #f5ebe0; font-size:.78rem;
+            padding:.28rem 0; border-bottom:1px solid var(--border); font-size:.78rem;
         }
         .shop-ing-line:last-child { border-bottom:none; }
         .shop-add-ing { display:flex; gap:.35rem; margin-top:.35rem; }
@@ -439,7 +483,7 @@
         .week-cards { display:none; flex-direction:column; gap:.65rem; padding:.65rem; }
         .day-card {
             border:1px solid var(--border); border-radius:var(--radius);
-            overflow:hidden; background:#fff;
+            overflow:hidden; background:var(--card);
         }
         .day-card.today { border-color:var(--p2); box-shadow:0 0 0 2px rgba(196,92,38,.15); }
         .day-card-head {
@@ -451,7 +495,7 @@
         .day-card-meals { padding:.35rem .5rem .5rem; }
         .day-meal {
             display:grid; grid-template-columns:4.4rem 1fr; gap:.25rem .4rem;
-            align-items:start; padding:.35rem 0; border-bottom:1px solid #f5ebe0;
+            align-items:start; padding:.35rem 0; border-bottom:1px solid var(--border);
         }
         .day-meal:last-child { border-bottom:none; }
         .day-meal-lbl {
@@ -576,7 +620,7 @@
             .toolbar-acts { justify-content:center; }
             .toolbar .hint { display:none; }
             .header-top { gap:.5rem; }
-            .planner-switch { width:100%; justify-content:flex-start; }
+            .planner-switch { width:auto; align-self:flex-start; }
         }
         @media (min-width: 769px) {
             .week-table-scroll { display:block; }
