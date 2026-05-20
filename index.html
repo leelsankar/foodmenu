@@ -94,9 +94,15 @@
         body.dark .ing-badge.buy  { background: #2a200a; color: #f0c060; }
         body.dark .ing-badge.low  { background: #3a1010; color: #fc8181; }
         body.dark .btn-cooked { background: var(--cream); border-color: var(--p2); color: var(--p2); }
-        /* Pantry chips */
-        body.dark .pantry-chip { background: var(--cream); color: var(--text); border-color: var(--border); }
-        body.dark .pantry-chip.on { background: #1a3a28; border-color: var(--p3); color: var(--p3); }
+        /* Pantry redesign dark mode */
+        body.dark .pantry-toggle { border-color: var(--border); color: var(--text-muted); }
+        body.dark .pantry-toggle.on { background: #1a3a28; border-color: var(--p3); color: var(--p3); }
+        body.dark .pantry-qty { background: var(--cream); border-color: var(--border); color: var(--text); }
+        body.dark .pantry-qty[data-status="Full"]  { background: #0f2a18; border-color: #3a7a4a; color: #6abf77; }
+        body.dark .pantry-qty[data-status="Low"]   { background: #2a1e08; border-color: #a07020; color: #f9c74f; }
+        body.dark .pantry-qty[data-status="Empty"] { background: #2a0a0a; border-color: #c0392b; color: #fc8181; }
+        body.dark .pantry-del:hover { background: #3a0a0a; color: #fc8181; }
+        body.dark .pantry-cat-hdr { color: var(--p2); border-color: var(--border); }
         /* Note pill with content */
         body.dark .note-pill.has-note { background: #2a1608; border-color: var(--p2); color: var(--p2); }
         /* Menu catalog tags */
@@ -516,15 +522,44 @@
             color:var(--p2); cursor:pointer;
         }
         .btn-cooked:hover { background:var(--cream); }
-        .pantry-grid { display:flex; flex-wrap:wrap; gap:.35rem; }
-        .pantry-chip {
-            display:flex; align-items:center; gap:.35rem; padding:.35rem .55rem;
-            border:2px solid var(--border); border-radius:999px; font-size:.74rem; cursor:pointer;
-            background:#fff;
+        /* ── Pantry redesign ─────────────────────────────── */
+        .pantry-top-acts { display:flex; align-items:center; gap:.4rem; flex-wrap:wrap; margin-bottom:.5rem; }
+        .pantry-top-acts .hint { flex:1; min-width:140px; margin:0; font-size:.72rem; }
+        .pantry-cat-block { margin-bottom:.75rem; }
+        .pantry-cat-hdr {
+            font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+            color:var(--p2); padding:.3rem .1rem .2rem; border-bottom:1px solid var(--border);
+            margin-bottom:.25rem;
         }
-        .pantry-chip.on { border-color:var(--p3); background:#e8f5e9; }
+        .pantry-row {
+            display:flex; align-items:center; gap:.45rem; padding:.4rem .35rem;
+            border-radius:8px; transition:background .15s;
+        }
+        .pantry-row.out { opacity:.55; }
+        .pantry-toggle {
+            flex-shrink:0; width:1.7rem; height:1.7rem; border-radius:50%;
+            border:2px solid var(--border); background:transparent; cursor:pointer;
+            font-size:.8rem; display:flex; align-items:center; justify-content:center;
+            color:var(--text-muted); transition:all .15s;
+        }
+        .pantry-toggle.on { background:#e8f5e9; border-color:var(--p3); color:var(--p3); }
+        .pantry-item-name { flex:1; font-size:.82rem; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .pantry-qty {
+            flex-shrink:0; font-size:.72rem; padding:.25rem .3rem; border:1px solid var(--border);
+            border-radius:6px; background:var(--bg); color:var(--text); cursor:pointer;
+            max-width:90px;
+        }
+        .pantry-qty[data-status="Full"] { background:#e8f5e9; border-color:#6abf77; color:#1b4332; }
+        .pantry-qty[data-status="Low"]  { background:#fff8e1; border-color:#f9a825; color:#7a5000; }
+        .pantry-qty[data-status="Empty"]{ background:#fdecea; border-color:#e57373; color:#7f1010; }
+        .pantry-del {
+            flex-shrink:0; width:1.5rem; height:1.5rem; border-radius:50%;
+            border:none; background:transparent; cursor:pointer; font-size:1rem;
+            color:var(--text-muted); line-height:1; display:flex; align-items:center; justify-content:center;
+        }
+        .pantry-del:hover { background:#fee2e2; color:#c0392b; }
         .pantry-add { display:flex; gap:.4rem; margin-top:.65rem; flex-wrap:wrap; }
-        .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; }
+        .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); }
         /* Mobile: one card per day — no horizontal scroll */
         .week-cards { display:none; flex-direction:column; gap:.65rem; padding:.65rem; }
         .day-card {
@@ -2651,17 +2686,25 @@ function savePantry(p) { localStorage.setItem(INVENTORY_KEY, JSON.stringify(p));
 function pantryHas(name) {
     const k = normGroceryItem(name);
     const it = loadPantry().items[k];
-    return !!(it && it.inStock !== false);
+    if (!it) return false;
+    if (it.inStock === false) return false;
+    if (it.qty === 'Empty') return false;
+    return true;
 }
 
 function initPantryFromStaples() {
-    const p = { items: {} };
+    const p = loadPantry();
+    const current = p.items || {};
     const staples = INGREDIENT_DB.staples || [];
     staples.forEach(name => {
         const k = normGroceryItem(name);
-        p.items[k] = { name, inStock: true };
+        if (!current[k]) {
+            current[k] = { name, inStock: true, qty: 'Full' };
+        } else if (!current[k].qty) {
+            current[k].qty = current[k].inStock !== false ? 'Full' : 'Empty';
+        }
     });
-    savePantry(p);
+    savePantry({ items: current });
 }
 
 async function loadIngredientDb() {
@@ -3788,35 +3831,178 @@ function renderShoppingTrip(el, planItems) {
     document.getElementById('extraItemInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addExtra(); } });
 }
 
+function pantryQtyStatus(qty) {
+    if (!qty || qty === 'Full') return 'Full';
+    if (qty === 'Empty') return 'Empty';
+    if (qty === 'Low') return 'Low';
+    return 'Full'; // custom quantities (1 kg etc.) = in stock
+}
+
 function renderPantry(el) {
     const pantry = loadPantry();
-    const keys = Object.keys(pantry.items).sort((a, b) => pantry.items[a].name.localeCompare(pantry.items[b].name));
-    let html = `<p class="hint">Tap items you <strong>currently have</strong> at home. Shopping list uses this to show Buy vs At home.</p>`;
-    html += `<div class="pantry-grid">${keys.map(k => {
-        const it = pantry.items[k];
-        return `<button type="button" class="pantry-chip ${it.inStock !== false ? 'on' : ''}" data-pk="${k}">${it.name}</button>`;
-    }).join('')}</div>`;
-    html += `<div class="pantry-add">
-        <input type="text" id="pantryNewName" placeholder="Add item (e.g. Coconut oil)">
-        <button type="button" class="btn btn-s" id="pantryAddBtn">Add</button>
+    const items = Object.entries(pantry.items).map(([k, v]) => ({ k, ...v }));
+
+    // Migrate old items without qty
+    items.forEach(it => { if (!it.qty) it.qty = it.inStock !== false ? 'Full' : 'Empty'; });
+
+    // Group by GROCERY_CATS
+    const groups = new Map();
+    GROCERY_CATS.forEach(c => groups.set(c.label, []));
+    groups.set('🛍️ Other', []);
+    items.forEach(it => {
+        const cat = categoryForIngredient(it.name);
+        (groups.get(cat) || groups.get('🛍️ Other')).push(it);
+    });
+
+    const inStockCount = items.filter(it => it.qty !== 'Empty' && it.inStock !== false).length;
+
+    const QTY_OPTS_HTML = `
+        <optgroup label="Status">
+            <option value="Full">🟢 Full</option>
+            <option value="Low">🟡 Low</option>
+            <option value="Empty">🔴 Empty</option>
+        </optgroup>
+        <optgroup label="Weight">
+            <option value="100g">100g</option>
+            <option value="250g">250g</option>
+            <option value="500g">500g</option>
+            <option value="1 kg">1 kg</option>
+            <option value="2 kg">2 kg</option>
+            <option value="5 kg">5 kg</option>
+            <option value="10 kg">10 kg</option>
+        </optgroup>
+        <optgroup label="Volume">
+            <option value="100ml">100ml</option>
+            <option value="250ml">250ml</option>
+            <option value="500ml">500ml</option>
+            <option value="1 L">1 L</option>
+            <option value="2 L">2 L</option>
+        </optgroup>
+        <optgroup label="Count">
+            <option value="1 nos">1 nos</option>
+            <option value="2 nos">2 nos</option>
+            <option value="3 nos">3 nos</option>
+            <option value="4 nos">4 nos</option>
+            <option value="6 nos">6 nos</option>
+            <option value="12 nos">12 nos</option>
+        </optgroup>`;
+
+    function buildQtySelect(k, qty) {
+        const status = pantryQtyStatus(qty);
+        const stdVals = ['Full','Low','Empty','100g','250g','500g','1 kg','2 kg','5 kg','10 kg','100ml','250ml','500ml','1 L','2 L','1 nos','2 nos','3 nos','4 nos','6 nos','12 nos'];
+        const customOpt = !stdVals.includes(qty) ? `<option value="${qty}" selected>${qty}</option>` : '';
+        return `<select class="pantry-qty" data-pk="${k}" data-status="${status}" title="Change quantity">${QTY_OPTS_HTML}${customOpt}</select>`;
+    }
+
+    let html = `<div class="pantry-top-acts">
+        <p class="hint">${inStockCount} of ${items.length} items in stock · Tap ✓/○ to toggle · Change qty with dropdown</p>
+        <button class="btn btn-s" id="pantryMarkAll">✓ All in</button>
+        <button class="btn btn-s" id="pantryClearAll">✗ All out</button>
     </div>`;
+
+    let hasAny = false;
+    [...groups.entries()].forEach(([cat, catItems]) => {
+        if (!catItems.length) return;
+        hasAny = true;
+        const sorted = [...catItems].sort((a, b) => a.name.localeCompare(b.name));
+        html += `<div class="pantry-cat-block"><div class="pantry-cat-hdr">${cat}</div>`;
+        sorted.forEach(it => {
+            const qty = it.qty || 'Full';
+            const inStock = it.inStock !== false && qty !== 'Empty';
+            html += `<div class="pantry-row${inStock ? '' : ' out'}" data-pk="${it.k}">
+                <button type="button" class="pantry-toggle${inStock ? ' on' : ''}" data-pk="${it.k}">${inStock ? '✓' : '○'}</button>
+                <span class="pantry-item-name">${it.name}</span>
+                ${buildQtySelect(it.k, qty)}
+                <button type="button" class="pantry-del" data-pk="${it.k}" title="Remove">×</button>
+            </div>`;
+        });
+        html += `</div>`;
+    });
+
+    if (!hasAny) {
+        html += `<p class="hint" style="text-align:center;padding:1.5rem 0">No pantry items yet.<br>Tap <strong>🏠 Pantry</strong> above to load common staples.</p>`;
+    }
+
+    html += `<div class="pantry-add">
+        <input type="text" id="pantryNewName" placeholder="Add item (e.g. Coconut oil)" autocomplete="off">
+        <button type="button" class="btn btn-p" id="pantryAddBtn">+ Add</button>
+    </div>`;
+
     el.innerHTML = html;
-    el.querySelectorAll('.pantry-chip').forEach(btn => {
+
+    // Set qty select selectedIndex properly (native select needs value set after innerHTML)
+    el.querySelectorAll('.pantry-qty').forEach(sel => { sel.value = sel.dataset.pk ? pantry.items[sel.dataset.pk]?.qty || 'Full' : 'Full'; });
+
+    // Toggle in/out of stock
+    el.querySelectorAll('.pantry-toggle').forEach(btn => {
         btn.addEventListener('click', () => {
             const k = btn.dataset.pk;
-            pantry.items[k].inStock = !pantry.items[k].inStock;
+            if (!pantry.items[k]) return;
+            const cur = pantry.items[k].qty || 'Full';
+            const wasIn = pantry.items[k].inStock !== false && cur !== 'Empty';
+            pantry.items[k].inStock = !wasIn;
+            pantry.items[k].qty = !wasIn ? 'Full' : 'Empty';
             savePantry(pantry);
             renderShopping();
         });
     });
-    document.getElementById('pantryAddBtn')?.addEventListener('click', () => {
-        const name = document.getElementById('pantryNewName').value.trim();
-        if (!name) return;
-        const k = normGroceryItem(name);
-        pantry.items[k] = { name, inStock: true };
+
+    // Change quantity
+    el.querySelectorAll('.pantry-qty').forEach(sel => {
+        sel.addEventListener('change', () => {
+            const k = sel.dataset.pk;
+            if (!pantry.items[k]) return;
+            const v = sel.value;
+            pantry.items[k].qty = v;
+            pantry.items[k].inStock = (v !== 'Empty');
+            sel.dataset.status = pantryQtyStatus(v);
+            savePantry(pantry);
+            const row = el.querySelector(`.pantry-row[data-pk="${k}"]`);
+            const tog = el.querySelector(`.pantry-toggle[data-pk="${k}"]`);
+            const inStock = v !== 'Empty';
+            if (row) row.classList.toggle('out', !inStock);
+            if (tog) { tog.classList.toggle('on', inStock); tog.textContent = inStock ? '✓' : '○'; }
+        });
+    });
+
+    // Delete item
+    el.querySelectorAll('.pantry-del').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const k = btn.dataset.pk;
+            const name = pantry.items[k]?.name || k;
+            if (!confirm(`Remove "${name}" from pantry?`)) return;
+            delete pantry.items[k];
+            savePantry(pantry);
+            renderShopping();
+        });
+    });
+
+    // Mark all in stock
+    document.getElementById('pantryMarkAll')?.addEventListener('click', () => {
+        Object.values(pantry.items).forEach(it => { it.inStock = true; if (!it.qty || it.qty === 'Empty') it.qty = 'Full'; });
         savePantry(pantry);
         renderShopping();
     });
+
+    // Clear all stock
+    document.getElementById('pantryClearAll')?.addEventListener('click', () => {
+        if (!confirm('Mark all pantry items as out of stock (Empty)?')) return;
+        Object.values(pantry.items).forEach(it => { it.inStock = false; it.qty = 'Empty'; });
+        savePantry(pantry);
+        renderShopping();
+    });
+
+    // Add new item
+    const doAdd = () => {
+        const name = document.getElementById('pantryNewName')?.value.trim();
+        if (!name) return;
+        const k = normGroceryItem(name);
+        pantry.items[k] = { name, inStock: true, qty: 'Full' };
+        savePantry(pantry);
+        renderShopping();
+    };
+    document.getElementById('pantryAddBtn')?.addEventListener('click', doAdd);
+    document.getElementById('pantryNewName')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
 }
 
 function renderShopping() {
