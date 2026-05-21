@@ -278,11 +278,12 @@
         .overlay.open { display:flex; }
         @media (min-width:560px) { .overlay { align-items:center; padding:1rem; } }
         .modal {
-            background:var(--card); width:100%; max-width:480px; max-height:90vh;
+            background:var(--card); width:100%; max-width:480px;
+            max-height:90vh; max-height:90dvh;
             border-radius:14px 14px 0 0; display:flex; flex-direction:column;
             box-shadow:0 -8px 30px rgba(0,0,0,.2);
         }
-        @media (min-width:560px) { .modal { border-radius:14px; max-height:85vh; } }
+        @media (min-width:560px) { .modal { border-radius:14px; max-height:85vh; max-height:85dvh; } }
         .modal-head { padding:.7rem 1rem; color:#fff; display:flex; justify-content:space-between; align-items:center; }
         .modal-head.bf { background:#457b9d; }
         .modal-head.lu { background:var(--p2); }
@@ -329,15 +330,40 @@
         .seg.bb-finger h3 { color:#bc6c25; }
         /* Setup wizard */
         .overlay.setup-force { z-index: 400; }
-        .setup-modal { max-width: 420px; border-radius: var(--radius); overflow: hidden; }
+        .setup-modal {
+            max-width: 420px; border-radius: var(--radius); overflow: hidden;
+            display: flex; flex-direction: column;
+            max-height: 90vh; max-height: 90dvh;
+        }
         .setup-hero {
             background: linear-gradient(180deg, var(--cream), #fff);
-            padding: 1.25rem; text-align: center;
+            padding: 1.25rem; text-align: center; flex-shrink: 0;
         }
         .setup-hero svg { width: 100px; height: 100px; }
-        .setup-body { padding: 1rem 1.25rem 1.25rem; }
-        .setup-body h2 { font-family: 'Fraunces', serif; color: var(--p); font-size: 1.2rem; margin-bottom: .25rem; }
-        .setup-body > p { color: var(--muted); font-size: .82rem; margin-bottom: 1rem; }
+        .setup-body {
+            padding: 1rem 1.25rem 1.25rem;
+            display: flex; flex-direction: column; flex: 1; min-height: 0;
+        }
+        .setup-body h2 { font-family: 'Fraunces', serif; color: var(--p); font-size: 1.2rem; margin-bottom: .25rem; flex-shrink: 0; }
+        .setup-body > p { color: var(--muted); font-size: .82rem; margin-bottom: 1rem; flex-shrink: 0; }
+        .setup-steps { flex-shrink: 0; }
+        /* The active pane scrolls when content is taller than available space */
+        #setupPane0, #setupPane1, #setupPane2 {
+            overflow-y: auto; flex: 1; min-height: 0;
+            padding-right: .25rem; /* room for scrollbar */
+        }
+        /* Footer buttons stay pinned at the bottom */
+        .setup-modal .modal-foot {
+            flex-shrink: 0;
+        }
+        /* Small screens: shrink or hide the hero illustration */
+        @media (max-height: 680px) {
+            .setup-hero { padding: .6rem; }
+            .setup-hero svg { width: 60px; height: 60px; }
+        }
+        @media (max-height: 560px) {
+            .setup-hero { display: none; }
+        }
         .setup-field { margin-bottom: 1rem; }
         .setup-field label { display: block; font-weight: 700; font-size: .82rem; margin-bottom: .35rem; color: var(--text); }
         .setup-field input, .setup-field select {
