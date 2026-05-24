@@ -1380,6 +1380,195 @@
         .btn-wa:hover  { background: #1EBE57; }
         .btn-wa:active { transform: scale(.96); }
 
+        /* ── HOME DASHBOARD ─────────────────────────────────────── */
+        .home-greeting {
+            padding: var(--sp-5) var(--sp-4) var(--sp-3);
+        }
+        .home-greeting-name {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.45rem; font-weight: 700;
+            color: var(--text-1); line-height: 1.2;
+        }
+        .home-greeting-sub {
+            font-size: .82rem; color: var(--text-3);
+            margin-top: var(--sp-1);
+        }
+
+        /* Today card — the hero */
+        .home-today {
+            background: var(--brand);
+            border-radius: var(--r-xl);
+            padding: var(--sp-5) var(--sp-5) var(--sp-4);
+            margin: 0 0 var(--sp-3);
+            color: #fff;
+            position: relative; overflow: hidden;
+        }
+        .home-today::after {
+            content: '🍽️';
+            position: absolute; right: var(--sp-4); top: 50%;
+            transform: translateY(-50%);
+            font-size: 3.5rem; opacity: .18; line-height: 1;
+        }
+        .home-today-label {
+            font-size: .68rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .07em; opacity: .8; margin-bottom: var(--sp-2);
+        }
+        .home-today-day {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.2rem; font-weight: 700; margin-bottom: var(--sp-3);
+        }
+        .home-today-meals { display: flex; flex-direction: column; gap: var(--sp-2); }
+        .home-meal-row {
+            display: flex; align-items: center; gap: var(--sp-3);
+        }
+        .home-meal-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,.5); flex-shrink: 0;
+        }
+        .home-meal-dot.bf { background: #93C5FD; }
+        .home-meal-dot.lu { background: #FCD34D; }
+        .home-meal-dot.di { background: #FCA5A5; }
+        .home-meal-name {
+            font-size: .88rem; font-weight: 600; color: rgba(255,255,255,.95);
+            flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .home-meal-label {
+            font-size: .62rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .04em; opacity: .65; flex-shrink: 0; width: 58px;
+        }
+        .home-today-empty {
+            font-size: .88rem; opacity: .75;
+            font-style: italic; margin-top: var(--sp-1);
+        }
+        .home-today-actions {
+            display: flex; gap: var(--sp-2); margin-top: var(--sp-4);
+        }
+        .home-today-btn {
+            flex: 1; padding: .45rem .5rem;
+            background: rgba(255,255,255,.2);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: var(--r-full); color: #fff;
+            font-size: .75rem; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            text-align: center; transition: background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .home-today-btn:hover  { background: rgba(255,255,255,.3); }
+        .home-today-btn:active { background: rgba(255,255,255,.15); transform: scale(.97); }
+
+        /* Who cooks row */
+        .home-cook-row {
+            display: flex; align-items: center; gap: var(--sp-3);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-lg); padding: var(--sp-3) var(--sp-4);
+            margin-bottom: var(--sp-3); cursor: pointer;
+            transition: background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .home-cook-row:hover { background: var(--surface-2); }
+        .home-cook-row.active { background: var(--green-soft); border-color: #A7D7B8; }
+        body.dark .home-cook-row.active { background: var(--green-soft); border-color: #2D5A3D; }
+        .home-cook-icon { font-size: 1.4rem; flex-shrink: 0; }
+        .home-cook-text { flex: 1; min-width: 0; }
+        .home-cook-title { font-size: .88rem; font-weight: 700; color: var(--text-1); }
+        .home-cook-row.active .home-cook-title { color: var(--green); }
+        body.dark .home-cook-row.active .home-cook-title { color: var(--green); }
+        .home-cook-sub { font-size: .72rem; color: var(--text-3); margin-top: 1px; }
+        .home-cook-btn {
+            font-size: .72rem; font-weight: 700;
+            color: var(--text-2); flex-shrink: 0;
+        }
+
+        /* Stat row */
+        .home-stats {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: var(--sp-3); margin-bottom: var(--sp-3);
+        }
+        .home-stat {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-lg); padding: var(--sp-4);
+            display: flex; flex-direction: column; gap: var(--sp-1);
+            cursor: pointer; transition: background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .home-stat:hover { background: var(--surface-2); }
+        .home-stat-icon { font-size: 1.3rem; line-height: 1; }
+        .home-stat-val {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.6rem; font-weight: 700; color: var(--text-1);
+            line-height: 1;
+        }
+        .home-stat-label { font-size: .72rem; color: var(--text-3); font-weight: 600; }
+
+        /* Week strip */
+        .home-week-strip {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-lg); overflow: hidden;
+            margin-bottom: var(--sp-3);
+        }
+        .home-week-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: var(--sp-3) var(--sp-4);
+            border-bottom: 1px solid var(--border);
+        }
+        .home-week-title { font-size: .82rem; font-weight: 700; color: var(--text-1); }
+        .home-week-link {
+            font-size: .75rem; font-weight: 700; color: var(--brand);
+            border: none; background: none; cursor: pointer; padding: 0;
+            font-family: inherit;
+        }
+        .home-week-days { display: flex; }
+        .home-week-day {
+            flex: 1; padding: var(--sp-2) var(--sp-1);
+            text-align: center; border-right: 1px solid var(--border);
+            cursor: pointer; transition: background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .home-week-day:last-child { border-right: none; }
+        .home-week-day:hover { background: var(--surface-2); }
+        .home-week-day.today { background: var(--brand-soft); }
+        .home-week-day-name {
+            font-size: .62rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .04em; color: var(--text-3); margin-bottom: 4px;
+        }
+        .home-week-day.today .home-week-day-name { color: var(--brand); }
+        .home-week-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--border); margin: 0 auto;
+        }
+        .home-week-dot.has-meal { background: var(--brand); }
+        .home-week-dot.today { background: var(--brand); }
+
+        /* Quick actions */
+        .home-actions {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: var(--sp-3); margin-bottom: var(--sp-3);
+        }
+        .home-action {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-lg); padding: var(--sp-4);
+            display: flex; align-items: center; gap: var(--sp-3);
+            cursor: pointer; transition: background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .home-action:hover { background: var(--surface-2); }
+        .home-action-icon {
+            width: 38px; height: 38px; border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0;
+        }
+        .home-action-icon.purple { background: var(--purple-soft); }
+        .home-action-icon.green  { background: var(--green-soft); }
+        .home-action-icon.amber  { background: #FEF3C7; }
+        .home-action-icon.brand  { background: var(--brand-soft); }
+        .home-action-label {
+            font-size: .82rem; font-weight: 700; color: var(--text-1);
+            line-height: 1.3;
+        }
+        .home-action-sub {
+            font-size: .68rem; color: var(--text-3); margin-top: 2px;
+        }
+
         /* ── 1. SWIPE — visual feedback ─────────────────────────── */
         #weekTable { touch-action: pan-y; user-select: none; }
         .week-swipe-hint {
@@ -1558,7 +1747,11 @@
 
 <!-- Bottom Navigation Bar — Plan / Menu / Shop / Account -->
 <nav class="bottom-nav" id="bottomNav">
-    <button class="btn-nav active" data-tab="week">
+    <button class="btn-nav active" data-tab="home">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+    </button>
+    <button class="btn-nav" data-tab="week">
         <span class="nav-icon">📅</span>
         <span>Plan</span>
     </button>
@@ -1570,16 +1763,106 @@
         <span class="nav-icon">🛒</span>
         <span>Shop</span>
     </button>
-    <!-- Account tab in bottom nav -->
     <button class="btn-nav" id="accountNavBtn" data-tab="account">
         <span class="nav-icon" id="accountNavIcon">👤</span>
-        <span id="accountNavLabel">Account</span>
+        <span id="accountNavLabel">You</span>
         <span class="nav-sync-dot" id="navSyncDot"></span>
     </button>
 </nav>
 
 <main>
-    <section id="panel-week" class="panel active">
+    <!-- ── HOME DASHBOARD ───────────────────────────────────────── -->
+    <section id="panel-home" class="panel active">
+        <!-- Greeting -->
+        <div class="home-greeting">
+            <div class="home-greeting-name" id="homeGreetingName">Good morning</div>
+            <div class="home-greeting-sub" id="homeGreetingSub">Here's your family's food plan</div>
+        </div>
+
+        <!-- Today's meals hero card -->
+        <div class="home-today" id="homeTodayCard">
+            <div class="home-today-label">Today</div>
+            <div class="home-today-day" id="homeTodayDay">—</div>
+            <div class="home-today-meals" id="homeTodayMeals">
+                <div class="home-today-empty">No meals planned yet</div>
+            </div>
+            <div class="home-today-actions">
+                <button class="home-today-btn" id="homeWaBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Share today
+                </button>
+                <button class="home-today-btn" id="homeEditTodayBtn">Edit today</button>
+            </div>
+        </div>
+
+        <!-- Who's cooking -->
+        <div class="home-cook-row" id="homeCookRow">
+            <span class="home-cook-icon">🍳</span>
+            <div class="home-cook-text">
+                <div class="home-cook-title" id="homeCookTitle">Who's cooking today?</div>
+                <div class="home-cook-sub" id="homeCookSub">Tap to claim</div>
+            </div>
+            <span class="home-cook-btn" id="homeCookBtn">I'm cooking</span>
+        </div>
+
+        <!-- Stats row -->
+        <div class="home-stats">
+            <div class="home-stat" id="homeStatMeals">
+                <span class="home-stat-icon">📅</span>
+                <span class="home-stat-val" id="homeStatMealsVal">0</span>
+                <span class="home-stat-label">Meals planned</span>
+            </div>
+            <div class="home-stat" id="homeStatShop">
+                <span class="home-stat-icon">🛒</span>
+                <span class="home-stat-val" id="homeStatShopVal">0</span>
+                <span class="home-stat-label">Items to buy</span>
+            </div>
+        </div>
+
+        <!-- Week overview strip -->
+        <div class="home-week-strip">
+            <div class="home-week-header">
+                <span class="home-week-title">This week</span>
+                <button class="home-week-link" id="homeWeekLink">View all →</button>
+            </div>
+            <div class="home-week-days" id="homeWeekDays"></div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="home-actions">
+            <div class="home-action" id="homeActionAI">
+                <div class="home-action-icon purple">✨</div>
+                <div>
+                    <div class="home-action-label">AI Plan</div>
+                    <div class="home-action-sub">Generate this week</div>
+                </div>
+            </div>
+            <div class="home-action" id="homeActionShop">
+                <div class="home-action-icon green">🛒</div>
+                <div>
+                    <div class="home-action-label">Shopping</div>
+                    <div class="home-action-sub" id="homeActionShopSub">View list</div>
+                </div>
+            </div>
+            <div class="home-action" id="homeActionMenu">
+                <div class="home-action-icon amber">📚</div>
+                <div>
+                    <div class="home-action-label">Browse menu</div>
+                    <div class="home-action-sub">All dishes</div>
+                </div>
+            </div>
+            <div class="home-action" id="homeActionShuffle">
+                <div class="home-action-icon brand">🎲</div>
+                <div>
+                    <div class="home-action-label">Shuffle week</div>
+                    <div class="home-action-sub">Random plan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── WEEK PLAN ─────────────────────────────────────────────── -->
+    <section id="panel-week" class="panel">
         <div class="toolbar">
             <div class="toolbar-nav">
                 <button class="btn btn-s" id="prevWeek">◀</button>
@@ -3140,6 +3423,8 @@ function renderWeekTable() {
     // Render supplementary panels
     renderBudgetBar();
     renderNutritionCard();
+    // Refresh home dashboard if it's visible, or always update its data
+    if (appReady) renderHome();
 }
 
 function openPicker(day, meal) {
@@ -3772,7 +4057,7 @@ function renderMenuCatalog() {
 }
 
 function switchTab(tab) {
-    // 'account' is not a panel — it opens the modal instead
+    // 'account' opens the settings sheet — not a panel
     if (tab === 'account') {
         if (supaUser) openInviteModal();
         else openAuthModal();
@@ -3783,8 +4068,10 @@ function switchTab(tab) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     const panel = document.getElementById('panel-' + tab);
     if (panel) panel.classList.add('active');
+    if (tab === 'home') renderHome();
     if (tab === 'menu') renderMenuCatalog();
     if (tab === 'shop') renderShopping();
+    if (tab === 'week') renderWeekTable();
 }
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
@@ -5460,13 +5747,13 @@ Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     else applyProfileUI();
     if (!Object.keys(loadPantry().items || {}).length) initPantryFromStaples();
     updatePantryNudge();
+    renderHome();
     renderWeekTable();
     renderMenuCatalog();
     renderShopping();
     maybeShowInstallBanner();
     checkCookHash();
     // Fetch community dishes (no auth needed — publicly readable)
-    // and start realtime so new dishes appear instantly for all users
     fetchCommunityDishes();
     startCommunityRealtime();
     appReady = true; // mark app as fully initialised AFTER first render
@@ -6736,6 +7023,137 @@ function shareToday() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('waTodayBtn')?.addEventListener('click', shareToday);
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HOME DASHBOARD
+// ═══════════════════════════════════════════════════════════════════════════
+function renderHome() {
+    const profile   = getProfile();
+    const name      = profile.plannerName || 'there';
+    const todayName = dayName(new Date());
+    const hour      = new Date().getHours();
+    const greeting  = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+    // Greeting
+    const greetEl = document.getElementById('homeGreetingName');
+    const subEl   = document.getElementById('homeGreetingSub');
+    if (greetEl) greetEl.textContent = `${greeting}, ${name} 👋`;
+    if (subEl)   subEl.textContent   = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long' });
+
+    // Today's meals
+    const week    = getWeek();
+    const today   = week.days[todayName] || {};
+    const todayDayEl  = document.getElementById('homeTodayDay');
+    const todayMeals  = document.getElementById('homeTodayMeals');
+    if (todayDayEl) todayDayEl.textContent = todayName;
+
+    const mealDefs = [
+        { key: 'breakfast', cls: 'bf', label: 'Breakfast' },
+        { key: 'lunch',     cls: 'lu', label: 'Lunch'     },
+        { key: 'dinner',    cls: 'di', label: 'Dinner'    },
+    ];
+    const plannedMeals = mealDefs.filter(m => today[m.key]);
+    if (todayMeals) {
+        if (plannedMeals.length) {
+            todayMeals.innerHTML = plannedMeals.map(m => `
+                <div class="home-meal-row">
+                    <span class="home-meal-dot ${m.cls}"></span>
+                    <span class="home-meal-label">${m.label}</span>
+                    <span class="home-meal-name">${today[m.key]}</span>
+                </div>`).join('');
+        } else {
+            todayMeals.innerHTML = `<div class="home-today-empty">No meals planned · tap Edit today</div>`;
+        }
+    }
+
+    // Who's cooking
+    const cookData  = loadCookToday();
+    const cookEntry = cookData[todayIsoDate()];
+    const myName    = supaUser?.user_metadata?.full_name?.split(' ')[0]
+                    || supaUser?.email?.split('@')[0]
+                    || name;
+    const cookRow   = document.getElementById('homeCookRow');
+    const cookTitle = document.getElementById('homeCookTitle');
+    const cookSub   = document.getElementById('homeCookSub');
+    const cookBtn   = document.getElementById('homeCookBtn');
+    if (cookRow && cookTitle && cookSub && cookBtn) {
+        if (cookEntry?.name) {
+            const isMe = cookEntry.name === myName;
+            cookRow.classList.add('active');
+            cookTitle.textContent = isMe ? '👨‍🍳 You are cooking today' : `👨‍🍳 ${cookEntry.name} is cooking`;
+            cookSub.textContent   = isMe ? 'Tap to unclaim' : 'Someone's got it!';
+            cookBtn.textContent   = isMe ? 'Unclaim' : "I'll cook";
+        } else {
+            cookRow.classList.remove('active');
+            cookTitle.textContent = "Who's cooking today?";
+            cookSub.textContent   = 'Tap to claim cooking duty';
+            cookBtn.textContent   = "I'm cooking";
+        }
+    }
+
+    // Stats
+    const allDays  = DAYS.map(d => week.days[d] || {});
+    const mealCount = allDays.reduce((n, d) =>
+        n + (d.breakfast?1:0) + (d.lunch?1:0) + (d.dinner?1:0), 0);
+    const shopChecks = loadShopChecks();
+    const totalBuy   = Object.keys(shopChecks).length;      // rough proxy
+    const notBought  = Object.values(shopChecks).filter(v => !v).length;
+    const valEl  = document.getElementById('homeStatMealsVal');
+    const shopEl = document.getElementById('homeStatShopVal');
+    if (valEl)  valEl.textContent  = mealCount;
+    if (shopEl) shopEl.textContent = notBought || '—';
+
+    // Week strip
+    const daysEl = document.getElementById('homeWeekDays');
+    if (daysEl) {
+        const shortNames = ['M','T','W','T','F','S','S'];
+        daysEl.innerHTML = DAYS.map((d, i) => {
+            const dd   = week.days[d] || {};
+            const hasMeal = dd.breakfast || dd.lunch || dd.dinner;
+            const isToday = d === todayName;
+            return `<div class="home-week-day ${isToday?'today':''}" data-goto-day="${d}">
+                <div class="home-week-day-name">${shortNames[i]}</div>
+                <div class="home-week-dot ${hasMeal?'has-meal':''} ${isToday?'today':''}"></div>
+            </div>`;
+        }).join('');
+
+        // Click on a day → go to plan tab and that day
+        daysEl.querySelectorAll('.home-week-day').forEach(el => {
+            el.addEventListener('click', () => switchTab('week'));
+        });
+    }
+}
+
+// Wire up home interactive elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Cook claim from home
+    document.getElementById('homeCookRow')?.addEventListener('click', () => {
+        claimCooking();
+        renderHome();
+    });
+
+    // WhatsApp share from home
+    document.getElementById('homeWaBtn')?.addEventListener('click', shareToday);
+
+    // Edit today → go to Plan tab
+    document.getElementById('homeEditTodayBtn')?.addEventListener('click', () => switchTab('week'));
+
+    // View all weeks
+    document.getElementById('homeWeekLink')?.addEventListener('click', () => switchTab('week'));
+
+    // Stats tap → navigate
+    document.getElementById('homeStatMeals')?.addEventListener('click', () => switchTab('week'));
+    document.getElementById('homeStatShop')?.addEventListener('click', () => switchTab('shop'));
+
+    // Quick actions
+    document.getElementById('homeActionAI')?.addEventListener('click', openAiModal);
+    document.getElementById('homeActionShop')?.addEventListener('click', () => switchTab('shop'));
+    document.getElementById('homeActionMenu')?.addEventListener('click', () => switchTab('menu'));
+    document.getElementById('homeActionShuffle')?.addEventListener('click', () => {
+        switchTab('week');
+        setTimeout(shuffleWeek, 100);
+    });
 });
 
 // Register service worker — network-first HTML means updates land on next open.
