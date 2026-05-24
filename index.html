@@ -1566,7 +1566,7 @@ function addCustomItem(listKey, name, nonveg) {
     if (!trimmed) return false;
     const seg = segmentByListKey(listKey);
     if (!seg) return false;
-    const all = mergedItems(listKey, seg.items);
+    const all = mergedItems(listKey);
     if (all.some(i => i.name.toLowerCase() === trimmed.toLowerCase())) {
         alert('This dish is already in the list.');
         return false;
@@ -1739,7 +1739,7 @@ function randomBfDraft() {
     const qty = {};
     let eggStyle = null;
     let eggCount = 0;
-    if (prefs.includes('traditional') && Math.random() < 0.55) {
+    if (prefs.includes('eggs') && Math.random() < 0.55) {
         const styles = vis('bfEgg').filter(e => e.id !== 'be0');
         if (styles.length) {
             const e = styles[Math.floor(Math.random() * styles.length)];
@@ -1784,6 +1784,7 @@ function randomLuDraft() {
             variety: v?.id || null, base: null, curry: null, biryani: null,
             poriyals: Math.random() < 0.45 ? pickSome('luPoriyal', 0, 1) : [],
             sides: Math.random() < 0.4 ? pickSome('luSides', 0, 1) : [],
+            qty: {},
         };
     }
     const b = pickOne('luBiryani');
@@ -1791,6 +1792,7 @@ function randomLuDraft() {
         biryani: b?.id || null, base: null, curry: null, variety: null,
         poriyals: Math.random() < 0.35 ? pickSome('luPoriyal', 0, 1) : [],
         sides: Math.random() < 0.35 ? pickSome('luSides', 0, 1) : [],
+        qty: {},
     };
 }
 
@@ -1798,7 +1800,7 @@ function randomDiDraft() {
     const r = Math.random();
     if (r < 0.25) {
         const it = pickOne('diSingle');
-        return { mode: 'single', single: it?.id || null, tiffin: null, sides: [], bread: null, gravy: null, quick: null };
+        return { mode: 'single', single: it?.id || null, tiffin: null, sides: [], bread: null, gravy: null, quick: null, qty: {} };
     }
     if (r < 0.5) {
         const t = pickOne('diTiffin');
@@ -1820,7 +1822,7 @@ function randomDiDraft() {
     ];
     const [key, items] = pools[Math.floor(Math.random() * pools.length)];
     const q = pickOne(key, items);
-    return { mode: 'quick', single: null, tiffin: null, sides: [], bread: null, gravy: null, quick: q?.id || null };
+    return { mode: 'quick', single: null, tiffin: null, sides: [], bread: null, gravy: null, quick: q?.id || null, qty: {} };
 }
 
 function saveDayMeals(day, dayIndex, bfD, luD, diD) {
@@ -2564,7 +2566,7 @@ function renderHiddenBlock() {
     const tags = [];
     allSegments().forEach(seg => {
         (h[seg.listKey] || []).forEach(id => {
-            const it = lookup(seg.listKey, seg.items, id);
+            const it = lookup(seg.listKey, id);
             if (it) tags.push({ listKey: seg.listKey, it });
         });
     });
@@ -2624,7 +2626,7 @@ function renderMenuCatalog() {
         let card = '';
         m.segments.forEach(seg => {
             if (!seg.listKey) return;
-            const pool = mergedItems(seg.listKey, seg.items);
+            const pool = mergedItems(seg.listKey);
             const items = (q ? pool.filter(i => i.name.toLowerCase().includes(q)) : pool)
                 .filter(i => !isHidden(seg.listKey, i.id))
                 .filter(i => matchesDiet(i, seg.listKey));
@@ -3152,8 +3154,8 @@ function applyProfileUI() {
     const title = familyMenuTitle(p.plannerName);
     document.getElementById('appTitle').textContent = title;
     document.title = title;
-    const foot = document.getElementById('appFoot');
-    if (foot) foot.textContent = `${title} · Plans stay on your device`;
+    const footMain = document.querySelector('#appFoot .foot-main');
+    if (footMain) footMain.textContent = `${title} · Plans stay on your device`;
     rebuildPlannerSwitch();
     const children = getChildren();
     const who = p.plannerName?.trim() || 'You';
@@ -4190,7 +4192,8 @@ function setPlanner(p) {
         if (isChildPlanner()) hintBaby.innerHTML =
             `<strong>${childName}</strong> (${childAgeShort(months)}) — 🎲 shuffle or tap cells to edit · Menus match age`;
     }
-    document.getElementById('manageNote').innerHTML = isChildPlanner()
+    const manageNote = document.getElementById('manageNote');
+    if (manageNote) manageNote.innerHTML = isChildPlanner()
         ? `<strong>${childName}</strong> (${childAgeShort(months)}) — menus filtered for this age · <strong>+ Add</strong> / <strong>×</strong> · Red = egg/meat/fish`
         : 'Tap <strong>+ Add</strong> on any section to add your own dish · <strong>×</strong> hides built-in dishes · <strong>×</strong> on blue tags removes your custom dish';
     rebuildPlannerSwitch();
