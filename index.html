@@ -5055,7 +5055,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('authGoogleBtn')?.addEventListener('click', async () => {
         const { error } = await supa.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: window.location.href }
+            options: { redirectTo: 'https://leelsankar.github.io/foodmenu/' }
         });
         if (error) {
             const st = document.getElementById('authStatus');
@@ -5071,7 +5071,7 @@ document.addEventListener('DOMContentLoaded', () => {
         st.textContent = 'Sending…'; st.className = 'auth-status ok';
         const { error } = await supa.auth.signInWithOtp({
             email,
-            options: { emailRedirectTo: window.location.href }
+            options: { emailRedirectTo: 'https://leelsankar.github.io/foodmenu/' }
         });
         if (error) { st.textContent = error.message; st.className = 'auth-status err'; }
         else { st.textContent = '✓ Magic link sent! Check your email and tap the link.'; st.className = 'auth-status ok'; }
