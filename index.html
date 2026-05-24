@@ -798,8 +798,22 @@
         .seg-details .seg-inner { padding-top: .2rem; }
         .bf-egg-block { margin-bottom: .75rem; padding: .55rem .7rem; background: #fffbec; border-radius: 12px; border: 1px solid #edd97a; }
         .bf-egg-block h4 { font-size: .75rem; color: #8a6400; margin-bottom: .35rem; }
-        .note-pill { font-size: .65rem; color: var(--muted); font-style: italic; background: var(--cream); border-radius: 8px; padding: .15rem .4rem; margin-top: .2rem; cursor: pointer; border: 1px dashed var(--border); display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .note-pill.has-note { color: var(--p); border-color: var(--p2); background: #fdeee8; }
+        /* Note pill — lives in its own footer row inside the day card */
+        .day-card-note {
+            padding: var(--sp-2) var(--sp-3) var(--sp-3);
+            border-top: 1px solid var(--border);
+        }
+        .note-pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: .7rem; color: var(--text-3); font-style: italic;
+            background: var(--surface-2); border-radius: var(--r-sm);
+            padding: .22rem .55rem; cursor: pointer;
+            border: 1px dashed var(--border);
+            max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            transition: background .12s, border-color .12s;
+        }
+        .note-pill:hover { background: var(--surface-3); }
+        .note-pill.has-note { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); font-style: normal; }
         .recent-strip { margin-bottom: .6rem; }
         .recent-strip h5 { font-size: .65rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: .3rem; }
         .recent-strip .pills { flex-wrap: wrap; }
@@ -3387,14 +3401,14 @@ function renderWeekTable() {
                 </div>
             </div>`;
         }).join('');
-        const notePill = `<div class="note-pill ${note ? 'has-note' : ''}" data-note-day="${day}" title="${note || 'Add a note for this day'}">${note || '+ Add note'}</div>`;
+        const notePill = `<div class="note-pill ${note ? 'has-note' : ''}" data-note-day="${day}" title="${note || 'Add a note for this day'}">${note ? '📝 ' + note : '+ Add note'}</div>`;
         return `<article class="day-card ${isToday ? 'today' : ''}">
             <header class="day-card-head">
                 <div><strong>${day}</strong><span class="date-sm">${fmtShort(dateFor(i))}</span></div>
-                <button type="button" class="btn-shuffle-day" data-shuffle-day="${day}" title="Shuffle ${day} only">🎲 Day</button>
+                <button type="button" class="btn-shuffle-day" data-shuffle-day="${day}" title="Shuffle ${day} only">🎲</button>
             </header>
             <div class="day-card-meals">${mealsHtml}</div>
-            ${notePill}
+            <div class="day-card-note">${notePill}</div>
         </article>`;
     }).join('');
 
@@ -3408,7 +3422,7 @@ function renderWeekTable() {
         }).join('');
         const note = notes[weekKey()]?.[day] || '';
         return `<tr class="${isToday ? 'today' : ''}">
-            <td class="day-name">${day.slice(0, 3)}<br><span class="date-sm">${fmtShort(dateFor(i))}</span><br><span class="note-pill ${note?'has-note':''}" data-note-day="${day}" style="margin-top:.2rem">${note || '✎'}</span></td>
+            <td class="day-name">${day.slice(0, 3)}<br><span class="date-sm">${fmtShort(dateFor(i))}</span><br><span class="note-pill ${note?'has-note':''}" data-note-day="${day}">${note || '✎'}</span></td>
             ${cells}
             <td class="day-actions"><button type="button" class="btn-shuffle-day" data-shuffle-day="${day}" title="Shuffle ${day} only">🎲</button></td>
         </tr>`;
@@ -6834,15 +6848,28 @@ const NUTRITION_TAGS = {
 
 function getDishIngredients(dishName) {
     if (!dishName) return [];
-    // Look up from INGREDIENT_DB
     const lower = dishName.toLowerCase().trim();
-    // Try to find in INGREDIENT_DB.dishes
-    for (const [id, ings] of Object.entries(INGREDIENT_DB.dishes || {})) {
-        const item = Object.values(MENU_LISTS).flat().find(x => x.id === id);
-        if (item && item.name.toLowerCase() === lower) return ings;
+
+    // 1. Find the dish ID by matching name across all menu lists
+    let matchedId = null;
+    for (const items of Object.values(MENU_LISTS)) {
+        const found = items.find(x => x.name.toLowerCase() === lower);
+        if (found) { matchedId = found.id; break; }
     }
-    // Fallback: generic ingredient guesses
-    return [];
+
+    // 2. Try INGREDIENT_DB.dishes by matched ID
+    if (matchedId && INGREDIENT_DB.dishes?.[matchedId]?.length) {
+        return INGREDIENT_DB.dishes[matchedId];
+    }
+
+    // 3. Try userIngredientsFor the matched ID
+    if (matchedId) {
+        const user = userIngredientsFor(matchedId);
+        if (user.length) return user;
+    }
+
+    // 4. Fall back to groceriesForDish (rule-based, always returns something)
+    return groceriesForDish(dishName, matchedId);
 }
 
 function getRecipeSteps(dishName) {
