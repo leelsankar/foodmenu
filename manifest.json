@@ -1,6 +1,6 @@
 {
-  "name": "Family Meal Planner",
-  "short_name": "Meal Planner",
+  "name": "Family Meal Plan",
+  "short_name": "Family Meal Plan",
   "description": "Plan your family's weekly meals, build shopping lists, and track your pantry.",
   "start_url": "/foodmenu/",
   "display": "standalone",
