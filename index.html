@@ -4969,30 +4969,20 @@ async function joinFamily(code) {
     }
     if (!code || code.length !== 6) { setStatus('Enter a 6-character code.', false); return; }
     if (!supaUser) { setStatus('Sign in first.', false); return; }
-    setStatus('Looking up family…', true);
+    setStatus('Joining family…', true);
     try {
-        // Find family by invite code
-        const { data: fam, error: fErr } = await supa
-            .from('families')
-            .select('id')
-            .eq('invite_code', code.toUpperCase())
-            .single();
-        if (fErr || !fam) { setStatus('Code not found. Check and try again.', false); return; }
+        // Call the server-side RPC — bypasses RLS safely, handles upsert atomically
+        const { data: newFamilyId, error } = await supa.rpc('join_family', {
+            p_invite_code: code.toUpperCase()
+        });
+        if (error) throw error;
 
-        if (fam.id === supaFamilyId) { setStatus('You are already in this family!', true); return; }
+        if (newFamilyId === supaFamilyId) {
+            setStatus('You are already in this family!', true);
+            return;
+        }
 
-        // Upsert into new family — handles both first join and switching families
-        // Uses onConflict on user_id so it updates the existing row rather than inserting a duplicate
-        const { error: mErr } = await supa
-            .from('family_members')
-            .upsert(
-                { user_id: supaUser.id, family_id: fam.id, role: 'member',
-                  display_name: supaUser.user_metadata?.full_name || supaUser.email },
-                { onConflict: 'user_id' }
-            );
-        if (mErr) throw mErr;
-
-        supaFamilyId = fam.id;
+        supaFamilyId = newFamilyId;
         stopRealtime();
         await sbPull();
         startRealtime();
