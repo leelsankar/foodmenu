@@ -4981,14 +4981,15 @@ async function joinFamily(code) {
 
         if (fam.id === supaFamilyId) { setStatus('You are already in this family!', true); return; }
 
-        // Remove from current family (if any)
-        await supa.from('family_members').delete().eq('user_id', supaUser.id);
-
-        // Join new family
+        // Upsert into new family — handles both first join and switching families
+        // Uses onConflict on user_id so it updates the existing row rather than inserting a duplicate
         const { error: mErr } = await supa
             .from('family_members')
-            .insert({ user_id: supaUser.id, family_id: fam.id, role: 'member',
-                      display_name: supaUser.user_metadata?.full_name || supaUser.email });
+            .upsert(
+                { user_id: supaUser.id, family_id: fam.id, role: 'member',
+                  display_name: supaUser.user_metadata?.full_name || supaUser.email },
+                { onConflict: 'user_id' }
+            );
         if (mErr) throw mErr;
 
         supaFamilyId = fam.id;

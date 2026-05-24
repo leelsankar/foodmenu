@@ -80,9 +80,21 @@ create policy "members can read own family members"
     on public.family_members for select
     using (family_id = public.my_family_id());
 
+-- insert: user can only insert their own row
 create policy "authenticated users can join a family"
     on public.family_members for insert
     with check (auth.uid() = user_id);
+
+-- update: user can update their own row (needed for upsert / switching families)
+create policy "users can update own membership"
+    on public.family_members for update
+    using (auth.uid() = user_id)
+    with check (auth.uid() = user_id);
+
+-- delete: user can remove their own row (needed when leaving a family)
+create policy "users can delete own membership"
+    on public.family_members for delete
+    using (auth.uid() = user_id);
 
 -- family_data: only family members can read/write
 create policy "members can read family data"
