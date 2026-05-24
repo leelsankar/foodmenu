@@ -3497,24 +3497,28 @@ function closePicker() {
 }
 
 function renderPills(container, items, selected, multi, onChange) {
-    const sel = new Set(Array.isArray(selected) ? selected : (selected ? [selected] : []));
-    container.innerHTML = items.map(it => {
-        const on = sel.has(it.id);
-        return `<button type="button" class="pill ${on?'on':''} ${it.nonveg?'nv':''}" data-id="${it.id}">${it.name}</button>`;
-    }).join('');
-    container.querySelectorAll('.pill').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.dataset.id;
-            let next;
-            if (multi) {
-                const arr = [...sel];
-                next = arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id];
-            } else {
-                next = sel.has(id) ? null : id;
-            }
-            onChange(next);
+    const draw = (currentSel) => {
+        const sel = new Set(Array.isArray(currentSel) ? currentSel : (currentSel ? [currentSel] : []));
+        container.innerHTML = items.map(it => {
+            const on = sel.has(it.id);
+            return `<button type="button" class="pill ${on?'on':''} ${it.nonveg?'nv':''}" data-id="${it.id}">${it.name}</button>`;
+        }).join('');
+        container.querySelectorAll('.pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                let next;
+                if (multi) {
+                    const arr = [...sel];
+                    next = arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id];
+                } else {
+                    next = sel.has(id) ? null : id;
+                }
+                onChange(next);   // update draft
+                draw(next);       // immediately re-render pills to reflect new selection
+            });
         });
-    });
+    };
+    draw(selected);
 }
 
 function segBlock(title, hint, items, selected, multi, onChange, id) {
