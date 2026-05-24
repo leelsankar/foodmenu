@@ -1,7 +1,7 @@
 {
-  "name": "Family Meal Plan",
-  "short_name": "Family Meal Plan",
-  "description": "Plan your family's weekly meals, build shopping lists, and track your pantry.",
+  "name": "Gatherly — Family Meal Planner",
+  "short_name": "Gatherly",
+  "description": "Gatherly — the family meal planner that plans your week, builds your shopping list, and keeps your whole family in sync.",
   "start_url": "/foodmenu/",
   "display": "standalone",
   "background_color": "#fef3e2",
