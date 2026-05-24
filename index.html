@@ -129,7 +129,7 @@
         header {
             background: var(--card);
             color: var(--text);
-            padding: .65rem 1rem .5rem;
+            padding: .6rem 1rem;
             position: sticky; top: 0; z-index: 50;
             border-bottom: 1px solid var(--border);
             box-shadow: 0 1px 3px rgba(0,0,0,.06);
@@ -137,43 +137,47 @@
         .header-top {
             display: flex; align-items: center;
             justify-content: space-between; gap: .5rem;
+            min-height: 44px;
         }
-        .header-title { flex: 1; min-width: 0; }
+        .header-title { flex: 1; min-width: 0; overflow: hidden; }
         .header-title h1 {
             font-family: 'Fraunces', Georgia, serif;
-            font-size: 1.1rem; font-weight: 700; color: var(--p);
+            font-size: 1.05rem; font-weight: 700; color: var(--p);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            line-height: 1.3;
         }
         .header-title .sub {
-            font-size: .7rem; color: var(--muted);
+            font-size: .68rem; color: var(--muted);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            line-height: 1.3;
         }
         .family-badge {
-            display: inline-block; font-size: .65rem;
-            background: var(--cream); color: var(--muted);
-            padding: .15rem .45rem; border-radius: 999px;
-            border: 1px solid var(--border); margin-top: .2rem;
+            display: none; /* moved to subtitle — not shown in header */
         }
-        .header-actions { display: flex; align-items: center; gap: .35rem; flex-shrink: 0; }
+        .header-actions {
+            display: flex; align-items: center; gap: .3rem; flex-shrink: 0;
+        }
         .btn-icon {
-            background: var(--cream); border: 1px solid var(--border);
-            color: var(--muted); width: 34px; height: 34px;
-            border-radius: 50%; cursor: pointer; font-size: .95rem;
+            background: transparent; border: none;
+            color: var(--muted); width: 36px; height: 36px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem;
             display: flex; align-items: center; justify-content: center;
-            transition: background .15s;
+            transition: background .15s; flex-shrink: 0;
         }
-        .btn-icon:hover { background: var(--border); }
-        body.dark .btn-icon { background: var(--cream); border-color: var(--border); color: var(--muted); }
+        .btn-icon:hover { background: var(--cream); }
+        body.dark .btn-icon { color: var(--muted); }
+        body.dark .btn-icon:hover { background: var(--cream); }
 
         /* Planner switch (Adults / Child tabs in header) */
         .planner-switch {
             display: inline-flex; align-self: center;
             background: var(--cream); border-radius: 999px;
-            padding: 3px; flex-shrink: 0; border: 1px solid var(--border);
+            padding: 2px; flex-shrink: 0; border: 1px solid var(--border);
+            max-width: 200px; overflow: hidden;
         }
         .planner-opt {
             border: none; background: transparent; color: var(--muted);
-            font-size: .7rem; font-weight: 600; padding: .32rem .65rem;
+            font-size: .68rem; font-weight: 600; padding: .28rem .6rem;
             border-radius: 999px; cursor: pointer; white-space: nowrap;
             transition: background .15s, color .15s;
         }
@@ -192,32 +196,57 @@
             border-top: 1px solid var(--border);
             display: flex; align-items: stretch;
             z-index: 100;
-            box-shadow: 0 -1px 3px rgba(0,0,0,.06);
+            box-shadow: 0 -1px 6px rgba(0,0,0,.07);
+            /* safe area for phones with home indicator */
+            padding-bottom: env(safe-area-inset-bottom, 0);
         }
         .btn-nav {
             flex: 1; display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            gap: .18rem; border: none; background: transparent;
-            color: var(--muted); font-size: .62rem; font-weight: 600;
-            cursor: pointer; padding: .4rem .2rem; line-height: 1;
-            transition: color .15s;
-            position: relative;
+            gap: .15rem; border: none; background: transparent;
+            color: var(--muted); font-size: .6rem; font-weight: 600;
+            cursor: pointer; padding: .35rem .15rem;
+            line-height: 1; transition: color .15s;
         }
         .btn-nav .nav-icon {
-            font-size: 1.25rem; line-height: 1;
-            width: 40px; height: 28px;
+            font-size: 1.2rem; line-height: 1;
+            width: 42px; height: 26px;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 14px; transition: background .2s;
+            border-radius: 13px; transition: background .18s;
         }
+        /* Account icon is an avatar circle when signed in */
+        .btn-nav .nav-avatar {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--p); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .7rem; font-weight: 800; overflow: hidden;
+        }
+        .btn-nav .nav-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         .btn-nav.active { color: var(--p); }
         .btn-nav.active .nav-icon { background: #fdeee8; }
         body.dark .btn-nav.active .nav-icon { background: #2e1e14; }
+        body.dark .btn-nav.active { color: var(--p); }
         .btn-nav:hover:not(.active) .nav-icon { background: var(--cream); }
+        /* Sync dot on account nav button */
+        .nav-sync-dot {
+            position: absolute; top: 6px; right: calc(50% - 21px + 2px);
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #4caf50; border: 2px solid var(--card);
+            display: none;
+        }
+        .nav-sync-dot.visible { display: block; }
+        .nav-sync-dot.err { background: #ef4444; }
 
         /* ── Main content ─────────────────────────────────────────── */
-        main { max-width: 720px; margin: 0 auto; padding: .85rem .75rem 1.5rem; }
+        main {
+            max-width: 720px; margin: 0 auto;
+            padding: .85rem .75rem 1.5rem;
+            /* Extra bottom padding so content clears the bottom nav */
+            padding-bottom: calc(var(--bnav-h) + .5rem);
+        }
         footer.app-foot { margin-top: .5rem; }
         .panel { display: none; } .panel.active { display: block; }
+        .btn-nav { position: relative; }
 
         /* ── Buttons ─────────────────────────────────────────────── */
         .btn {
@@ -878,167 +907,7 @@
         .pantry-del:hover { background:#fee2e2; color:#c0392b; }
         .pantry-add { display:flex; gap:.4rem; margin-top:.65rem; flex-wrap:wrap; }
         .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); }
-        /* ── Cook share row ──────────────────────────────── */
-        .cook-share-row { display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; padding:.6rem .75rem; background:linear-gradient(135deg,#e8f5e9,#f0faf0); border:1px solid #a8d5b5; border-radius:10px; margin-bottom:.75rem; }
-        .cook-share-row .hint { flex:1; margin:0; font-size:.75rem; color:#1b4332; }
-        /* ── Cook Mode Overlay (full-page, for the cook's phone) ─ */
-        .cook-mode-overlay { position:fixed; inset:0; z-index:9999; background:var(--bg); overflow-y:auto; display:flex; flex-direction:column; }
-        .cook-mode-wrap { max-width:520px; margin:0 auto; padding:1.25rem 1rem 7rem; width:100%; }
-        .cook-mode-hdr { text-align:center; padding:.75rem 0 1rem; }
-        .cook-mode-hdr .cook-icon { font-size:2.5rem; line-height:1; }
-        .cook-mode-hdr h2 { font-size:1.35rem; margin:.4rem 0 .2rem; }
-        .cook-mode-hdr p { color:var(--text-muted); font-size:.82rem; }
-        .cook-item-row { display:flex; align-items:center; gap:.5rem; padding:.5rem .45rem; border-radius:8px; border:1px solid var(--border); margin-bottom:.3rem; background:var(--card); }
-        .cook-item-name { flex:1; font-size:.85rem; font-weight:500; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .cook-item-btns { display:flex; gap:.3rem; flex-shrink:0; }
-        .cook-item-btn { padding:.28rem .48rem; border-radius:6px; font-size:.72rem; font-weight:700; border:1.5px solid var(--border); cursor:pointer; background:var(--bg); color:var(--text-muted); transition:all .15s; }
-        .cook-item-btn.sel-full  { background:#e8f5e9; border-color:#6abf77; color:#1b4332; }
-        .cook-item-btn.sel-low   { background:#fff8e1; border-color:#f9a825; color:#7a5000; }
-        .cook-item-btn.sel-empty { background:#fdecea; border-color:#e57373; color:#7f1010; }
-        .cook-mode-footer { position:fixed; bottom:0; left:0; right:0; padding:.85rem 1rem; background:var(--bg); border-top:1px solid var(--border); display:flex; flex-direction:column; align-items:center; gap:.3rem; box-shadow:0 -2px 12px rgba(0,0,0,.08); }
-        .btn-wide { width:100%; max-width:420px; padding:.75rem 1rem; font-size:1rem; border-radius:12px; }
-        /* ── Pantry Import Banner (top of screen when cook link opens) ─ */
-        .pantry-import-banner { position:fixed; top:0; left:0; right:0; z-index:1200; background:#1b4332; color:#fff; padding:.7rem 1rem; display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; box-shadow:0 2px 12px rgba(0,0,0,.15); }
-        .pantry-import-banner p { flex:1; margin:0; font-size:.82rem; min-width:180px; }
-        .pantry-import-acts { display:flex; gap:.5rem; margin-left:auto; }
-        /* Mobile: one card per day — no horizontal scroll */
-        .week-cards { display:none; flex-direction:column; gap:.65rem; padding:.65rem; }
-        .day-card {
-            border:1px solid var(--border); border-radius:var(--radius);
-            overflow:hidden; background:var(--card);
-        }
-        .day-card.today { border-color:var(--p2); box-shadow:0 0 0 2px rgba(196,92,38,.15); }
-        .day-card-head {
-            display:flex; align-items:center; justify-content:space-between; gap:.5rem;
-            padding:.5rem .65rem; background:var(--cream); border-bottom:1px solid var(--border);
-        }
-        .day-card-head strong { font-size:.88rem; color:var(--p); }
-        .day-card-head .date-sm { display:block; font-size:.68rem; color:var(--muted); font-weight:600; }
-        .day-card-meals { padding:.35rem .5rem .5rem; }
-        .day-meal {
-            display:grid; grid-template-columns:4.4rem 1fr; gap:.25rem .4rem;
-            align-items:start; padding:.35rem 0; border-bottom:1px solid var(--border);
-        }
-        .day-meal:last-child { border-bottom:none; }
-        .day-meal-lbl {
-            font-size:.6rem; font-weight:800; text-transform:uppercase;
-            letter-spacing:.02em; padding-top:.2rem; line-height:1.2;
-        }
-        .day-meal.bf .day-meal-lbl { color:#457b9d; }
-        .day-meal.lu .day-meal-lbl { color:var(--p2); }
-        .day-meal.di .day-meal-lbl { color:#e76f51; }
-        .day-meal.sn .day-meal-lbl { color:#9b59b6; }
-        .day-card .cell { max-width:none; min-height:2rem; font-size:.8rem; line-height:1.35; word-break:break-word; }
-        .day-card .cell.empty { font-size:.75rem; }
-        .day-card .btn-shuffle-day { width:auto; height:auto; padding:.28rem .45rem; font-size:.72rem; }
-        .day-card-head strong { font-size:.82rem; }
-        @media (max-width:380px) {
-            .day-meal { grid-template-columns:3.8rem 1fr; }
-            .day-card .cell { font-size:.75rem; }
-        }
-        /* Empty-state welcome card */
-        .week-empty-card {
-            background: linear-gradient(135deg, #fff9f2 0%, #fef3e2 100%);
-            border: 2px dashed var(--p2); border-radius: var(--radius);
-            padding: 1.4rem 1.2rem; text-align: center; margin: .5rem 0 1rem;
-        }
-        .week-empty-card h3 { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; color:var(--p); margin-bottom:.4rem; }
-        .week-empty-card p { font-size:.8rem; color:var(--muted); margin-bottom:.85rem; line-height:1.55; }
-        .week-empty-actions { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; }
-        /* Planned-badge in menu catalog — compact ✓ dot in 2-col grid */
-        .tag-planned { font-size:.65rem; font-weight:900; background:#2d6a4f; color:#fff;
-            border-radius:50%; width:1rem; height:1rem; flex-shrink:0;
-            display:inline-flex; align-items:center; justify-content:center; }
-        /* Shop empty onboarding */
-        .shop-onboard {
-            background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 1.1rem 1rem; text-align:center;
-        }
-        .shop-onboard p { font-size:.83rem; color:var(--muted); margin-bottom:.75rem; }
-        /* Ingredient edit icon in 2-col menu grid */
-        .tag-ing-edit {
-            font-size:.62rem; cursor:pointer; border:none; background:none;
-            padding:0 .1rem; flex-shrink:0; opacity:.5; line-height:1;
-        }
-        .tag-ing-edit:hover { opacity:1; }
-        /* Day note pill */
-        .note-pill {
-            font-size:.65rem; color:var(--muted); font-style:italic;
-            background:var(--cream); border-radius:6px; padding:.15rem .4rem;
-            margin-top:.2rem; cursor:pointer; border:1px dashed var(--border);
-            display:inline-block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-        }
-        .note-pill.has-note { color:var(--p); border-color:var(--p2); background:#fff5eb; }
-        /* Recently-used strip in picker */
-        .recent-strip { margin-bottom:.6rem; }
-        .recent-strip h5 { font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
-        .recent-strip .pills { flex-wrap:wrap; }
-        /* Grocery category group */
-        .shop-cat-hdr {
-            font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
-            color:var(--muted); padding:.55rem 0 .2rem; border-top:1px solid var(--border); margin-top:.4rem;
-        }
-        .shop-cat-hdr:first-child { border-top:none; margin-top:0; }
-        /* Extra shop items */
-        .extra-items-wrap { margin-top:.85rem; border-top:1px solid var(--border); padding-top:.65rem; }
-        .extra-items-wrap h5 { font-size:.72rem; font-weight:800; color:var(--muted); margin-bottom:.35rem; }
-        .extra-item-row { display:flex; align-items:center; gap:.4rem; padding:.25rem 0; }
-        .extra-item-row span { flex:1; font-size:.78rem; }
-        .extra-item-row button { font-size:.7rem; padding:.15rem .4rem; }
-        .extra-add-row { display:flex; gap:.35rem; margin-top:.35rem; }
-        .extra-add-row input { flex:1; font-size:.78rem; padding:.35rem .5rem; border:1px solid var(--border); border-radius:8px; background:var(--card); color:var(--text); }
-        /* Dark mode toggle */
-        .btn-dark { background:rgba(255,255,255,.15); border:none; color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; }
-        .btn-dark:hover { background:rgba(255,255,255,.25); }
-        /* Footer backup bar */
-        .app-foot { padding:.55rem 1rem; text-align:center; font-size:.72rem; color:var(--muted); border-top:1px solid var(--border); }
-        .foot-main { margin-bottom:.25rem; }
-        .foot-backup { display:flex; align-items:center; justify-content:center; gap:.4rem; flex-wrap:wrap; }
-        .foot-sep { color:var(--border); }
-        .btn-text-link { background:none; border:none; color:var(--p2); font-size:.72rem; cursor:pointer; padding:0; font-family:inherit; }
-        .btn-text-link:hover { text-decoration:underline; color:var(--p); }
-        /* Install steps */
-        .install-steps { display:flex; flex-direction:column; gap:.55rem; }
-        .install-step { display:flex; align-items:flex-start; gap:.6rem; font-size:.82rem; line-height:1.5; }
-        .install-num { background:var(--p); color:#fff; border-radius:50%; width:1.25rem; height:1.25rem; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:800; flex-shrink:0; margin-top:.1rem; }
-        /* Install nudge banner */
-        .install-banner { position:fixed; bottom:0; left:0; right:0; z-index:200; background:var(--p); color:#fff; padding:.6rem .9rem; display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; font-size:.78rem; box-shadow:0 -2px 12px rgba(0,0,0,.18); }
-        .install-banner.hidden { display:none; }
-        .install-banner span { flex:1; line-height:1.4; }
-        .install-banner-how { background:rgba(255,255,255,.25); border:none; color:#fff; font-size:.72rem; padding:.3rem .65rem; border-radius:8px; cursor:pointer; white-space:nowrap; }
-        .install-banner-how:hover { background:rgba(255,255,255,.38); }
-        .install-banner-close { background:none; border:none; color:rgba(255,255,255,.8); font-size:1rem; cursor:pointer; padding:.1rem .3rem; }
-        /* Share week overlay */
-        .share-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:300; display:flex; align-items:flex-start; justify-content:center; overflow-y:auto; padding:1rem; }
-        .share-overlay.hidden { display:none; }
-        .share-modal { background:var(--card); border-radius:var(--radius); width:100%; max-width:520px; margin:auto; box-shadow:var(--shadow); overflow:hidden; }
-        .share-modal-head { background:linear-gradient(135deg,var(--p) 0%,var(--p2) 100%); color:#fff; padding:.85rem 1rem; display:flex; align-items:center; justify-content:space-between; }
-        .share-modal-head h3 { font-size:1rem; margin:0; }
-        .share-modal-head .sub { font-size:.72rem; opacity:.85; margin-top:.1rem; }
-        .share-modal-actions { display:flex; gap:.5rem; padding:.75rem 1rem; border-bottom:1px solid var(--border); flex-wrap:wrap; }
-        .share-week-grid { padding:.65rem .75rem 1rem; }
-        .share-day-row { display:grid; grid-template-columns:2.8rem 1fr; gap:.3rem .5rem; padding:.45rem 0; border-bottom:1px solid var(--border); align-items:start; }
-        .share-day-row:last-child { border-bottom:none; }
-        .share-day-lbl { font-size:.68rem; font-weight:800; color:var(--p); text-transform:uppercase; padding-top:.1rem; }
-        .share-meals-col { font-size:.78rem; line-height:1.5; color:var(--text); }
-        .share-meal-line { display:flex; gap:.3rem; }
-        .share-meal-tag { font-size:.6rem; font-weight:700; text-transform:uppercase; color:var(--muted); width:1.6rem; flex-shrink:0; padding-top:.15rem; }
-        .share-no-plan { color:var(--muted); font-style:italic; font-size:.75rem; }
-        @media (max-width: 768px) {
-            .week-cards { display:flex; }
-            .week-table-scroll { display:none; }
-            main { padding:.65rem .55rem 2rem; }
-            .toolbar { flex-direction:column; align-items:stretch; gap:.35rem; }
-            .toolbar-nav { justify-content:center; }
-            .toolbar-nav .range { min-width:0; font-size:.82rem; }
-            .toolbar-acts { justify-content:center; }
-            .toolbar .hint { display:none; }
-            .header-top { gap:.5rem; }
-            .planner-switch { width:auto; align-self:flex-start; }
-        }
-        @media (min-width: 769px) {
-            .week-table-scroll { display:block; }
-        }
+        /* duplicate old block removed — all styles are in the new block above */
 
         /* ── Auth & Sync ─────────────────────────────────────────── */
         .auth-btn { display:flex; align-items:center; gap:.4rem; background:var(--cream); border:1.5px solid var(--border); border-radius:999px; padding:.28rem .6rem .28rem .28rem; cursor:pointer; font-size:.72rem; font-weight:700; color:var(--text); white-space:nowrap; transition:background .15s; }
@@ -1107,20 +976,8 @@
         <div class="header-title">
             <h1 id="appTitle">Family Meal Plan</h1>
             <p class="sub" id="headerSub">Indian family meal planner</p>
-            <span class="family-badge" id="familyBadge">2 adults</span>
         </div>
         <div class="header-actions">
-            <!-- Auth user button (shown when signed in) -->
-            <button type="button" class="auth-btn" id="authUserBtn" style="display:none" title="Account & family sync">
-                <span class="auth-avatar" id="authAvatar">?</span>
-                <span id="authUserName">You</span>
-                <span class="sync-pill" id="syncPill"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">synced</span></span>
-            </button>
-            <!-- Sign-in button (shown when signed out) -->
-            <button type="button" class="auth-btn" id="authSignInBtn" title="Sign in to sync across family">
-                <span class="auth-avatar">👤</span>
-                Sign in
-            </button>
             <div class="planner-switch" id="plannerSwitch" role="tablist" aria-label="Plan for">
                 <button type="button" class="planner-opt active" data-person="adult" role="tab" aria-selected="true">Adults</button>
             </div>
@@ -1130,7 +987,7 @@
     </div>
 </header>
 
-<!-- Bottom Navigation Bar -->
+<!-- Bottom Navigation Bar — Plan / Menu / Shop / Account -->
 <nav class="bottom-nav" id="bottomNav">
     <button class="btn-nav active" data-tab="week">
         <span class="nav-icon">📅</span>
@@ -1143,6 +1000,12 @@
     <button class="btn-nav" data-tab="shop">
         <span class="nav-icon">🛒</span>
         <span>Shop</span>
+    </button>
+    <!-- Account tab in bottom nav -->
+    <button class="btn-nav" id="accountNavBtn" data-tab="account">
+        <span class="nav-icon" id="accountNavIcon">👤</span>
+        <span id="accountNavLabel">Account</span>
+        <span class="nav-sync-dot" id="navSyncDot"></span>
     </button>
 </nav>
 
@@ -3130,17 +2993,24 @@ function renderMenuCatalog() {
 }
 
 function switchTab(tab) {
+    // 'account' is not a panel — it opens the modal instead
+    if (tab === 'account') {
+        if (supaUser) openInviteModal();
+        else openAuthModal();
+        return;
+    }
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-    document.querySelectorAll('.btn-nav').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.btn-nav[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-' + tab).classList.add('active');
+    const panel = document.getElementById('panel-' + tab);
+    if (panel) panel.classList.add('active');
     if (tab === 'menu') renderMenuCatalog();
     if (tab === 'shop') renderShopping();
 }
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
 });
-document.querySelectorAll('.btn-nav').forEach(btn => {
+document.querySelectorAll('.btn-nav[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
 });
 
@@ -4995,35 +4865,36 @@ let syncPushTimer = null;  // debounce timer for push
 // ── Helpers ────────────────────────────────────────────────────────────────
 function setSyncDot(state) {
     // state: 'ok' | 'syncing' | 'err' | 'off'
-    const dot   = document.getElementById('syncDot');
-    const label = document.getElementById('syncLabel');
-    if (!dot) return;
-    dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'err' ? ' err' : '');
-    if (label) label.textContent = state === 'syncing' ? 'syncing…' : state === 'err' ? 'error' : 'synced';
+    const navDot = document.getElementById('navSyncDot');
+    if (navDot) {
+        navDot.className = 'nav-sync-dot' +
+            (state === 'ok' ? ' visible' :
+             state === 'syncing' ? ' visible' :
+             state === 'err' ? ' visible err' : '');
+    }
 }
 
 function updateAuthHeader(user) {
-    const signInBtn  = document.getElementById('authSignInBtn');
-    const userBtn    = document.getElementById('authUserBtn');
-    const avatarEl   = document.getElementById('authAvatar');
-    const nameEl     = document.getElementById('authUserName');
-    if (!signInBtn || !userBtn) return;
+    // Update the bottom nav Account button icon and label
+    const navIcon  = document.getElementById('accountNavIcon');
+    const navLabel = document.getElementById('accountNavLabel');
+    const syncDotEl = document.getElementById('navSyncDot');
+    if (!navIcon) return;
     if (user) {
-        signInBtn.style.display = 'none';
-        userBtn.style.display   = '';
+        const name = user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'You';
         const initials = (user.user_metadata?.full_name || user.email || '?')
             .split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
         const avatarUrl = user.user_metadata?.avatar_url;
-        if (avatarUrl) {
-            avatarEl.innerHTML = `<img src="${avatarUrl}" alt="avatar">`;
-        } else {
-            avatarEl.textContent = initials;
-        }
-        if (nameEl) nameEl.textContent = user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'You';
+        navIcon.innerHTML = avatarUrl
+            ? `<span class="nav-avatar"><img src="${avatarUrl}" alt="${name}"></span>`
+            : `<span class="nav-avatar">${initials}</span>`;
+        if (navLabel) navLabel.textContent = name;
+        if (syncDotEl) syncDotEl.classList.add('visible');
         setSyncDot('ok');
     } else {
-        signInBtn.style.display = '';
-        userBtn.style.display   = 'none';
+        navIcon.textContent = '👤';
+        if (navLabel) navLabel.textContent = 'Account';
+        if (syncDotEl) syncDotEl.classList.remove('visible');
     }
 }
 
@@ -5258,11 +5129,7 @@ function closeInviteModal() {
 
 // ── Wire up UI events ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    // Sign-in button → open auth modal
-    document.getElementById('authSignInBtn')?.addEventListener('click', openAuthModal);
-
-    // Signed-in user button → open family/invite modal
-    document.getElementById('authUserBtn')?.addEventListener('click', openInviteModal);
+    // Account bottom nav button is handled by switchTab('account') → openAuthModal/openInviteModal
 
     // Close modals on backdrop click
     document.getElementById('authOverlay')?.addEventListener('click', e => {
