@@ -4573,7 +4573,8 @@ function applyProfileUI() {
     const childPart = children.length
         ? ` · ${children.length} child${children.length > 1 ? 'ren' : ''}`
         : '';
-    document.getElementById('familyBadge').textContent =
+    const badgeEl = document.getElementById('familyBadge');
+    if (badgeEl) badgeEl.textContent =
         `${p.adults} adult${p.adults > 1 ? 's' : ''}${childPart}`;
     document.getElementById('hintAdult').innerHTML =
         `<strong>🎲 Shuffle week</strong> or <strong>🎲 on a day row</strong> for that day only · Tap cells to edit · Switch tab per child`;
@@ -7082,7 +7083,7 @@ function renderHome() {
             const isMe = cookEntry.name === myName;
             cookRow.classList.add('active');
             cookTitle.textContent = isMe ? '👨‍🍳 You are cooking today' : `👨‍🍳 ${cookEntry.name} is cooking`;
-            cookSub.textContent   = isMe ? 'Tap to unclaim' : 'Someone's got it!';
+            cookSub.textContent   = isMe ? 'Tap to unclaim' : 'All set!';
             cookBtn.textContent   = isMe ? 'Unclaim' : "I'll cook";
         } else {
             cookRow.classList.remove('active');
