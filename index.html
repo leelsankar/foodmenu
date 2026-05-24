@@ -2715,9 +2715,8 @@ function saveMeal() {
     if (!weeks[k]) weeks[k] = { days: {} };
     if (!weeks[k].days[editDay]) weeks[k].days[editDay] = {};
     const day = weeks[k].days[editDay];
-    const draftKey = editMeal === 'bf' ? 'bfDraft' : editMeal === 'lu' ? 'luDraft' : 'diDraft';
     day[editMeal === 'bf' ? 'breakfast' : editMeal === 'lu' ? 'lunch' : 'dinner'] = text;
-    day[draftKey] = JSON.parse(JSON.stringify(draft));
+    day[draftKey(editMeal)] = JSON.parse(JSON.stringify(draft));
     saveWeeks(weeks);
     closePicker();
     renderWeekTable();
