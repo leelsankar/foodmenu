@@ -760,8 +760,131 @@
         @media (min-width: 769px) {
             .week-table-scroll { display:block; }
         }
+
+        /* ── SUPABASE AUTH & SYNC ─────────────────────────────────────────── */
+        /* User avatar pill in header */
+        .auth-btn {
+            display:flex; align-items:center; gap:.4rem;
+            background:rgba(255,255,255,.18); border:1.5px solid rgba(255,255,255,.35);
+            border-radius:999px; padding:.3rem .65rem .3rem .3rem;
+            cursor:pointer; font-size:.72rem; font-weight:700; color:#fff;
+            white-space:nowrap; transition:background .15s;
+        }
+        .auth-btn:hover { background:rgba(255,255,255,.28); }
+        .auth-avatar {
+            width:26px; height:26px; border-radius:50%;
+            object-fit:cover; background:rgba(255,255,255,.3);
+            display:flex; align-items:center; justify-content:center;
+            font-size:.8rem; font-weight:800; color:#fff; flex-shrink:0;
+        }
+        .auth-avatar img { width:100%; height:100%; border-radius:50%; }
+        .sync-pill {
+            display:flex; align-items:center; gap:.3rem;
+            font-size:.65rem; padding:.15rem .45rem;
+            border-radius:999px; margin-left:.25rem;
+            background:rgba(255,255,255,.15); color:rgba(255,255,255,.9);
+            white-space:nowrap;
+        }
+        .sync-dot { width:.45rem; height:.45rem; border-radius:50%; background:#86efac; flex-shrink:0; }
+        .sync-dot.syncing { background:#fbbf24; animation:spin-pulse .9s infinite; }
+        .sync-dot.err     { background:#f87171; }
+        @keyframes spin-pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+        /* Sign-in modal */
+        .auth-overlay {
+            position:fixed; inset:0; background:rgba(0,0,0,.55);
+            z-index:500; display:flex; align-items:center; justify-content:center;
+            padding:1rem;
+        }
+        .auth-overlay.hidden { display:none; }
+        .auth-modal {
+            background:var(--card); border-radius:var(--radius);
+            width:100%; max-width:360px; box-shadow:var(--shadow);
+            overflow:hidden;
+        }
+        .auth-modal-head {
+            background:linear-gradient(135deg,var(--p) 0%,var(--p2) 100%);
+            color:#fff; padding:1.25rem 1.25rem .9rem; text-align:center;
+        }
+        .auth-modal-head h2 { font-family:'Fraunces',serif; font-size:1.25rem; margin:0 0 .2rem; }
+        .auth-modal-head p  { font-size:.78rem; opacity:.88; margin:0; }
+        .auth-modal-body { padding:1.1rem 1.25rem 1.25rem; }
+        .auth-or { text-align:center; font-size:.72rem; color:var(--muted); margin:.75rem 0; position:relative; }
+        .auth-or::before,.auth-or::after {
+            content:''; position:absolute; top:50%; width:38%; height:1px;
+            background:var(--border);
+        }
+        .auth-or::before { left:0; } .auth-or::after { right:0; }
+        .auth-google-btn {
+            width:100%; display:flex; align-items:center; justify-content:center;
+            gap:.6rem; padding:.65rem 1rem; border:1.5px solid var(--border);
+            border-radius:10px; background:var(--card); cursor:pointer;
+            font-size:.88rem; font-weight:700; color:var(--text);
+            transition:border-color .15s, background .15s;
+        }
+        .auth-google-btn:hover { border-color:var(--p2); background:var(--cream); }
+        .auth-google-btn svg { width:20px; height:20px; flex-shrink:0; }
+        .auth-email-field { margin-bottom:.65rem; }
+        .auth-email-field label { display:block; font-size:.72rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
+        .auth-email-field input {
+            width:100%; padding:.6rem .75rem; border:1.5px solid var(--border);
+            border-radius:10px; font-size:.9rem; font-family:inherit;
+            background:var(--bg); color:var(--text); box-sizing:border-box;
+        }
+        .auth-email-field input:focus { outline:none; border-color:var(--p2); }
+        .auth-status { font-size:.78rem; margin-top:.6rem; padding:.45rem .65rem;
+            border-radius:8px; display:none; }
+        .auth-status.ok  { background:#dcfce7; color:#166534; display:block; }
+        .auth-status.err { background:#fee2e2; color:#991b1b; display:block; }
+        body.dark .auth-status.ok  { background:#14532d; color:#86efac; }
+        body.dark .auth-status.err { background:#7f1d1d; color:#fca5a5; }
+        .auth-skip { font-size:.72rem; color:var(--muted); text-align:center;
+            margin-top:.75rem; }
+        .auth-skip button { background:none; border:none; color:var(--p);
+            cursor:pointer; text-decoration:underline; font-size:.72rem; }
+
+        /* Family invite modal */
+        .invite-modal {
+            background:var(--card); border-radius:var(--radius);
+            width:100%; max-width:380px; box-shadow:var(--shadow); overflow:hidden;
+        }
+        .invite-modal-head {
+            background:linear-gradient(135deg,var(--p3) 0%,#1b4332 100%);
+            color:#fff; padding:.85rem 1rem;
+            display:flex; align-items:center; justify-content:space-between;
+        }
+        .invite-modal-head h3 { font-size:1rem; margin:0; }
+        .invite-body { padding:1rem 1.1rem 1.25rem; }
+        .invite-code-box {
+            background:var(--cream); border:2px dashed var(--border);
+            border-radius:10px; padding:.75rem 1rem; text-align:center;
+            margin:.65rem 0;
+        }
+        .invite-code {
+            font-size:2rem; font-weight:800; letter-spacing:.25em;
+            color:var(--p); font-family:'Fraunces',serif;
+        }
+        .invite-hint { font-size:.72rem; color:var(--muted); margin:.15rem 0 0; }
+        .invite-join-row { display:flex; gap:.5rem; margin-top:.75rem; }
+        .invite-join-row input {
+            flex:1; padding:.55rem .75rem; border:1.5px solid var(--border);
+            border-radius:10px; font-size:1rem; font-family:inherit; text-transform:uppercase;
+            letter-spacing:.15em; background:var(--bg); color:var(--text);
+        }
+        .invite-join-row input:focus { outline:none; border-color:var(--p3); }
+        .invite-status { font-size:.78rem; margin-top:.5rem; padding:.4rem .6rem;
+            border-radius:8px; display:none; }
+        .invite-status.ok  { background:#dcfce7; color:#166534; display:block; }
+        .invite-status.err { background:#fee2e2; color:#991b1b; display:block; }
+        body.dark .invite-status.ok  { background:#14532d; color:#86efac; }
+        body.dark .invite-status.err { background:#7f1d1d; color:#fca5a5; }
+        body.dark .auth-modal  { background:var(--card); }
+        body.dark .invite-modal { background:var(--card); }
+        body.dark .auth-google-btn { background:var(--card); }
     </style>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <header id="appHeader">
@@ -771,6 +894,17 @@
             <p class="sub" id="headerSub">Indian family meal planner</p>
             <span class="family-badge" id="familyBadge">2 adults</span>
         </div>
+        <!-- Auth user button (shown when signed in) -->
+        <button type="button" class="auth-btn" id="authUserBtn" style="display:none" title="Account & family sync">
+            <span class="auth-avatar" id="authAvatar">?</span>
+            <span id="authUserName">You</span>
+            <span class="sync-pill" id="syncPill"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">synced</span></span>
+        </button>
+        <!-- Sign-in button (shown when signed out) -->
+        <button type="button" class="auth-btn" id="authSignInBtn" title="Sign in to sync across family">
+            <span class="auth-avatar" style="font-size:.75rem">👤</span>
+            Sign in
+        </button>
         <button type="button" class="btn-icon" id="settingsBtn" title="Family settings">⚙️</button>
         <button type="button" class="btn-dark" id="darkModeBtn" title="Toggle dark mode">🌙</button>
         <div class="planner-switch" id="plannerSwitch" role="tablist" aria-label="Plan for">
@@ -868,6 +1002,94 @@
         <button type="button" class="btn-text-link" id="installTipBtn">📲 Install app</button>
     </div>
 </footer>
+
+<!-- ── AUTH SIGN-IN MODAL ──────────────────────────────────────────────── -->
+<div class="auth-overlay hidden" id="authOverlay">
+    <div class="auth-modal">
+        <div class="auth-modal-head">
+            <div style="font-size:1.6rem;margin-bottom:.3rem">🍽️</div>
+            <h2>Welcome to Family Menu</h2>
+            <p>Sign in to sync your meal plan across all family devices</p>
+        </div>
+        <div class="auth-modal-body">
+            <!-- Google -->
+            <button type="button" class="auth-google-btn" id="authGoogleBtn">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="auth-or">or</div>
+
+            <!-- Magic link email -->
+            <div class="auth-email-field">
+                <label for="authEmailInput">Email address</label>
+                <input type="email" id="authEmailInput" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <button type="button" class="btn btn-p" style="width:100%" id="authMagicBtn">Send magic link</button>
+            <div class="auth-status" id="authStatus"></div>
+
+            <div class="auth-skip">
+                <button type="button" id="authSkipBtn">Continue without signing in</button>
+                <p style="margin:.35rem 0 0;font-size:.68rem">Your data stays on this device only</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── FAMILY INVITE / SYNC MODAL ─────────────────────────────────────── -->
+<div class="auth-overlay hidden" id="inviteOverlay">
+    <div class="invite-modal">
+        <div class="invite-modal-head">
+            <h3>👨‍👩‍👧 Family Sync</h3>
+            <button type="button" class="btn-icon" id="closeInviteBtn" style="color:#fff;font-size:1.1rem">✕</button>
+        </div>
+        <div class="invite-body">
+            <!-- Signed-in user info -->
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+                <span class="auth-avatar" id="inviteAvatar" style="background:var(--p);color:#fff;width:34px;height:34px;font-size:.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center">?</span>
+                <div>
+                    <div style="font-weight:700;font-size:.88rem" id="inviteUserName">You</div>
+                    <div style="font-size:.72rem;color:var(--muted)" id="inviteUserEmail"></div>
+                </div>
+                <button type="button" class="btn btn-s" style="margin-left:auto;font-size:.72rem" id="authSignOutBtn">Sign out</button>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--border);margin:.5rem 0">
+
+            <!-- Your family code -->
+            <div id="inviteSelfSection">
+                <p style="font-size:.78rem;font-weight:700;color:var(--text);margin:0 0 .2rem">Your family invite code</p>
+                <p style="font-size:.72rem;color:var(--muted);margin:0 0 .4rem">Share this with your wife and cook — they enter it to join your family and see the same meal plan.</p>
+                <div class="invite-code-box">
+                    <div class="invite-code" id="familyInviteCode">------</div>
+                    <div class="invite-hint">tap to copy</div>
+                </div>
+                <button type="button" class="btn btn-s" style="width:100%;font-size:.78rem" id="copyInviteCodeBtn">📋 Copy invite code</button>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--border);margin:.75rem 0">
+
+            <!-- Join another family -->
+            <p style="font-size:.78rem;font-weight:700;color:var(--text);margin:0 0 .2rem">Join a family</p>
+            <p style="font-size:.72rem;color:var(--muted);margin:0 0 .4rem">Have an invite code from your family? Enter it below.</p>
+            <div class="invite-join-row">
+                <input type="text" id="joinCodeInput" placeholder="ABC123" maxlength="6" autocomplete="off" spellcheck="false">
+                <button type="button" class="btn btn-p" id="joinFamilyBtn">Join</button>
+            </div>
+            <div class="invite-status" id="inviteStatus"></div>
+
+            <hr style="border:none;border-top:1px solid var(--border);margin:.75rem 0">
+            <p style="font-size:.68rem;color:var(--muted);margin:0;text-align:center">
+                Sync status: <span id="inviteSyncStatus">—</span>
+            </p>
+        </div>
+    </div>
+</div>
 
 <!-- Install / PWA tip modal -->
 <div class="overlay" id="installTipOverlay">
@@ -1391,7 +1613,7 @@ function names(arr, ids) { return (ids || []).map(id => byId(arr, id)?.name).fil
 function loadCustom() {
     try { return JSON.parse(localStorage.getItem(customStoreKey())) || {}; } catch { return {}; }
 }
-function saveCustom(c) { localStorage.setItem(customStoreKey(), JSON.stringify(c)); }
+function saveCustom(c) { localStorage.setItem(customStoreKey(), JSON.stringify(c)); sbPushIfEnabled(); }
 function mergedItems(listKey) {
     return [...baseList(listKey), ...(loadCustom()[listKey] || [])];
 }
@@ -1464,7 +1686,7 @@ function randomBabyDraft(meal) {
 function loadHidden() {
     try { return JSON.parse(localStorage.getItem(hiddenStoreKey())) || {}; } catch { return {}; }
 }
-function saveHidden(h) { localStorage.setItem(hiddenStoreKey(), JSON.stringify(h)); }
+function saveHidden(h) { localStorage.setItem(hiddenStoreKey(), JSON.stringify(h)); sbPushIfEnabled(); }
 function isHidden(listKey, id) { return (loadHidden()[listKey] || []).includes(id); }
 function getProfile() {
     try {
@@ -1505,6 +1727,7 @@ function hasExistingData() {
 function saveProfile(p) {
     normalizeProfile(p);
     localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+    sbPushIfEnabled();
 }
 
 function babyAgeBand(months) {
@@ -1634,7 +1857,7 @@ function allSegments() {
 }
 
 function loadWeeks() { try { return JSON.parse(localStorage.getItem(weekStoreKey())) || {}; } catch { return {}; } }
-function saveWeeks(w) { localStorage.setItem(weekStoreKey(), JSON.stringify(w)); }
+function saveWeeks(w) { localStorage.setItem(weekStoreKey(), JSON.stringify(w)); sbPushIfEnabled(); }
 function getWeek() {
     const w = loadWeeks();
     if (!w[weekKey()]) w[weekKey()] = { days: {} };
@@ -2766,12 +2989,12 @@ function normGroceryItem(s) {
 function loadShopChecks() {
     try { return JSON.parse(localStorage.getItem(SHOP_CHECKS_KEY)) || {}; } catch { return {}; }
 }
-function saveShopChecks(c) { localStorage.setItem(SHOP_CHECKS_KEY, JSON.stringify(c)); }
+function saveShopChecks(c) { localStorage.setItem(SHOP_CHECKS_KEY, JSON.stringify(c)); sbPushIfEnabled(); }
 
 function loadPantry() {
     try { return JSON.parse(localStorage.getItem(INVENTORY_KEY)) || { items: {} }; } catch { return { items: {} }; }
 }
-function savePantry(p) { localStorage.setItem(INVENTORY_KEY, JSON.stringify(p)); }
+function savePantry(p) { localStorage.setItem(INVENTORY_KEY, JSON.stringify(p)); sbPushIfEnabled(); }
 
 function pantryHas(name) {
     const k = normGroceryItem(name);
@@ -2958,7 +3181,7 @@ function collectWeekPlanItems() {
 function loadUserIngredients() {
     try { return JSON.parse(localStorage.getItem(USER_INGREDIENTS_KEY)) || {}; } catch { return {}; }
 }
-function saveUserIngredients(db) { localStorage.setItem(USER_INGREDIENTS_KEY, JSON.stringify(db)); }
+function saveUserIngredients(db) { localStorage.setItem(USER_INGREDIENTS_KEY, JSON.stringify(db)); sbPushIfEnabled(); }
 function userIngredientsFor(dishId) {
     return dishId ? (loadUserIngredients()[dishId] || []) : [];
 }
@@ -3281,7 +3504,7 @@ function updateSetupPane() {
 
 // ─── NOTES ───────────────────────────────────────────────────────────────────
 function loadNotes() { try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch { return {}; } }
-function saveNotes(n) { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); }
+function saveNotes(n) { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); sbPushIfEnabled(); }
 function editDayNote(day) {
     const notes = loadNotes();
     const wk = weekKey();
@@ -3320,7 +3543,7 @@ function copyLastWeek() {
 
 // ─── RECENTLY USED DISHES ────────────────────────────────────────────────────
 function loadRecentDishes() { try { return JSON.parse(localStorage.getItem(RECENT_DISHES_KEY)) || {}; } catch { return {}; } }
-function saveRecentDishes(r) { localStorage.setItem(RECENT_DISHES_KEY, JSON.stringify(r)); }
+function saveRecentDishes(r) { localStorage.setItem(RECENT_DISHES_KEY, JSON.stringify(r)); sbPushIfEnabled(); }
 function recordRecentDish(listKey, dishId) {
     if (!dishId || !listKey) return;
     const r = loadRecentDishes();
@@ -3336,7 +3559,7 @@ function getRecentDishes(listKey) {
 
 // ─── EXTRA SHOP ITEMS ────────────────────────────────────────────────────────
 function loadExtraShop() { try { return JSON.parse(localStorage.getItem(EXTRA_SHOP_KEY)) || {}; } catch { return {}; } }
-function saveExtraShop(e) { localStorage.setItem(EXTRA_SHOP_KEY, JSON.stringify(e)); }
+function saveExtraShop(e) { localStorage.setItem(EXTRA_SHOP_KEY, JSON.stringify(e)); sbPushIfEnabled(); }
 function getExtraShopItems() { return loadExtraShop()[weekKey()] || []; }
 function addExtraShopItem(name) {
     const n = name.trim(); if (!n) return;
@@ -4523,6 +4746,394 @@ function checkCookHash() {
     const h = location.hash;
     if (h.startsWith('#cook=')) initCookMode(h.slice(6));
     else if (h.startsWith('#pantry-update=')) initPantryImport(h.slice(15));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SUPABASE AUTH + FAMILY SYNC
+// ═══════════════════════════════════════════════════════════════════════════
+const SUPA_URL  = 'https://gmaspswjtskmhmnxizyx.supabase.co';
+const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtYXNwc3dqdHNrbWhtbnhpenl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDU2MzcsImV4cCI6MjA5NTIyMTYzN30.e9DVBloyyYNbU35QKZEJ3HSE6iy-9zOt6negpCE-6e4';
+
+const supa = supabase.createClient(SUPA_URL, SUPA_ANON);
+
+let supaUser     = null;   // current auth.User or null
+let supaFamilyId = null;   // UUID of this user's family
+let realtimeChan = null;   // live Supabase channel
+let syncPushTimer = null;  // debounce timer for push
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function setSyncDot(state) {
+    // state: 'ok' | 'syncing' | 'err' | 'off'
+    const dot   = document.getElementById('syncDot');
+    const label = document.getElementById('syncLabel');
+    if (!dot) return;
+    dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'err' ? ' err' : '');
+    if (label) label.textContent = state === 'syncing' ? 'syncing…' : state === 'err' ? 'error' : 'synced';
+}
+
+function updateAuthHeader(user) {
+    const signInBtn  = document.getElementById('authSignInBtn');
+    const userBtn    = document.getElementById('authUserBtn');
+    const avatarEl   = document.getElementById('authAvatar');
+    const nameEl     = document.getElementById('authUserName');
+    if (!signInBtn || !userBtn) return;
+    if (user) {
+        signInBtn.style.display = 'none';
+        userBtn.style.display   = '';
+        const initials = (user.user_metadata?.full_name || user.email || '?')
+            .split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        const avatarUrl = user.user_metadata?.avatar_url;
+        if (avatarUrl) {
+            avatarEl.innerHTML = `<img src="${avatarUrl}" alt="avatar">`;
+        } else {
+            avatarEl.textContent = initials;
+        }
+        if (nameEl) nameEl.textContent = user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'You';
+        setSyncDot('ok');
+    } else {
+        signInBtn.style.display = '';
+        userBtn.style.display   = 'none';
+    }
+}
+
+// ── Collect all app data from localStorage ─────────────────────────────────
+function collectAppData() {
+    const out = {};
+    const skip = new Set(['familyMenu_darkMode_v1', 'familyMenu_installDismissed_v1']);
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (/^familyMenu_/.test(k) && !skip.has(k)) out[k] = localStorage.getItem(k);
+    }
+    return out;
+}
+
+// Apply remote data blob into localStorage then re-render
+function applyRemoteBlob(blob) {
+    if (!blob || typeof blob !== 'object') return;
+    const skip = new Set(['familyMenu_darkMode_v1', 'familyMenu_installDismissed_v1']);
+    Object.entries(blob).forEach(([k, v]) => {
+        if (/^familyMenu_/.test(k) && !skip.has(k)) localStorage.setItem(k, v);
+    });
+    // Re-render all UI with freshly pulled data
+    applyProfileUI();
+    renderWeekTable();
+    renderMenuCatalog();
+    renderShoppingIfActive();
+}
+
+// ── Push local data to Supabase ────────────────────────────────────────────
+async function sbPush() {
+    if (!supaUser || !supaFamilyId) return;
+    setSyncDot('syncing');
+    try {
+        const data = collectAppData();
+        const { error } = await supa
+            .from('family_data')
+            .upsert({ family_id: supaFamilyId, data, updated_by: supaUser.id },
+                    { onConflict: 'family_id' });
+        if (error) throw error;
+        setSyncDot('ok');
+        const el = document.getElementById('inviteSyncStatus');
+        if (el) el.textContent = 'Last synced: ' + new Date().toLocaleTimeString();
+    } catch (e) {
+        setSyncDot('err');
+        console.warn('sbPush error:', e.message);
+    }
+}
+
+// Debounced push — called after every local save
+function sbPushDebounced() {
+    if (!supaUser || !supaFamilyId) return;
+    clearTimeout(syncPushTimer);
+    syncPushTimer = setTimeout(sbPush, 1500);
+}
+
+// ── Pull remote data ────────────────────────────────────────────────────────
+async function sbPull() {
+    if (!supaUser || !supaFamilyId) return;
+    setSyncDot('syncing');
+    try {
+        const { data, error } = await supa
+            .from('family_data')
+            .select('data, updated_at, updated_by')
+            .eq('family_id', supaFamilyId)
+            .single();
+        if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows
+        if (data?.data) applyRemoteBlob(data.data);
+        setSyncDot('ok');
+    } catch (e) {
+        setSyncDot('err');
+        console.warn('sbPull error:', e.message);
+    }
+}
+
+// ── Realtime subscription ──────────────────────────────────────────────────
+function startRealtime() {
+    if (realtimeChan) { supa.removeChannel(realtimeChan); realtimeChan = null; }
+    if (!supaFamilyId) return;
+    realtimeChan = supa
+        .channel('family_data_changes')
+        .on('postgres_changes', {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'family_data',
+            filter: `family_id=eq.${supaFamilyId}`,
+        }, payload => {
+            // Only apply if someone else pushed (not us)
+            if (payload.new?.updated_by !== supaUser?.id) {
+                applyRemoteBlob(payload.new?.data);
+                setSyncDot('ok');
+            }
+        })
+        .subscribe();
+}
+
+function stopRealtime() {
+    if (realtimeChan) { supa.removeChannel(realtimeChan); realtimeChan = null; }
+}
+
+// ── Ensure user has a family (create one if none) ──────────────────────────
+async function ensureFamily(userId) {
+    // Check if already in a family
+    const { data: membership } = await supa
+        .from('family_members')
+        .select('family_id')
+        .eq('user_id', userId)
+        .single();
+
+    if (membership?.family_id) {
+        supaFamilyId = membership.family_id;
+        return supaFamilyId;
+    }
+
+    // Create a new family
+    const { data: family, error: fErr } = await supa
+        .from('families')
+        .insert({})
+        .select('id')
+        .single();
+    if (fErr) throw fErr;
+
+    // Add user as owner
+    const { error: mErr } = await supa
+        .from('family_members')
+        .insert({ user_id: userId, family_id: family.id, role: 'owner',
+                  display_name: supaUser?.user_metadata?.full_name || supaUser?.email });
+    if (mErr) throw mErr;
+
+    supaFamilyId = family.id;
+    return supaFamilyId;
+}
+
+// ── After sign-in: wire everything up ─────────────────────────────────────
+async function onSignedIn(user) {
+    supaUser = user;
+    updateAuthHeader(user);
+    setSyncDot('syncing');
+    try {
+        await ensureFamily(user.id);
+        await sbPull();          // pull latest from cloud first
+        startRealtime();
+        await sbPush();          // push any local changes
+        showFamilyCode();
+    } catch (e) {
+        setSyncDot('err');
+        console.warn('onSignedIn error:', e.message);
+    }
+}
+
+function onSignedOut() {
+    supaUser = null;
+    supaFamilyId = null;
+    stopRealtime();
+    updateAuthHeader(null);
+}
+
+// ── Show family invite code in modal ──────────────────────────────────────
+async function showFamilyCode() {
+    if (!supaFamilyId) return;
+    const { data } = await supa
+        .from('families')
+        .select('invite_code')
+        .eq('id', supaFamilyId)
+        .single();
+    const code = data?.invite_code || '------';
+    document.getElementById('familyInviteCode').textContent = code;
+}
+
+// ── Join a family using invite code ───────────────────────────────────────
+async function joinFamily(code) {
+    const statusEl = document.getElementById('inviteStatus');
+    function setStatus(msg, ok) {
+        statusEl.textContent = msg;
+        statusEl.className = 'invite-status ' + (ok ? 'ok' : 'err');
+    }
+    if (!code || code.length !== 6) { setStatus('Enter a 6-character code.', false); return; }
+    if (!supaUser) { setStatus('Sign in first.', false); return; }
+    setStatus('Looking up family…', true);
+    try {
+        // Find family by invite code
+        const { data: fam, error: fErr } = await supa
+            .from('families')
+            .select('id')
+            .eq('invite_code', code.toUpperCase())
+            .single();
+        if (fErr || !fam) { setStatus('Code not found. Check and try again.', false); return; }
+
+        if (fam.id === supaFamilyId) { setStatus('You are already in this family!', true); return; }
+
+        // Remove from current family (if any)
+        await supa.from('family_members').delete().eq('user_id', supaUser.id);
+
+        // Join new family
+        const { error: mErr } = await supa
+            .from('family_members')
+            .insert({ user_id: supaUser.id, family_id: fam.id, role: 'member',
+                      display_name: supaUser.user_metadata?.full_name || supaUser.email });
+        if (mErr) throw mErr;
+
+        supaFamilyId = fam.id;
+        stopRealtime();
+        await sbPull();
+        startRealtime();
+        showFamilyCode();
+        setStatus('✓ Joined! You now share this family\'s meal plan.', true);
+    } catch (e) {
+        setStatus('Error: ' + e.message, false);
+    }
+}
+
+// ── Auth modal open/close ──────────────────────────────────────────────────
+function openAuthModal() {
+    document.getElementById('authOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+function closeAuthModal() {
+    document.getElementById('authOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+function openInviteModal() {
+    // Populate user info
+    if (supaUser) {
+        const name = supaUser.user_metadata?.full_name || supaUser.email?.split('@')[0] || 'You';
+        const email = supaUser.email || '';
+        document.getElementById('inviteUserName').textContent = name;
+        document.getElementById('inviteUserEmail').textContent = email;
+        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        const avatarUrl = supaUser.user_metadata?.avatar_url;
+        const av = document.getElementById('inviteAvatar');
+        if (avatarUrl) av.innerHTML = `<img src="${avatarUrl}" alt="" style="width:100%;height:100%;border-radius:50%">`;
+        else av.textContent = initials;
+    }
+    showFamilyCode();
+    document.getElementById('inviteOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+function closeInviteModal() {
+    document.getElementById('inviteOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// ── Wire up UI events ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    // Sign-in button → open auth modal
+    document.getElementById('authSignInBtn')?.addEventListener('click', openAuthModal);
+
+    // Signed-in user button → open family/invite modal
+    document.getElementById('authUserBtn')?.addEventListener('click', openInviteModal);
+
+    // Close modals on backdrop click
+    document.getElementById('authOverlay')?.addEventListener('click', e => {
+        if (e.target === document.getElementById('authOverlay')) closeAuthModal();
+    });
+    document.getElementById('inviteOverlay')?.addEventListener('click', e => {
+        if (e.target === document.getElementById('inviteOverlay')) closeInviteModal();
+    });
+    document.getElementById('closeInviteBtn')?.addEventListener('click', closeInviteModal);
+
+    // Google sign-in
+    document.getElementById('authGoogleBtn')?.addEventListener('click', async () => {
+        const { error } = await supa.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.href }
+        });
+        if (error) {
+            const st = document.getElementById('authStatus');
+            st.textContent = error.message; st.className = 'auth-status err';
+        }
+    });
+
+    // Magic link
+    document.getElementById('authMagicBtn')?.addEventListener('click', async () => {
+        const email = document.getElementById('authEmailInput').value.trim();
+        const st = document.getElementById('authStatus');
+        if (!email) { st.textContent = 'Enter your email address.'; st.className = 'auth-status err'; return; }
+        st.textContent = 'Sending…'; st.className = 'auth-status ok';
+        const { error } = await supa.auth.signInWithOtp({
+            email,
+            options: { emailRedirectTo: window.location.href }
+        });
+        if (error) { st.textContent = error.message; st.className = 'auth-status err'; }
+        else { st.textContent = '✓ Magic link sent! Check your email and tap the link.'; st.className = 'auth-status ok'; }
+    });
+
+    // Skip sign-in
+    document.getElementById('authSkipBtn')?.addEventListener('click', closeAuthModal);
+
+    // Sign out
+    document.getElementById('authSignOutBtn')?.addEventListener('click', async () => {
+        await supa.auth.signOut();
+        closeInviteModal();
+    });
+
+    // Copy invite code
+    document.getElementById('copyInviteCodeBtn')?.addEventListener('click', () => {
+        const code = document.getElementById('familyInviteCode').textContent;
+        navigator.clipboard?.writeText(code).catch(() => {});
+        document.getElementById('copyInviteCodeBtn').textContent = '✓ Copied!';
+        setTimeout(() => { document.getElementById('copyInviteCodeBtn').textContent = '📋 Copy invite code'; }, 2000);
+    });
+    document.getElementById('familyInviteCode')?.addEventListener('click', () => {
+        document.getElementById('copyInviteCodeBtn')?.click();
+    });
+
+    // Join family
+    document.getElementById('joinFamilyBtn')?.addEventListener('click', () => {
+        const code = document.getElementById('joinCodeInput').value.trim();
+        joinFamily(code);
+    });
+    document.getElementById('joinCodeInput')?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('joinFamilyBtn')?.click();
+    });
+
+    // ── Bootstrap auth state on load ────────────────────────────────────
+    supa.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+            onSignedIn(session.user);
+        } else {
+            onSignedOut();
+            // Show sign-in prompt after a short delay (not immediately disruptive)
+            setTimeout(() => {
+                if (!supaUser) openAuthModal();
+            }, 2000);
+        }
+    });
+
+    // Listen for auth state changes (e.g. after OAuth redirect)
+    supa.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+            onSignedIn(session.user);
+            closeAuthModal();
+        } else {
+            onSignedOut();
+        }
+    });
+});
+
+// ── Hook into existing save functions ─────────────────────────────────────
+// Called by all saveXxx() functions to push changes to Supabase
+function sbPushIfEnabled() {
+    if (supaUser && supaFamilyId) sbPushDebounced();
 }
 
 // Register service worker — network-first HTML means updates land on next open.
