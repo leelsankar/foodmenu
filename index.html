@@ -7042,26 +7042,47 @@ function renderHome() {
     if (greetEl) greetEl.textContent = `${greeting}, ${name} 👋`;
     if (subEl)   subEl.textContent   = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long' });
 
-    // Today's meals
-    const week    = getWeek();
-    const today   = week.days[todayName] || {};
+    // Today's meals — combine adults + all children
+    const k = weekKey();
     const todayDayEl  = document.getElementById('homeTodayDay');
     const todayMeals  = document.getElementById('homeTodayMeals');
     if (todayDayEl) todayDayEl.textContent = todayName;
 
-    const mealDefs = [
+    // Build a flat list of all meals today across every planner
+    const allTodayMeals = [];
+    // Adults
+    const adultToday = (loadWeeksFor('adult')[k]?.days?.[todayName]) || {};
+    const adultName  = profile.adults > 1 ? 'Adults' : (profile.plannerName || 'Adults');
+    [
         { key: 'breakfast', cls: 'bf', label: 'Breakfast' },
         { key: 'lunch',     cls: 'lu', label: 'Lunch'     },
         { key: 'dinner',    cls: 'di', label: 'Dinner'    },
-    ];
-    const plannedMeals = mealDefs.filter(m => today[m.key]);
+    ].forEach(m => {
+        if (adultToday[m.key]) allTodayMeals.push({ ...m, text: adultToday[m.key], who: adultName });
+    });
+    // Children
+    getChildren().forEach(child => {
+        const childToday = (loadWeeksFor(child.id)[k]?.days?.[todayName]) || {};
+        const childName  = child.name?.trim() || 'Child';
+        [
+            { key: 'breakfast', cls: 'bf', label: 'Breakfast' },
+            { key: 'lunch',     cls: 'lu', label: 'Lunch'     },
+            { key: 'snack',     cls: 'sn', label: 'Snack'     },
+            { key: 'dinner',    cls: 'di', label: 'Dinner'    },
+        ].forEach(m => {
+            if (childToday[m.key]) allTodayMeals.push({ ...m, text: childToday[m.key], who: childName });
+        });
+    });
+
     if (todayMeals) {
-        if (plannedMeals.length) {
-            todayMeals.innerHTML = plannedMeals.map(m => `
+        if (allTodayMeals.length) {
+            // Group by who, show a subtle name prefix when there are multiple planners
+            const multiPlanner = getChildren().length > 0;
+            todayMeals.innerHTML = allTodayMeals.map(m => `
                 <div class="home-meal-row">
                     <span class="home-meal-dot ${m.cls}"></span>
-                    <span class="home-meal-label">${m.label}</span>
-                    <span class="home-meal-name">${today[m.key]}</span>
+                    <span class="home-meal-label">${multiPlanner ? m.who.split(' ')[0] : m.label}</span>
+                    <span class="home-meal-name">${m.text}</span>
                 </div>`).join('');
         } else {
             todayMeals.innerHTML = `<div class="home-today-empty">No meals planned · tap Edit today</div>`;
@@ -7093,25 +7114,52 @@ function renderHome() {
         }
     }
 
-    // Stats
-    const allDays  = DAYS.map(d => week.days[d] || {});
-    const mealCount = allDays.reduce((n, d) =>
-        n + (d.breakfast?1:0) + (d.lunch?1:0) + (d.dinner?1:0), 0);
-    const shopChecks = loadShopChecks();
-    const totalBuy   = Object.keys(shopChecks).length;      // rough proxy
-    const notBought  = Object.values(shopChecks).filter(v => !v).length;
+    // Stats — count meals across ALL planners this week
+    let mealCount = 0;
+    const adultDays = loadWeeksFor('adult')[k]?.days || {};
+    DAYS.forEach(d => {
+        const r = adultDays[d] || {};
+        if (r.breakfast) mealCount++;
+        if (r.lunch)     mealCount++;
+        if (r.dinner)    mealCount++;
+    });
+    getChildren().forEach(child => {
+        const cDays = loadWeeksFor(child.id)[k]?.days || {};
+        DAYS.forEach(d => {
+            const r = cDays[d] || {};
+            if (r.breakfast) mealCount++;
+            if (r.lunch)     mealCount++;
+            if (r.snack)     mealCount++;
+            if (r.dinner)    mealCount++;
+        });
+    });
+
+    // Items to buy = ingredients not in pantry, from this week's plan
+    let toBuyCount = 0;
+    try {
+        const allItems = collectWeekPlanItems();
+        if (allItems.length) {
+            const agg = aggregateIngredients(allItems);
+            toBuyCount = agg.filter(i => !i.atHome).length;
+        }
+    } catch(e) { /* aggregation may fail if menus not loaded yet */ }
+
     const valEl  = document.getElementById('homeStatMealsVal');
     const shopEl = document.getElementById('homeStatShopVal');
-    if (valEl)  valEl.textContent  = mealCount;
-    if (shopEl) shopEl.textContent = notBought || '—';
+    if (valEl)  valEl.textContent  = mealCount || '—';
+    if (shopEl) shopEl.textContent = toBuyCount || '—';
 
     // Week strip
     const daysEl = document.getElementById('homeWeekDays');
     if (daysEl) {
         const shortNames = ['M','T','W','T','F','S','S'];
         daysEl.innerHTML = DAYS.map((d, i) => {
-            const dd   = week.days[d] || {};
-            const hasMeal = dd.breakfast || dd.lunch || dd.dinner;
+            const adultD  = adultDays[d] || {};
+            const hasMeal = adultD.breakfast || adultD.lunch || adultD.dinner
+                || getChildren().some(c => {
+                    const r = loadWeeksFor(c.id)[k]?.days?.[d] || {};
+                    return r.breakfast || r.lunch || r.dinner || r.snack;
+                });
             const isToday = d === todayName;
             return `<div class="home-week-day ${isToday?'today':''}" data-goto-day="${d}">
                 <div class="home-week-day-name">${shortNames[i]}</div>
