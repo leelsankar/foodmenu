@@ -547,7 +547,9 @@
         .tag.nv { border-left: 2.5px solid var(--nv); }
         .tag .rm { width: 18px; height: 18px; border: none; border-radius: 50%; background: #FEE2E2; color: var(--red); font-size: .65rem; font-weight: 700; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .1s; }
         .tag .rm:hover { background: var(--red); color: #fff; }
-        .tag.custom { background: #EEF4FF; border: 1px dashed #7BAED6; }
+        .tag.custom    { background: #EEF4FF; border: 1px dashed #7BAED6; }
+        .tag.community { background: var(--purple-soft); border: 1px dashed var(--purple); }
+        body.dark .tag.community { background: var(--purple-soft); border-color: var(--purple); }
         .tag.restore { background: var(--green-soft); border: 1px dashed var(--green); }
         .tag.restore .rm { background: var(--green); color: #fff; }
         .tag-planned { font-size: .65rem; font-weight: 900; background: var(--green); color: #fff; border-radius: 50%; width: 1rem; height: 1rem; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
@@ -1608,8 +1610,8 @@
             </div>
             <div class="nutrition-pills" id="nutritionPills"></div>
         </div>
-        <p class="hint mini-hint" id="hintAdult">Swipe left/right to change week · Tap a meal to edit · ✨ AI Plan generates your week</p>
-        <p class="hint mini-hint" id="hintBaby" style="display:none">Tap cells to edit · 🎲 Shuffle per day · Menus match child's age</p>
+        <p class="hint mini-hint" id="hintAdult" style="display:none"></p>
+        <p class="hint mini-hint" id="hintBaby" style="display:none"></p>
         <div class="week-swipe-hint" id="weekSwipeHint"></div>
         <div class="week-wrap card-panel" id="weekTable"></div>
     </section>
@@ -1685,7 +1687,7 @@
         <div class="auth-modal-head">
             <div style="font-size:1.6rem;margin-bottom:.3rem">🍽️</div>
             <h2>Welcome to Gatherly</h2>
-            <p>Sign in to sync your meal plan across all family devices</p>
+            <p>Sign in to sync across family devices</p>
         </div>
         <div class="auth-modal-body">
             <!-- Google -->
@@ -1740,7 +1742,7 @@
 
             <!-- ── SIGN-IN CTA (when signed out) ── -->
             <div class="acct-signin-cta" id="acctSignInCta">
-                <p>Sign in to sync your meal plan across all family devices — your wife and cook will see the same plan in real time.</p>
+                <p>Sign in to share your meal plan with family in real time.</p>
                 <button type="button" class="btn btn-p" style="width:100%;justify-content:center" id="acctSignInBtn">Sign in / Create account</button>
             </div>
 
@@ -1766,7 +1768,7 @@
                     <div class="acct-row-icon orange">⚙️</div>
                     <div class="acct-row-text">
                         <div class="acct-row-label">Family profile &amp; diet</div>
-                        <div class="acct-row-sub">Adults, children, cuisine preferences</div>
+                        <div class="acct-row-sub">Profile &amp; preferences</div>
                     </div>
                     <div class="acct-row-end">›</div>
                 </div>
@@ -1795,7 +1797,7 @@
                     <div class="acct-code-big" id="familyInviteCode">------</div>
                     <div class="acct-code-hint">Your invite code · tap to copy</div>
                 </div>
-                <p style="font-size:.7rem;color:var(--muted);padding:0 1rem;margin:.3rem 0 .5rem;line-height:1.5">Share this code with your wife and cook. They enter it to join your family and see the same meal plan.</p>
+                <p style="font-size:.7rem;color:var(--text-3);padding:0 1rem;margin:.3rem 0 .5rem">Share with family to sync meal plans.</p>
 
                 <!-- Join another family -->
                 <div style="padding:0 1rem">
@@ -1818,7 +1820,7 @@
                     <div class="acct-row-icon purple">🌙</div>
                     <div class="acct-row-text">
                         <div class="acct-row-label">Dark mode</div>
-                        <div class="acct-row-sub">Easy on the eyes at night</div>
+                        <div class="acct-row-sub"></div>
                     </div>
                     <label class="acct-toggle">
                         <input type="checkbox" id="darkModeToggle">
@@ -1837,7 +1839,7 @@
                     <div class="acct-row-icon blue">📦</div>
                     <div class="acct-row-text">
                         <div class="acct-row-label">Backup data</div>
-                        <div class="acct-row-sub">Download all your plans as a file</div>
+                        <div class="acct-row-sub">Export as JSON</div>
                     </div>
                     <div class="acct-row-end">›</div>
                 </div>
@@ -1846,7 +1848,7 @@
                     <div class="acct-row-icon blue">📥</div>
                     <div class="acct-row-text">
                         <div class="acct-row-label">Restore from backup</div>
-                        <div class="acct-row-sub">Import a previously saved backup file</div>
+                        <div class="acct-row-sub">Import JSON backup</div>
                     </div>
                     <div class="acct-row-end">›</div>
                     <input type="file" id="acctRestoreInput" accept=".json" style="display:none">
@@ -1856,7 +1858,7 @@
                     <div class="acct-row-icon green">📲</div>
                     <div class="acct-row-text">
                         <div class="acct-row-label">Install app</div>
-                        <div class="acct-row-sub">Add to home screen for best experience</div>
+                        <div class="acct-row-sub">Add to home screen</div>
                     </div>
                     <div class="acct-row-end">›</div>
                 </div>
@@ -1907,8 +1909,7 @@
 
             <!-- Gemini API key -->
             <div class="ai-key-hint">
-                Powered by Google Gemini (free). Get your API key at
-                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a> — it's free.
+                Free Gemini key: <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a>
             </div>
             <div class="ai-key-row">
                 <input type="password" class="ai-key-input" id="aiKeyInput" placeholder="Paste your Gemini API key (AIza…)" autocomplete="off" spellcheck="false">
@@ -2453,8 +2454,16 @@ function loadCustom() {
     try { return JSON.parse(localStorage.getItem(customStoreKey())) || {}; } catch { return {}; }
 }
 function saveCustom(c) { localStorage.setItem(customStoreKey(), JSON.stringify(c)); sbPushIfEnabled(); }
+// In-memory cache of community dishes fetched from Supabase
+// Shape: { [listKey]: [{ id, name, nonveg, tags, community: true }] }
+let COMMUNITY_DISHES = {};
+
 function mergedItems(listKey) {
-    return [...baseList(listKey), ...(loadCustom()[listKey] || [])];
+    return [
+        ...baseList(listKey),
+        ...(COMMUNITY_DISHES[listKey] || []),
+        ...(loadCustom()[listKey] || []),
+    ];
 }
 function lookup(listKey, id) {
     if (!id) return null;
@@ -2633,10 +2642,28 @@ function addCustomItem(listKey, name, nonveg) {
         alert('This dish is already in the list.');
         return false;
     }
+    const id = `cus_${listKey}_${Date.now()}`;
+    const dish = { id, name: trimmed, nonveg: !!nonveg, custom: true };
     const c = loadCustom();
     if (!c[listKey]) c[listKey] = [];
-    c[listKey].push({ id: `cus_${listKey}_${Date.now()}`, name: trimmed, nonveg: !!nonveg, custom: true });
+    c[listKey].push(dish);
     saveCustom(c);
+
+    // Push to community table so all users see it
+    if (supaUser) {
+        supa.from('community_dishes').insert({
+            id, list_key: listKey, name: trimmed,
+            nonveg: !!nonveg, tags: [],
+            added_by: supaUser.id,
+        }).then(({ error }) => {
+            if (error) console.warn('community dish push failed:', error.message);
+            else {
+                // Add to in-memory cache immediately
+                if (!COMMUNITY_DISHES[listKey]) COMMUNITY_DISHES[listKey] = [];
+                COMMUNITY_DISHES[listKey].push({ id, name: trimmed, nonveg: !!nonveg, tags: [], community: true });
+            }
+        });
+    }
     return true;
 }
 
@@ -2645,6 +2672,15 @@ function removeCustomItem(listKey, id) {
     if (!c[listKey]) return;
     c[listKey] = c[listKey].filter(x => x.id !== id);
     saveCustom(c);
+    // Remove from community table (RLS ensures only the contributor can delete)
+    if (supaUser) {
+        supa.from('community_dishes').delete().eq('id', id)
+            .then(() => {
+                if (COMMUNITY_DISHES[listKey]) {
+                    COMMUNITY_DISHES[listKey] = COMMUNITY_DISHES[listKey].filter(x => x.id !== id);
+                }
+            });
+    }
     restoreItem(listKey, id);
     if (!draft) return;
     if (draft.single === id) draft.single = null;
@@ -3076,11 +3112,11 @@ function renderWeekTable() {
     });
     const emptyCard = !hasAnyMeal ? `
         <div class="week-empty-card">
-            <h3>👋 Start planning your week!</h3>
-            <p>Tap any day below to choose meals, or shuffle the whole week in one go.<br>Shopping list builds automatically once you add meals.</p>
+            <h3>Plan this week</h3>
+            <p>Tap any meal to choose, or generate your whole week instantly.</p>
             <div class="week-empty-actions">
-                <button class="btn btn-shuffle" id="emptyShuffleBtn">🎲 Shuffle full week</button>
-                <button class="btn btn-s" id="emptyTapHint">Tap Monday to start</button>
+                <button class="btn btn-p" id="emptyShuffleBtn">✨ AI Plan</button>
+                <button class="btn btn-shuffle" id="emptyShuffleBtn2">🎲 Shuffle</button>
             </div>
         </div>` : '';
 
@@ -3097,7 +3133,8 @@ function renderWeekTable() {
 
     const wt = document.getElementById('weekTable');
     bindWeekInteractions(wt);
-    wt.querySelector('#emptyShuffleBtn')?.addEventListener('click', shuffleWeek);
+    wt.querySelector('#emptyShuffleBtn')?.addEventListener('click', openAiModal);
+    wt.querySelector('#emptyShuffleBtn2')?.addEventListener('click', shuffleWeek);
     wt.querySelector('#emptyTapHint')?.addEventListener('click', () => openPicker('Monday', 'bf'));
 
     // Render supplementary panels
@@ -3686,14 +3723,20 @@ function renderMenuCatalog() {
             card += `<div class="seg-inner">`;
             if (seg.hint) card += `<p class="hint" style="margin:0 0 .35rem;font-size:.71rem">${seg.hint}</p>`;
             if (!items.length) {
-                card += `<p class="hint">Hidden by filter or search — change ⚙️ preferences</p></div></details>`;
+                card += `<p class="hint">No matches</p></div></details>`;
                 return;
             }
             card += `<div class="tags">${items.map(i => {
-                const rm = `<button type="button" class="rm" data-list="${seg.listKey}" data-id="${i.id}" data-custom="${i.custom?'1':'0'}">×</button>`;
-                const planned = plannedIds.has(i.id) ? `<span class="tag-planned">✓</span>` : '';
-                const ingEdit = i.id ? `<button type="button" class="tag-ing-edit" data-ing-id="${i.id}" data-ing-name="${i.name}" title="Edit ingredients">🧂</button>` : '';
-                return `<span class="tag ${i.nonveg?'nv':''} ${i.custom?'custom':''}"><span class="tag-name">${i.name}</span>${planned}${ingEdit}${rm}</span>`;
+                // Community dish: only the contributor can delete; others see it read-only
+                const isMyContribution = i.community && supaUser && i.addedBy === supaUser.id;
+                const canRemove = !i.community || isMyContribution;
+                const rm = canRemove
+                    ? `<button type="button" class="rm" data-list="${seg.listKey}" data-id="${i.id}" data-custom="${i.custom||i.community?'1':'0'}">×</button>`
+                    : '';
+                const planned  = plannedIds.has(i.id) ? `<span class="tag-planned">✓</span>` : '';
+                const ingEdit  = i.id && !i.community ? `<button type="button" class="tag-ing-edit" data-ing-id="${i.id}" data-ing-name="${i.name}" title="Edit ingredients">🧂</button>` : '';
+                const tagClass = i.community ? 'community' : i.custom ? 'custom' : '';
+                return `<span class="tag ${i.nonveg?'nv':''} ${tagClass}"><span class="tag-name">${i.name}</span>${planned}${ingEdit}${rm}</span>`;
             }).join('')}</div></div></details>`;
         });
         if (card) html += `<div class="meal-card"><h2>${m.title}</h2>${card}</div>`;
@@ -5422,6 +5465,10 @@ Promise.all([loadIngredientDb(), loadMenus()]).then(() => {
     renderShopping();
     maybeShowInstallBanner();
     checkCookHash();
+    // Fetch community dishes (no auth needed — publicly readable)
+    // and start realtime so new dishes appear instantly for all users
+    fetchCommunityDishes();
+    startCommunityRealtime();
     appReady = true; // mark app as fully initialised AFTER first render
 }).catch((err) => {
     console.error('Gatherly: failed to load menu data —', err);
@@ -5759,6 +5806,69 @@ function startRealtime() {
 
 function stopRealtime() {
     if (realtimeChan) { supa.removeChannel(realtimeChan); realtimeChan = null; }
+}
+
+// ── Community dishes (global menu contributions) ───────────────────────────
+// Fetches all community-added dishes from Supabase.
+// No auth required — readable by everyone (RLS: anyone can read).
+let communityRealtimeChan = null;
+
+async function fetchCommunityDishes() {
+    try {
+        const { data, error } = await supa
+            .from('community_dishes')
+            .select('id, list_key, name, nonveg, tags, added_by');
+        if (error) throw error;
+        // Build in-memory dict
+        COMMUNITY_DISHES = {};
+        (data || []).forEach(row => {
+            const lk = row.list_key;
+            if (!COMMUNITY_DISHES[lk]) COMMUNITY_DISHES[lk] = [];
+            COMMUNITY_DISHES[lk].push({
+                id: row.id, name: row.name,
+                nonveg: row.nonveg, tags: row.tags || [],
+                community: true, addedBy: row.added_by,
+            });
+        });
+        if (appReady) renderMenuCatalog();
+    } catch (e) {
+        console.warn('community dishes fetch failed:', e.message);
+    }
+}
+
+function startCommunityRealtime() {
+    if (communityRealtimeChan) {
+        supa.removeChannel(communityRealtimeChan);
+        communityRealtimeChan = null;
+    }
+    communityRealtimeChan = supa
+        .channel('community_dishes_changes')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_dishes' },
+            payload => {
+                const row = payload.new;
+                if (!row) return;
+                if (!COMMUNITY_DISHES[row.list_key]) COMMUNITY_DISHES[row.list_key] = [];
+                // Avoid duplicates
+                if (!COMMUNITY_DISHES[row.list_key].some(x => x.id === row.id)) {
+                    COMMUNITY_DISHES[row.list_key].push({
+                        id: row.id, name: row.name,
+                        nonveg: row.nonveg, tags: row.tags || [],
+                        community: true, addedBy: row.added_by,
+                    });
+                    if (appReady) renderMenuCatalog();
+                }
+            })
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'community_dishes' },
+            payload => {
+                const id = payload.old?.id;
+                const lk = payload.old?.list_key;
+                if (!id || !lk) return;
+                if (COMMUNITY_DISHES[lk]) {
+                    COMMUNITY_DISHES[lk] = COMMUNITY_DISHES[lk].filter(x => x.id !== id);
+                    if (appReady) renderMenuCatalog();
+                }
+            })
+        .subscribe();
 }
 
 // ── Ensure user has a family (create one if none) ──────────────────────────
