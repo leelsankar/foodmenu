@@ -907,6 +907,140 @@
         .pantry-del:hover { background:#fee2e2; color:#c0392b; }
         .pantry-add { display:flex; gap:.4rem; margin-top:.65rem; flex-wrap:wrap; }
         .pantry-add input { flex:1; min-width:120px; padding:.45rem .6rem; border:2px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); }
+        /* ── ACCOUNT & SETTINGS SHEET ───────────────────────────── */
+        .acct-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,.4);
+            z-index: 500; display: flex; align-items: flex-end; justify-content: center;
+        }
+        .acct-overlay.hidden { display: none; }
+        .acct-sheet {
+            background: var(--card); width: 100%; max-width: 480px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            max-height: 92dvh; max-height: 92vh;
+            display: flex; flex-direction: column;
+            box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+        }
+        @media (min-width: 520px) {
+            .acct-overlay { align-items: center; padding: 1rem; }
+            .acct-sheet { border-radius: var(--radius); max-height: 88dvh; }
+        }
+        .acct-handle {
+            width: 36px; height: 4px; background: var(--border);
+            border-radius: 2px; margin: .6rem auto .2rem; flex-shrink: 0;
+        }
+        .acct-head {
+            padding: .5rem 1rem .65rem; flex-shrink: 0;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .acct-head h2 { font-size: 1rem; font-weight: 700; font-family: 'Fraunces', serif; color: var(--p); }
+        .acct-body { overflow-y: auto; flex: 1; padding: .5rem 0 1.5rem; }
+        /* User hero row */
+        .acct-user-row {
+            display: flex; align-items: center; gap: .85rem;
+            padding: .85rem 1rem; background: var(--cream);
+            margin-bottom: .25rem;
+        }
+        .acct-avatar-lg {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--p); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 800; flex-shrink: 0; overflow: hidden;
+        }
+        .acct-avatar-lg img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .acct-user-info { flex: 1; min-width: 0; }
+        .acct-user-name { font-size: .95rem; font-weight: 700; color: var(--text); }
+        .acct-user-email { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+        .acct-user-badge {
+            font-size: .65rem; font-weight: 700; padding: .2rem .5rem;
+            border-radius: 999px; background: #e8f5e9; color: #2e7d52;
+            border: 1px solid #a8d5b5; white-space: nowrap; margin-top: .3rem;
+            display: inline-block;
+        }
+        body.dark .acct-user-badge { background: #0f2a18; color: #6abf77; border-color: #3a7a4a; }
+        /* Section */
+        .acct-section { padding: .65rem 1rem 0; }
+        .acct-section-title {
+            font-size: .65rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .07em; color: var(--muted); margin-bottom: .45rem;
+        }
+        /* Settings row */
+        .acct-row {
+            display: flex; align-items: center; gap: .75rem;
+            padding: .7rem .85rem; border-radius: 12px;
+            cursor: pointer; transition: background .12s;
+            margin-bottom: .2rem;
+        }
+        .acct-row:hover { background: var(--cream); }
+        .acct-row-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.05rem; flex-shrink: 0;
+        }
+        .acct-row-icon.orange { background: #fdeee8; }
+        .acct-row-icon.green  { background: #e8f5e9; }
+        .acct-row-icon.purple { background: #ede9fb; }
+        .acct-row-icon.blue   { background: #e3f2fd; }
+        .acct-row-icon.red    { background: #fdecea; }
+        .acct-row-icon.grey   { background: var(--cream); }
+        body.dark .acct-row-icon.orange { background: #2e1e10; }
+        body.dark .acct-row-icon.green  { background: #0f2a18; }
+        body.dark .acct-row-icon.purple { background: #1e1530; }
+        body.dark .acct-row-icon.blue   { background: #0d1f2d; }
+        body.dark .acct-row-icon.red    { background: #2a1010; }
+        body.dark .acct-row-icon.grey   { background: var(--cream); }
+        .acct-row-text { flex: 1; min-width: 0; }
+        .acct-row-label { font-size: .85rem; font-weight: 600; color: var(--text); }
+        .acct-row-sub   { font-size: .7rem; color: var(--muted); margin-top: .08rem; }
+        .acct-row-end { flex-shrink: 0; display: flex; align-items: center; gap: .4rem; color: var(--muted); font-size: .8rem; }
+        /* Toggle switch */
+        .acct-toggle {
+            position: relative; width: 40px; height: 22px; flex-shrink: 0;
+        }
+        .acct-toggle input { opacity: 0; width: 0; height: 0; }
+        .acct-toggle-track {
+            position: absolute; inset: 0; border-radius: 11px;
+            background: var(--border); transition: background .2s; cursor: pointer;
+        }
+        .acct-toggle-track::before {
+            content: ''; position: absolute; height: 16px; width: 16px;
+            left: 3px; top: 3px; border-radius: 50%; background: #fff;
+            transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+        }
+        .acct-toggle input:checked + .acct-toggle-track { background: var(--p); }
+        .acct-toggle input:checked + .acct-toggle-track::before { transform: translateX(18px); }
+        /* Cook today row inline */
+        .cook-today-inline {
+            display: flex; align-items: center; gap: .5rem;
+            padding: .55rem .85rem; border-radius: 12px;
+            background: var(--cream); margin: 0 1rem .2rem;
+            border: 1px solid var(--border);
+        }
+        .cook-today-inline.active { background: #e8f5e9; border-color: #a8d5b5; }
+        body.dark .cook-today-inline { background: var(--cream); border-color: var(--border); }
+        body.dark .cook-today-inline.active { background: #0f2a18; border-color: #3a7a4a; }
+        .cook-today-inline .cti-name { flex: 1; font-size: .83rem; font-weight: 600; color: var(--text); }
+        .cook-today-inline.active .cti-name { color: #1b4332; }
+        body.dark .cook-today-inline.active .cti-name { color: #6abf77; }
+        /* Family code box inside sheet */
+        .acct-code-box {
+            background: var(--cream); border: 1.5px dashed var(--border);
+            border-radius: 12px; padding: .65rem 1rem; text-align: center;
+            margin: .3rem 1rem; cursor: pointer; transition: background .15s;
+        }
+        .acct-code-box:hover { background: var(--border); }
+        .acct-code-big { font-size: 1.8rem; font-weight: 800; letter-spacing: .25em; color: var(--p); font-family: 'Fraunces', serif; }
+        .acct-code-hint { font-size: .68rem; color: var(--muted); margin-top: .1rem; }
+        /* Divider */
+        .acct-divider { height: 1px; background: var(--border); margin: .55rem 1rem; }
+        /* Sign-in CTA inside sheet */
+        .acct-signin-cta {
+            margin: .75rem 1rem; padding: .85rem 1rem;
+            background: var(--cream); border-radius: 14px;
+            border: 1.5px dashed var(--border); text-align: center;
+        }
+        .acct-signin-cta p { font-size: .8rem; color: var(--muted); margin-bottom: .65rem; line-height: 1.55; }
+
         /* ── 1. SWIPE — visual feedback ─────────────────────────── */
         #weekTable { touch-action: pan-y; user-select: none; }
         .week-swipe-hint {
@@ -1091,12 +1225,9 @@
             <h1 id="appTitle">Family Meal Plan</h1>
             <p class="sub" id="headerSub">Indian family meal planner</p>
         </div>
-        <div class="header-actions">
-            <div class="planner-switch" id="plannerSwitch" role="tablist" aria-label="Plan for">
-                <button type="button" class="planner-opt active" data-person="adult" role="tab" aria-selected="true">Adults</button>
-            </div>
-            <button type="button" class="btn-icon btn-dark" id="darkModeBtn" title="Toggle dark mode">🌙</button>
-            <button type="button" class="btn-icon" id="settingsBtn" title="Family settings">⚙️</button>
+        <!-- Planner switch stays in header — it's navigation, not a setting -->
+        <div class="planner-switch" id="plannerSwitch" role="tablist" aria-label="Plan for">
+            <button type="button" class="planner-opt active" data-person="adult" role="tab" aria-selected="true">Adults</button>
         </div>
     </div>
 </header>
@@ -1125,16 +1256,6 @@
 
 <main>
     <section id="panel-week" class="panel active">
-        <!-- Who cooks today bar -->
-        <div class="cook-today-bar" id="cookTodayBar">
-            <span style="font-size:1.3rem">🍳</span>
-            <div class="cook-today-info">
-                <div class="cook-today-name" id="cookTodayName">Who's cooking today?</div>
-                <div class="cook-today-sub" id="cookTodaySub">Tap to claim cooking duty</div>
-            </div>
-            <button type="button" class="btn-cook-claim" id="cookClaimBtn">I'm cooking</button>
-        </div>
-
         <div class="toolbar">
             <div class="toolbar-nav">
                 <button class="btn btn-s" id="prevWeek">◀</button>
@@ -1263,52 +1384,152 @@
     </div>
 </div>
 
-<!-- ── FAMILY INVITE / SYNC MODAL ─────────────────────────────────────── -->
-<div class="auth-overlay hidden" id="inviteOverlay">
-    <div class="invite-modal">
-        <div class="invite-modal-head">
-            <h3>👨‍👩‍👧 Family Sync</h3>
-            <button type="button" class="btn-icon" id="closeInviteBtn" style="color:#fff;font-size:1.1rem">✕</button>
+<!-- ── UNIFIED ACCOUNT & SETTINGS SHEET ───────────────────────────────── -->
+<div class="acct-overlay hidden" id="acctOverlay">
+    <div class="acct-sheet">
+        <div class="acct-handle"></div>
+        <div class="acct-head">
+            <h2>Account &amp; Settings</h2>
+            <button type="button" class="btn-icon" id="closeAcctSheet" style="font-size:1.1rem">✕</button>
         </div>
-        <div class="invite-body">
-            <!-- Signed-in user info -->
-            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
-                <span class="auth-avatar" id="inviteAvatar" style="background:var(--p);color:#fff;width:34px;height:34px;font-size:.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center">?</span>
-                <div>
-                    <div style="font-weight:700;font-size:.88rem" id="inviteUserName">You</div>
-                    <div style="font-size:.72rem;color:var(--muted)" id="inviteUserEmail"></div>
+        <div class="acct-body">
+
+            <!-- ── SIGNED-IN USER HERO ── -->
+            <div class="acct-user-row" id="acctUserRow" style="display:none">
+                <div class="acct-avatar-lg" id="acctAvatarLg">?</div>
+                <div class="acct-user-info">
+                    <div class="acct-user-name" id="acctUserName">You</div>
+                    <div class="acct-user-email" id="acctUserEmail"></div>
+                    <span class="acct-user-badge" id="acctSyncBadge">● synced</span>
                 </div>
-                <button type="button" class="btn btn-s" style="margin-left:auto;font-size:.72rem" id="authSignOutBtn">Sign out</button>
+                <button type="button" class="btn btn-s" style="font-size:.72rem;flex-shrink:0" id="authSignOutBtn">Sign out</button>
             </div>
 
-            <hr style="border:none;border-top:1px solid var(--border);margin:.5rem 0">
+            <!-- ── SIGN-IN CTA (when signed out) ── -->
+            <div class="acct-signin-cta" id="acctSignInCta">
+                <p>Sign in to sync your meal plan across all family devices — your wife and cook will see the same plan in real time.</p>
+                <button type="button" class="btn btn-p" style="width:100%;justify-content:center" id="acctSignInBtn">Sign in / Create account</button>
+            </div>
 
-            <!-- Your family code -->
-            <div id="inviteSelfSection">
-                <p style="font-size:.78rem;font-weight:700;color:var(--text);margin:0 0 .2rem">Your family invite code</p>
-                <p style="font-size:.72rem;color:var(--muted);margin:0 0 .4rem">Share this with your wife and cook — they enter it to join your family and see the same meal plan.</p>
-                <div class="invite-code-box">
-                    <div class="invite-code" id="familyInviteCode">------</div>
-                    <div class="invite-hint">tap to copy</div>
+            <!-- ── PLANNING ── -->
+            <div class="acct-section">
+                <div class="acct-section-title">Planning</div>
+
+                <!-- Who is planning (planner switch) -->
+                <div class="acct-row" id="acctPlannerRow">
+                    <div class="acct-row-icon orange">👨‍👩‍👧</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Who am I planning for?</div>
+                        <div class="acct-row-sub" id="acctPlannerSub">Adults</div>
+                    </div>
+                    <!-- Planner switch inline -->
+                    <div class="planner-switch" id="plannerSwitchAcct" role="tablist" aria-label="Plan for" style="background:var(--bg)">
+                        <button type="button" class="planner-opt active" data-person="adult" role="tab" aria-selected="true">Adults</button>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-s" style="width:100%;font-size:.78rem" id="copyInviteCodeBtn">📋 Copy invite code</button>
+
+                <!-- Family setup -->
+                <div class="acct-row" id="acctSetupRow">
+                    <div class="acct-row-icon orange">⚙️</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Family profile &amp; diet</div>
+                        <div class="acct-row-sub">Adults, children, cuisine preferences</div>
+                    </div>
+                    <div class="acct-row-end">›</div>
+                </div>
             </div>
 
-            <hr style="border:none;border-top:1px solid var(--border);margin:.75rem 0">
+            <div class="acct-divider"></div>
 
-            <!-- Join another family -->
-            <p style="font-size:.78rem;font-weight:700;color:var(--text);margin:0 0 .2rem">Join a family</p>
-            <p style="font-size:.72rem;color:var(--muted);margin:0 0 .4rem">Have an invite code from your family? Enter it below.</p>
-            <div class="invite-join-row">
-                <input type="text" id="joinCodeInput" placeholder="ABC123" maxlength="6" autocomplete="off" spellcheck="false">
-                <button type="button" class="btn btn-p" id="joinFamilyBtn">Join</button>
+            <!-- ── WHO'S COOKING TODAY ── -->
+            <div class="acct-section">
+                <div class="acct-section-title">Today's kitchen</div>
+                <div class="cook-today-inline" id="cookTodayInline">
+                    <span style="font-size:1.2rem">🍳</span>
+                    <div class="cti-name" id="cookTodayInlineName">Nobody claimed cooking yet</div>
+                    <button type="button" class="btn btn-s" style="font-size:.72rem;flex-shrink:0" id="cookClaimBtn">I'm cooking</button>
+                </div>
             </div>
-            <div class="invite-status" id="inviteStatus"></div>
 
-            <hr style="border:none;border-top:1px solid var(--border);margin:.75rem 0">
-            <p style="font-size:.68rem;color:var(--muted);margin:0;text-align:center">
-                Sync status: <span id="inviteSyncStatus">—</span>
-            </p>
+            <div class="acct-divider"></div>
+
+            <!-- ── FAMILY SYNC ── -->
+            <div class="acct-section" id="acctFamilySync">
+                <div class="acct-section-title">Family sync</div>
+
+                <!-- Family code -->
+                <div class="acct-code-box" id="acctCodeBox">
+                    <div class="acct-code-big" id="familyInviteCode">------</div>
+                    <div class="acct-code-hint">Your invite code · tap to copy</div>
+                </div>
+                <p style="font-size:.7rem;color:var(--muted);padding:0 1rem;margin:.3rem 0 .5rem;line-height:1.5">Share this code with your wife and cook. They enter it to join your family and see the same meal plan.</p>
+
+                <!-- Join another family -->
+                <div style="padding:0 1rem">
+                    <div class="invite-join-row">
+                        <input type="text" id="joinCodeInput" placeholder="Enter code to join family" maxlength="6" autocomplete="off" spellcheck="false">
+                        <button type="button" class="btn btn-p" id="joinFamilyBtn">Join</button>
+                    </div>
+                    <div class="invite-status" id="inviteStatus"></div>
+                </div>
+            </div>
+
+            <div class="acct-divider"></div>
+
+            <!-- ── APPEARANCE ── -->
+            <div class="acct-section">
+                <div class="acct-section-title">Appearance</div>
+
+                <!-- Dark mode toggle -->
+                <div class="acct-row">
+                    <div class="acct-row-icon purple">🌙</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Dark mode</div>
+                        <div class="acct-row-sub">Easy on the eyes at night</div>
+                    </div>
+                    <label class="acct-toggle">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="acct-toggle-track"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acct-divider"></div>
+
+            <!-- ── DATA ── -->
+            <div class="acct-section">
+                <div class="acct-section-title">Data</div>
+
+                <div class="acct-row" id="acctBackupRow">
+                    <div class="acct-row-icon blue">📦</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Backup data</div>
+                        <div class="acct-row-sub">Download all your plans as a file</div>
+                    </div>
+                    <div class="acct-row-end">›</div>
+                </div>
+
+                <div class="acct-row" id="acctRestoreRow">
+                    <div class="acct-row-icon blue">📥</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Restore from backup</div>
+                        <div class="acct-row-sub">Import a previously saved backup file</div>
+                    </div>
+                    <div class="acct-row-end">›</div>
+                    <input type="file" id="acctRestoreInput" accept=".json" style="display:none">
+                </div>
+
+                <div class="acct-row" id="acctInstallRow">
+                    <div class="acct-row-icon green">📲</div>
+                    <div class="acct-row-text">
+                        <div class="acct-row-label">Install app</div>
+                        <div class="acct-row-sub">Add to home screen for best experience</div>
+                    </div>
+                    <div class="acct-row-end">›</div>
+                </div>
+            </div>
+
+            <div style="height:.5rem"></div>
         </div>
     </div>
 </div>
@@ -2548,7 +2769,6 @@ function renderWeekTable() {
 
     // Render supplementary panels
     renderBudgetBar();
-    renderCookTodayBar();
 }
 
 function openPicker(day, meal) {
@@ -3635,9 +3855,7 @@ function isShopChecked(key) {
     return !!(loadShopChecks()[weekKey()] || {})[key];
 }
 
-function rebuildPlannerSwitch() {
-    const sw = document.getElementById('plannerSwitch');
-    const children = getChildren();
+function buildPlannerHtml(children) {
     const adultOn = planner === 'adult';
     let html = `<button type="button" class="planner-opt ${adultOn ? 'active' : ''}" data-person="adult" role="tab" aria-selected="${adultOn}">Adults</button>`;
     children.forEach((c, i) => {
@@ -3646,11 +3864,34 @@ function rebuildPlannerSwitch() {
         const label = (c.name?.trim() || `Child ${i + 1}`) + ' · ' + childAgeShort(c.ageMonths);
         html += `<button type="button" class="planner-opt ${on ? 'active' : ''}" data-person="${pid}" role="tab" aria-selected="${on}">${label}</button>`;
     });
-    sw.innerHTML = html;
-    sw.style.display = '';
-    sw.querySelectorAll('.planner-opt').forEach(btn => {
-        btn.addEventListener('click', () => setPlanner(btn.dataset.person));
-    });
+    return html;
+}
+function rebuildPlannerSwitch() {
+    const children = getChildren();
+    const html = buildPlannerHtml(children);
+    // Header planner switch
+    const sw = document.getElementById('plannerSwitch');
+    if (sw) {
+        sw.innerHTML = html;
+        sw.style.display = '';
+        sw.querySelectorAll('.planner-opt').forEach(btn => {
+            btn.addEventListener('click', () => setPlanner(btn.dataset.person));
+        });
+    }
+    // Account sheet planner switch (if sheet is open)
+    const swAcct = document.getElementById('plannerSwitchAcct');
+    if (swAcct) {
+        swAcct.innerHTML = html;
+        swAcct.style.display = '';
+        swAcct.querySelectorAll('.planner-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setPlanner(btn.dataset.person);
+                // Update sub-label
+                const sub = document.getElementById('acctPlannerSub');
+                if (sub) sub.textContent = btn.textContent;
+            });
+        });
+    }
     if (!children.length && isChildPlanner()) setPlanner('adult');
 }
 
@@ -4159,8 +4400,9 @@ function isDarkMode() { return localStorage.getItem(DARK_MODE_KEY) === '1'; }
 function applyDarkMode() {
     const on = isDarkMode();
     document.body.classList.toggle('dark', on);
-    const btn = document.getElementById('darkModeBtn');
-    if (btn) btn.textContent = on ? '☀️' : '🌙';
+    // Sync toggle inside account sheet if open
+    const tog = document.getElementById('darkModeToggle');
+    if (tog) tog.checked = on;
 }
 function toggleDarkMode() {
     localStorage.setItem(DARK_MODE_KEY, isDarkMode() ? '0' : '1');
@@ -4712,7 +4954,7 @@ function setPlanner(p) {
 }
 document.getElementById('setupChildCount').addEventListener('input', renderSetupChildrenList);
 
-document.getElementById('settingsBtn').addEventListener('click', () => openSetup(true));
+// settingsBtn removed from header — setup now accessible via Account sheet
 document.getElementById('setupCancel').addEventListener('click', () => {
     const p = getProfile();
     if (!p.setupDone) {
@@ -4770,7 +5012,7 @@ document.getElementById('setupPantryBtn').addEventListener('click', () => {
 });
 
 document.getElementById('copyWeekBtn').addEventListener('click', copyLastWeek);
-document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+// darkModeBtn removed from header — toggle is now in Account sheet
 document.getElementById('markAllBoughtBtn').addEventListener('click', markAllBought);
 document.getElementById('shareShopBtn').addEventListener('click', shareShoppingList);
 document.getElementById('shareWeekBtn').addEventListener('click', openShareWeek);
@@ -5287,40 +5529,109 @@ function closeAuthModal() {
     document.getElementById('authOverlay').classList.add('hidden');
     document.body.style.overflow = '';
 }
-function openInviteModal() {
-    // Populate user info
-    if (supaUser) {
-        const name = supaUser.user_metadata?.full_name || supaUser.email?.split('@')[0] || 'You';
-        const email = supaUser.email || '';
-        document.getElementById('inviteUserName').textContent = name;
-        document.getElementById('inviteUserEmail').textContent = email;
-        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-        const avatarUrl = supaUser.user_metadata?.avatar_url;
-        const av = document.getElementById('inviteAvatar');
-        if (avatarUrl) av.innerHTML = `<img src="${avatarUrl}" alt="" style="width:100%;height:100%;border-radius:50%">`;
-        else av.textContent = initials;
-    }
-    showFamilyCode();
-    document.getElementById('inviteOverlay').classList.remove('hidden');
+// openInviteModal now opens the unified Account sheet
+function openInviteModal() { openAcctSheet(); }
+function closeInviteModal() { closeAcctSheet(); }
+
+function openAcctSheet() {
+    populateAcctSheet();
+    document.getElementById('acctOverlay').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 }
-function closeInviteModal() {
-    document.getElementById('inviteOverlay').classList.add('hidden');
+function closeAcctSheet() {
+    document.getElementById('acctOverlay').classList.add('hidden');
     document.body.style.overflow = '';
+}
+
+function populateAcctSheet() {
+    const userRow   = document.getElementById('acctUserRow');
+    const signInCta = document.getElementById('acctSignInCta');
+    const syncSection = document.getElementById('acctFamilySync');
+
+    if (supaUser) {
+        // Show user hero
+        if (userRow)   userRow.style.display   = '';
+        if (signInCta) signInCta.style.display  = 'none';
+        if (syncSection) syncSection.style.display = '';
+
+        const name     = supaUser.user_metadata?.full_name || supaUser.email?.split('@')[0] || 'You';
+        const email    = supaUser.email || '';
+        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        const avatarUrl= supaUser.user_metadata?.avatar_url;
+
+        const av = document.getElementById('acctAvatarLg');
+        if (av) {
+            av.innerHTML = avatarUrl
+                ? `<img src="${avatarUrl}" alt="${name}">`
+                : initials;
+        }
+        const nameEl  = document.getElementById('acctUserName');
+        const emailEl = document.getElementById('acctUserEmail');
+        if (nameEl)  nameEl.textContent  = name;
+        if (emailEl) emailEl.textContent = email;
+    } else {
+        if (userRow)   userRow.style.display    = 'none';
+        if (signInCta) signInCta.style.display   = '';
+        if (syncSection) syncSection.style.display = 'none';
+    }
+
+    // Dark mode toggle state
+    const tog = document.getElementById('darkModeToggle');
+    if (tog) tog.checked = isDarkMode();
+
+    // Cook today inline
+    renderCookTodayInline();
+
+    // Planner switch in account sheet
+    rebuildPlannerSwitch();
+
+    // Family code
+    showFamilyCode();
+}
+
+function renderCookTodayInline() {
+    const inline = document.getElementById('cookTodayInline');
+    const nameEl = document.getElementById('cookTodayInlineName');
+    const btn    = document.getElementById('cookClaimBtn');
+    if (!inline) return;
+
+    const data  = loadCookToday();
+    const today = todayIsoDate();
+    const entry = data[today];
+    const myName = supaUser?.user_metadata?.full_name?.split(' ')[0]
+                 || supaUser?.email?.split('@')[0]
+                 || getProfile().plannerName || 'You';
+
+    if (entry?.name) {
+        inline.classList.add('active');
+        const isMe = entry.name === myName;
+        nameEl.textContent = isMe ? '👨‍🍳 You are cooking today' : `👨‍🍳 ${entry.name} is cooking`;
+        if (btn) btn.textContent = isMe ? 'Unclaim' : "I'll cook";
+    } else {
+        inline.classList.remove('active');
+        nameEl.textContent = 'Nobody claimed cooking yet';
+        if (btn) btn.textContent = "I'm cooking";
+    }
 }
 
 // ── Wire up UI events ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    // Account bottom nav button is handled by switchTab('account') → openAuthModal/openInviteModal
+    // Account sheet open/close
+    document.getElementById('closeAcctSheet')?.addEventListener('click', closeAcctSheet);
+    document.getElementById('acctOverlay')?.addEventListener('click', e => {
+        if (e.target === document.getElementById('acctOverlay')) closeAcctSheet();
+    });
 
-    // Close modals on backdrop click
+    // Sign in CTA inside account sheet
+    document.getElementById('acctSignInBtn')?.addEventListener('click', () => {
+        closeAcctSheet();
+        openAuthModal();
+    });
+
+    // Auth modal close
     document.getElementById('authOverlay')?.addEventListener('click', e => {
         if (e.target === document.getElementById('authOverlay')) closeAuthModal();
     });
-    document.getElementById('inviteOverlay')?.addEventListener('click', e => {
-        if (e.target === document.getElementById('inviteOverlay')) closeInviteModal();
-    });
-    document.getElementById('closeInviteBtn')?.addEventListener('click', closeInviteModal);
 
     // Google sign-in
     document.getElementById('authGoogleBtn')?.addEventListener('click', async () => {
@@ -5354,18 +5665,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sign out
     document.getElementById('authSignOutBtn')?.addEventListener('click', async () => {
         await supa.auth.signOut();
-        closeInviteModal();
+        closeAcctSheet();
     });
 
-    // Copy invite code
-    document.getElementById('copyInviteCodeBtn')?.addEventListener('click', () => {
-        const code = document.getElementById('familyInviteCode').textContent;
-        navigator.clipboard?.writeText(code).catch(() => {});
-        document.getElementById('copyInviteCodeBtn').textContent = '✓ Copied!';
-        setTimeout(() => { document.getElementById('copyInviteCodeBtn').textContent = '📋 Copy invite code'; }, 2000);
+    // Dark mode toggle (inside account sheet)
+    document.getElementById('darkModeToggle')?.addEventListener('change', () => {
+        toggleDarkMode();
     });
-    document.getElementById('familyInviteCode')?.addEventListener('click', () => {
-        document.getElementById('copyInviteCodeBtn')?.click();
+
+    // Family setup row
+    document.getElementById('acctSetupRow')?.addEventListener('click', () => {
+        closeAcctSheet();
+        openSetup(true);
+    });
+
+    // Cook today claim (inside account sheet)
+    document.getElementById('cookClaimBtn')?.addEventListener('click', () => {
+        claimCooking();
+        renderCookTodayInline();
+    });
+
+    // Family code copy
+    document.getElementById('acctCodeBox')?.addEventListener('click', () => {
+        const code = document.getElementById('familyInviteCode')?.textContent;
+        if (!code || code === '------') return;
+        navigator.clipboard?.writeText(code).catch(() => {});
+        const hint = document.querySelector('.acct-code-hint');
+        if (hint) {
+            hint.textContent = '✓ Copied!';
+            setTimeout(() => { hint.textContent = 'Your invite code · tap to copy'; }, 2000);
+        }
     });
 
     // Join family
@@ -5375,6 +5704,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('joinCodeInput')?.addEventListener('keydown', e => {
         if (e.key === 'Enter') document.getElementById('joinFamilyBtn')?.click();
+    });
+
+    // Backup / Restore / Install (data rows)
+    document.getElementById('acctBackupRow')?.addEventListener('click', exportAllData);
+    document.getElementById('acctRestoreRow')?.addEventListener('click', () => {
+        document.getElementById('acctRestoreInput')?.click();
+    });
+    document.getElementById('acctRestoreInput')?.addEventListener('change', e => {
+        importAllData(e.target.files[0]);
+    });
+    document.getElementById('acctInstallRow')?.addEventListener('click', () => {
+        closeAcctSheet();
+        openInstallTip();
     });
 
     // ── Bootstrap auth state on load ────────────────────────────────────
@@ -5709,43 +6051,11 @@ function claimCooking() {
         data[today] = { name, claimedAt: new Date().toISOString() };
     }
     saveCookToday(data);
-    renderCookTodayBar();
+    renderCookTodayInline();
 }
 
-function renderCookTodayBar() {
-    const bar  = document.getElementById('cookTodayBar');
-    const nameEl = document.getElementById('cookTodayName');
-    const subEl  = document.getElementById('cookTodaySub');
-    const btn    = document.getElementById('cookClaimBtn');
-    if (!bar) return;
-
-    const data = loadCookToday();
-    const today = todayIsoDate();
-    const entry = data[today];
-    const myName = supaUser?.user_metadata?.full_name?.split(' ')[0]
-                 || supaUser?.email?.split('@')[0]
-                 || getProfile().plannerName
-                 || 'You';
-
-    if (entry?.name) {
-        bar.classList.add('active');
-        const isMe = entry.name === myName;
-        nameEl.textContent = isMe ? '👨‍🍳 You are cooking today!' : `👨‍🍳 ${entry.name} is cooking today`;
-        subEl.textContent  = isMe ? 'Tap to unclaim' : 'Have a great meal!';
-        btn.textContent    = isMe ? 'Unclaim' : 'I\'ll cook instead';
-    } else {
-        bar.classList.remove('active');
-        nameEl.textContent = "Who's cooking today?";
-        subEl.textContent  = 'Tap to claim cooking duty';
-        btn.textContent    = "I'm cooking";
-    }
-}
-
-// Wire cook today button
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('cookClaimBtn')?.addEventListener('click', claimCooking);
-    renderCookTodayBar();
-});
+// renderCookTodayBar is now renderCookTodayInline (defined above in account sheet section)
+function renderCookTodayBar() { renderCookTodayInline(); }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PATCH renderWeekTable — inject vote buttons + budget bar
