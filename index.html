@@ -1641,6 +1641,24 @@
 
         /* voting removed */
 
+        /* ── Cell wrapper + recipe info button ─────────────────── */
+        .cell-wrap {
+            display: flex; align-items: flex-start; gap: var(--sp-1);
+        }
+        .cell-wrap .cell { flex: 1; }
+        .btn-recipe-info {
+            flex-shrink: 0;
+            width: 22px; height: 22px;
+            border: none; background: none;
+            color: var(--text-3); font-size: .75rem;
+            cursor: pointer; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: .25rem; opacity: .6;
+            transition: opacity .12s, background .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-recipe-info:hover { opacity: 1; background: var(--surface-2); }
+
         /* ── 5. WHO COOKS TODAY ──────────────────────────────────── */
         .cook-today-bar {
             display: flex; align-items: center; gap: .65rem; flex-wrap: wrap;
@@ -3357,9 +3375,16 @@ function renderWeekTable() {
         const note = notes[weekKey()]?.[day] || '';
         const mealsHtml = mealBlocks.map(m => {
             const t = d[m.field] || '';
+            const firstName = t ? t.split(' · ')[0].trim() : '';
+            const infoBtn = t
+                ? `<button type="button" class="btn-recipe-info" data-dish="${firstName.replace(/"/g,'&quot;')}" data-meal="${m.key}" title="View recipe">ℹ</button>`
+                : '';
             return `<div class="day-meal ${m.key}">
                 <span class="day-meal-lbl">${m.label}</span>
-                <div class="cell ${m.key} ${t ? '' : 'empty'}" data-day="${day}" data-meal="${m.key}" role="button" tabindex="0">${t || 'Tap to add'}</div>
+                <div class="cell-wrap">
+                    <div class="cell ${m.key} ${t ? '' : 'empty'}" data-day="${day}" data-meal="${m.key}" role="button" tabindex="0">${t || 'Tap to add'}</div>
+                    ${infoBtn}
+                </div>
             </div>`;
         }).join('');
         const notePill = `<div class="note-pill ${note ? 'has-note' : ''}" data-note-day="${day}" title="${note || 'Add a note for this day'}">${note || '+ Add note'}</div>`;
@@ -6923,19 +6948,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Tap empty cell → open picker; tap filled cell → open recipe sheet
 function bindWeekInteractions(root) {
+    // Cell tap → always opens picker to edit the meal
     root.querySelectorAll('.cell').forEach(c => {
-        c.addEventListener('click', () => {
-            const text = c.textContent.trim();
-            const meal = c.dataset.meal;
-            // If cell has content and user taps the dish name part → open recipe
-            // Otherwise open picker (empty cell or tap on picker area)
-            if (!text || text === 'Tap to add') {
-                openPicker(c.dataset.day, meal);
-            } else {
-                // First dish name in the cell
-                const firstName = text.split(' · ')[0].trim();
-                openRecipeSheet(firstName, meal);
-            }
+        c.addEventListener('click', () => openPicker(c.dataset.day, c.dataset.meal));
+    });
+    // Recipe info button → opens recipe sheet (stopPropagation so cell click doesn't also fire)
+    root.querySelectorAll('.btn-recipe-info').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const firstName = btn.dataset.dish;
+            const meal      = btn.dataset.meal;
+            openRecipeSheet(firstName, meal);
         });
     });
     root.querySelectorAll('.btn-shuffle-day').forEach(btn => {
