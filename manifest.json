@@ -4,8 +4,8 @@
   "description": "Gatherly — the family meal planner that plans your week, builds your shopping list, and keeps your whole family in sync.",
   "start_url": "/foodmenu/",
   "display": "standalone",
-  "background_color": "#fef3e2",
-  "theme_color": "#c45c26",
+  "background_color": "#F8F6F3",
+  "theme_color": "#C0501F",
   "orientation": "portrait",
   "icons": [
     {
