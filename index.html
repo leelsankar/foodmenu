@@ -1618,30 +1618,31 @@
             padding: .2rem .65rem; font-size: .75rem; font-weight: 700;
             margin-bottom: var(--sp-4);
         }
-        /* Store buttons grid */
+        /* Store icon buttons — compact single row */
         .order-stores {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: var(--sp-2); margin-bottom: var(--sp-3);
+            display: flex; justify-content: space-between;
+            gap: var(--sp-1); margin-bottom: var(--sp-3);
         }
         .store-btn {
-            display: flex; align-items: center; gap: var(--sp-2);
-            background: rgba(255,255,255,.15);
-            border: 1.5px solid rgba(255,255,255,.25);
-            border-radius: var(--r-md); padding: var(--sp-3);
-            cursor: pointer; transition: background .15s, transform .1s;
-            text-align: left; color: #fff; font-family: inherit;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 5px; flex: 1;
+            background: none; border: none;
+            cursor: pointer; padding: 0;
             -webkit-tap-highlight-color: transparent;
+            transition: transform .12s, opacity .12s;
         }
-        .store-btn:hover  { background: rgba(255,255,255,.25); }
-        .store-btn:active { transform: scale(.97); }
+        .store-btn:active { transform: scale(.92); opacity: .8; }
         .store-icon {
-            width: 32px; height: 32px; border-radius: var(--r-sm);
-            flex-shrink: 0; object-fit: contain;
-            background: #fff; display: flex; align-items: center;
-            justify-content: center; font-size: 1.1rem;
+            width: 48px; height: 48px; border-radius: 14px;
+            background: #fff; overflow: hidden; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,.18);
+            transition: box-shadow .15s, transform .15s;
         }
-        .store-name  { font-size: .8rem; font-weight: 800; line-height: 1.2; }
-        .store-label { font-size: .65rem; opacity: .75; }
+        .store-btn:hover .store-icon { box-shadow: 0 4px 12px rgba(0,0,0,.28); transform: translateY(-2px); }
+        .store-icon img, .store-icon svg { width: 100%; height: 100%; object-fit: cover; }
+        .store-name  { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.9); text-align: center; line-height: 1.2; }
+        .store-label { display: none; } /* hidden in icon mode */
         /* Copy & open row */
         .order-copy-row {
             display: flex; gap: var(--sp-2);
@@ -2100,36 +2101,70 @@
             <div id="orderCardCount" style="display:none" class="order-card-count"></div>
             <div class="order-stores" id="orderStores">
                 <!-- Instashop -->
-                <button class="store-btn" id="orderInstashop">
-                    <span class="store-icon">🛒</span>
-                    <div>
-                        <div class="store-name">Instashop</div>
-                        <div class="store-label">UAE · Fast delivery</div>
-                    </div>
+                <button class="store-btn" id="orderInstashop" title="Instashop">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#00A651"/>
+                            <text x="50" y="62" font-family="Arial,sans-serif" font-weight="900" font-size="38" fill="#fff" text-anchor="middle">IS</text>
+                        </svg>
+                    </span>
+                    <span class="store-name">Instashop</span>
                 </button>
                 <!-- Talabat -->
-                <button class="store-btn" id="orderTalabat">
-                    <span class="store-icon">🍊</span>
-                    <div>
-                        <div class="store-name">Talabat</div>
-                        <div class="store-label">UAE · GCC</div>
-                    </div>
+                <button class="store-btn" id="orderTalabat" title="Talabat">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#FF6A00"/>
+                            <text x="50" y="62" font-family="Arial,sans-serif" font-weight="900" font-size="38" fill="#fff" text-anchor="middle">TB</text>
+                        </svg>
+                    </span>
+                    <span class="store-name">Talabat</span>
                 </button>
-                <!-- Noon Daily -->
-                <button class="store-btn" id="orderNoon">
-                    <span class="store-icon">☀️</span>
-                    <div>
-                        <div class="store-name">Noon Daily</div>
-                        <div class="store-label">UAE · KSA · Egypt</div>
-                    </div>
+                <!-- Noon -->
+                <button class="store-btn" id="orderNoon" title="Noon Daily">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#FEEE00"/>
+                            <text x="50" y="62" font-family="Arial,sans-serif" font-weight="900" font-size="30" fill="#1a1a1a" text-anchor="middle">noon</text>
+                        </svg>
+                    </span>
+                    <span class="store-name">Noon</span>
                 </button>
                 <!-- Carrefour -->
-                <button class="store-btn" id="orderCarrefour">
-                    <span class="store-icon">🏪</span>
-                    <div>
-                        <div class="store-name">Carrefour</div>
-                        <div class="store-label">UAE · GCC</div>
-                    </div>
+                <button class="store-btn" id="orderCarrefour" title="Carrefour">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#004A99"/>
+                            <polygon points="50,15 85,50 50,50" fill="#fff"/>
+                            <polygon points="50,85 15,50 50,50" fill="#fff"/>
+                            <polygon points="15,15 37,15 50,50 28,50" fill="#ED1C24"/>
+                            <polygon points="85,85 63,85 50,50 72,50" fill="#ED1C24"/>
+                        </svg>
+                    </span>
+                    <span class="store-name">Carrefour</span>
+                </button>
+                <!-- Amazon Fresh -->
+                <button class="store-btn" id="orderAmazon" title="Amazon Fresh">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#FF9900"/>
+                            <text x="50" y="48" font-family="Arial,sans-serif" font-weight="900" font-size="24" fill="#1a1a1a" text-anchor="middle">amazon</text>
+                            <path d="M28,62 Q50,74 72,62" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <polygon points="70,58 74,65 76,59" fill="#1a1a1a"/>
+                        </svg>
+                    </span>
+                    <span class="store-name">Amazon</span>
+                </button>
+                <!-- Careem Now -->
+                <button class="store-btn" id="orderCareem" title="Careem Now">
+                    <span class="store-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="#1DBF73"/>
+                            <text x="50" y="55" font-family="Arial,sans-serif" font-weight="900" font-size="22" fill="#fff" text-anchor="middle">Careem</text>
+                            <text x="50" y="74" font-family="Arial,sans-serif" font-weight="700" font-size="16" fill="rgba(255,255,255,.8)" text-anchor="middle">Now</text>
+                        </svg>
+                    </span>
+                    <span class="store-name">Careem</span>
                 </button>
             </div>
             <div class="order-copy-row">
@@ -7555,9 +7590,24 @@ const GROCERY_STORES = [
         name:  'Carrefour',
         emoji: '🔵',
         label: 'UAE · GCC',
-        // Verified working URL (200 confirmed)
         url:   (q) => `https://www.carrefouruae.com/mafuae/en/c/MAFUAE?text=${encodeURIComponent(q)}`,
         hint:  'Opens Carrefour UAE search',
+    },
+    {
+        id:    'Amazon',
+        name:  'Amazon Fresh',
+        emoji: '📦',
+        label: 'UAE',
+        url:   (q) => `https://www.amazon.ae/s?k=${encodeURIComponent(q)}&rh=n%3A21626571031`,
+        hint:  'Opens Amazon Fresh UAE search',
+    },
+    {
+        id:    'Careem',
+        name:  'Careem Now',
+        emoji: '🟢',
+        label: 'UAE · GCC',
+        url:   (q) => `https://now.careem.com/search?query=${encodeURIComponent(q)}`,
+        hint:  'Opens Careem Now grocery search',
     },
 ];
 
