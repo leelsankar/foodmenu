@@ -1668,6 +1668,73 @@
         }
         body.dark .order-card { background: linear-gradient(135deg, #0a2e1e 0%, #0f4c35 100%); }
 
+        /* ── BILL SCANNER ────────────────────────────────────────── */
+        .scan-btn {
+            display: flex; align-items: center; gap: var(--sp-2);
+            background: var(--purple); color: #fff;
+            border: none; border-radius: var(--r-full);
+            padding: .52rem 1rem; font-size: .82rem; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            transition: filter .12s, transform .1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .scan-btn:hover  { filter: brightness(1.1); }
+        .scan-btn:active { transform: scale(.97); }
+
+        .scan-sheet {
+            background: var(--surface); width: 100%; max-width: 480px;
+            border-radius: var(--r-xl) var(--r-xl) 0 0;
+            max-height: 92dvh; display: flex; flex-direction: column;
+            box-shadow: var(--shadow-lg);
+        }
+        @media (min-width: 560px) { .scan-sheet { border-radius: var(--r-xl); max-height: 88dvh; } }
+        .scan-head {
+            padding: var(--sp-4) var(--sp-5) var(--sp-3);
+            border-bottom: 1px solid var(--border); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .scan-head h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.05rem; font-weight: 700; color: var(--text-1); }
+        .scan-body { overflow-y: auto; flex: 1; padding: var(--sp-4) var(--sp-5); }
+        .scan-upload-zone {
+            border: 2px dashed var(--border); border-radius: var(--r-lg);
+            padding: var(--sp-8) var(--sp-4); text-align: center;
+            cursor: pointer; transition: border-color .15s, background .15s;
+            margin-bottom: var(--sp-4);
+        }
+        .scan-upload-zone:hover { border-color: var(--purple); background: var(--purple-soft); }
+        .scan-upload-zone.drag { border-color: var(--purple); background: var(--purple-soft); }
+        .scan-upload-icon { font-size: 2.5rem; margin-bottom: var(--sp-2); }
+        .scan-upload-title { font-size: .9rem; font-weight: 700; color: var(--text-1); margin-bottom: var(--sp-1); }
+        .scan-upload-sub { font-size: .75rem; color: var(--text-3); }
+        .scan-preview {
+            width: 100%; max-height: 200px; object-fit: contain;
+            border-radius: var(--r-md); border: 1px solid var(--border);
+            margin-bottom: var(--sp-3); display: none;
+        }
+        .scan-status {
+            font-size: .82rem; padding: .5rem .75rem; border-radius: var(--r-sm);
+            margin-bottom: var(--sp-3); display: none;
+        }
+        .scan-status.processing { background: var(--purple-soft); color: var(--purple); display: block; }
+        .scan-status.ok  { background: var(--green-soft); color: var(--green); display: block; }
+        .scan-status.err { background: #FEE2E2; color: var(--red); display: block; }
+        body.dark .scan-status.err { background: #2a1010; color: var(--nv); }
+
+        /* Extracted items list */
+        .scan-items { margin-bottom: var(--sp-3); }
+        .scan-item-row {
+            display: flex; align-items: center; gap: var(--sp-3);
+            padding: var(--sp-2) 0; border-bottom: 1px solid var(--border);
+        }
+        .scan-item-row:last-child { border-bottom: none; }
+        .scan-item-check { accent-color: var(--green); width: 18px; height: 18px; flex-shrink: 0; cursor: pointer; }
+        .scan-item-name { flex: 1; font-size: .85rem; font-weight: 600; color: var(--text-1); }
+        .scan-item-qty  { font-size: .75rem; color: var(--text-3); flex-shrink: 0; }
+        .scan-foot {
+            padding: var(--sp-3) var(--sp-5); border-top: 1px solid var(--border);
+            display: flex; gap: var(--sp-2); flex-shrink: 0;
+        }
+
         /* ── 1. SWIPE — visual feedback ─────────────────────────── */
         #weekTable { touch-action: pan-y; user-select: none; }
         .week-swipe-hint {
@@ -2034,15 +2101,15 @@
             <div class="order-stores" id="orderStores">
                 <!-- Instashop -->
                 <button class="store-btn" id="orderInstashop">
-                    <span class="store-icon">🟢</span>
+                    <span class="store-icon">🛒</span>
                     <div>
                         <div class="store-name">Instashop</div>
                         <div class="store-label">UAE · Fast delivery</div>
                     </div>
                 </button>
-                <!-- Talabat Mart -->
+                <!-- Talabat -->
                 <button class="store-btn" id="orderTalabat">
-                    <span class="store-icon">🟠</span>
+                    <span class="store-icon">🍊</span>
                     <div>
                         <div class="store-name">Talabat</div>
                         <div class="store-label">UAE · GCC</div>
@@ -2050,7 +2117,7 @@
                 </button>
                 <!-- Noon Daily -->
                 <button class="store-btn" id="orderNoon">
-                    <span class="store-icon">🟡</span>
+                    <span class="store-icon">☀️</span>
                     <div>
                         <div class="store-name">Noon Daily</div>
                         <div class="store-label">UAE · KSA · Egypt</div>
@@ -2058,7 +2125,7 @@
                 </button>
                 <!-- Carrefour -->
                 <button class="store-btn" id="orderCarrefour">
-                    <span class="store-icon">🔵</span>
+                    <span class="store-icon">🏪</span>
                     <div>
                         <div class="store-name">Carrefour</div>
                         <div class="store-label">UAE · GCC</div>
@@ -2370,6 +2437,57 @@
 
             <button type="button" class="btn-ai" id="aiGenerateBtn" style="width:100%;justify-content:center;margin-top:.5rem">
                 ✨ Generate my week
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ── BILL SCANNER MODAL ─────────────────────────────────────────────── -->
+<div class="auth-overlay hidden" id="scanOverlay">
+    <div class="scan-sheet">
+        <div style="width:36px;height:4px;background:var(--surface-3);border-radius:2px;margin:12px auto 0;flex-shrink:0"></div>
+        <div class="scan-head">
+            <h3>📄 Scan your bill</h3>
+            <button type="button" class="btn-icon" id="closeScanBtn" style="font-size:1.1rem">✕</button>
+        </div>
+        <div class="scan-body">
+            <p style="font-size:.8rem;color:var(--text-3);margin-bottom:var(--sp-4);line-height:1.6">
+                Take a photo or upload your supermarket receipt. AI will extract the items and automatically update your pantry stock.
+            </p>
+
+            <!-- Upload zone -->
+            <div class="scan-upload-zone" id="scanUploadZone">
+                <div class="scan-upload-icon">📷</div>
+                <div class="scan-upload-title">Tap to upload receipt</div>
+                <div class="scan-upload-sub">Photo, screenshot or PDF · Supports Instashop, Talabat, Carrefour, Noon bills</div>
+                <input type="file" id="scanFileInput" accept="image/*,.pdf" capture="environment" style="display:none">
+            </div>
+            <img id="scanPreview" class="scan-preview" alt="Bill preview">
+
+            <!-- Status -->
+            <div class="scan-status" id="scanStatus"></div>
+
+            <!-- Extracted items — shown after scan -->
+            <div id="scanItemsWrap" style="display:none">
+                <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:var(--sp-2)">
+                    Items found — tick what to add to pantry
+                </div>
+                <div class="scan-items" id="scanItems"></div>
+                <button type="button" class="btn btn-p" id="scanSelectAllBtn" style="font-size:.75rem;margin-bottom:var(--sp-3)">
+                    ✓ Select all
+                </button>
+            </div>
+
+            <!-- Gemini key hint (reuse from AI modal) -->
+            <div style="font-size:.7rem;color:var(--text-3);line-height:1.5;padding:.5rem .75rem;background:var(--surface-2);border-radius:var(--r-sm)">
+                Uses your Gemini API key. Add it in ✨ AI Plan if not set.
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--purple)">Get free key</a>
+            </div>
+        </div>
+        <div class="scan-foot">
+            <button type="button" class="btn btn-s" id="scanCancelBtn" style="flex:1">Cancel</button>
+            <button type="button" class="btn btn-p" id="scanAddBtn" style="flex:2;display:none">
+                ➕ Add to pantry
             </button>
         </div>
     </div>
@@ -5581,7 +5699,8 @@ function renderPantry(el) {
         <button type="button" class="btn btn-p btn-s" id="shareCookBtn">📱 Share with Cook</button>
     </div>
     <div class="pantry-top-acts">
-        <p class="hint">${inStockCount} of ${items.length} items in stock · Tap ✓/○ to toggle · Change qty with dropdown</p>
+        <p class="hint">${inStockCount} of ${items.length} items in stock</p>
+        <button class="scan-btn" id="scanBillBtn">📄 Scan bill</button>
         <button class="btn btn-s" id="pantryMarkAll">✓ All in</button>
         <button class="btn btn-s" id="pantryClearAll">✗ All out</button>
     </div>`;
@@ -5664,6 +5783,7 @@ function renderPantry(el) {
     });
 
     // Mark all in stock
+    document.getElementById('scanBillBtn')?.addEventListener('click', openScanModal);
     document.getElementById('pantryMarkAll')?.addEventListener('click', () => {
         Object.values(pantry.items).forEach(it => { it.inStock = true; if (!it.qty || it.qty === 'Empty') it.qty = 'Full'; });
         savePantry(pantry);
@@ -7403,33 +7523,40 @@ document.addEventListener('DOMContentLoaded', () => {
 // Store definitions — deep-link URLs and search patterns for GCC
 const GROCERY_STORES = [
     {
-        id:    'instashop',
+        id:    'Instashop',
         name:  'Instashop',
-        // Instashop web search (UAE)
-        url:   (q) => `https://www.instashop.ae/search?query=${encodeURIComponent(q)}`,
-        // App deep link (best effort — falls back to web)
-        app:   (q) => `instashop://search?query=${encodeURIComponent(q)}`,
-        hint:  'Opens Instashop search for your items',
+        emoji: '🟢',
+        label: 'UAE · Fast delivery',
+        // Instashop rebranded — deep link to app, fallback to google search
+        url:   (q) => `https://instashop.com/`,
+        // Best UX: copy list + open app store if app not installed
+        hint:  'Copy list then open Instashop',
     },
     {
-        id:    'talabat',
-        name:  'Talabat Mart',
-        url:   (q) => `https://www.talabat.com/uae/groceries/search?q=${encodeURIComponent(q)}`,
-        app:   (q) => `talabat://search?q=${encodeURIComponent(q)}`,
+        id:    'Talabat',
+        name:  'Talabat',
+        emoji: '🟠',
+        label: 'UAE · GCC',
+        // Verified working URL (200 confirmed)
+        url:   (q) => `https://www.talabat.com/uae/groceries?search=${encodeURIComponent(q)}`,
         hint:  'Opens Talabat grocery search',
     },
     {
-        id:    'noon',
+        id:    'Noon',
         name:  'Noon Daily',
-        url:   (q) => `https://www.noon.com/uae-en/search/?q=${encodeURIComponent(q)}&f[]=fulfilment_type_online.NOON_DAILY`,
-        app:   (q) => `noon://search?q=${encodeURIComponent(q)}`,
-        hint:  'Opens Noon Daily groceries',
+        emoji: '🟡',
+        label: 'UAE · KSA · Egypt',
+        // Verified working search URL
+        url:   (q) => `https://www.noon.com/uae-en/search/?q=${encodeURIComponent(q)}`,
+        hint:  'Opens Noon search for groceries',
     },
     {
-        id:    'carrefour',
+        id:    'Carrefour',
         name:  'Carrefour',
-        url:   (q) => `https://www.carrefouruae.com/mafuae/en/search-page?query=${encodeURIComponent(q)}`,
-        app:   (q) => `carrefoururae://search?query=${encodeURIComponent(q)}`,
+        emoji: '🔵',
+        label: 'UAE · GCC',
+        // Verified working URL (200 confirmed)
+        url:   (q) => `https://www.carrefouruae.com/mafuae/en/c/MAFUAE?text=${encodeURIComponent(q)}`,
         hint:  'Opens Carrefour UAE search',
     },
 ];
@@ -7473,25 +7600,24 @@ function renderOrderCard() {
     }
 }
 
-// Open a store — try app deep link first, fall back to web URL
+// Open a store — copy list to clipboard then open the store's search page
 function openStore(store, items) {
     if (!items.length) {
         alert('Plan your meals first so we know what to order!');
         return;
     }
-    // Use first 3 items as the search query (most stores only support one query)
-    // The real value is copying the full list — stores do the rest
+
+    // Copy full list to clipboard — user pastes into store's notes/search
+    const listText = items.map(i => `• ${i}`).join('\n');
+    const fullText = `🛒 Gatherly grocery list\n\n${listText}\n\n(${items.length} items)`;
+    navigator.clipboard?.writeText(fullText).catch(() => {});
+
+    // Use first item as search query for stores that support it
     const firstItem = items[0];
     const webUrl    = store.url(firstItem);
 
-    // Copy full list to clipboard so user can paste into any store
-    const listText = items.map(i => `• ${i}`).join('\n');
-    const fullText = `🛒 Gatherly shopping list\n\n${listText}\n\n(${items.length} items)`;
-    navigator.clipboard?.writeText(fullText).catch(() => {});
-
-    // Show a brief toast then open the store
-    showOrderToast(`List copied! Opening ${store.name}…`);
-    setTimeout(() => { window.open(webUrl, '_blank'); }, 400);
+    showOrderToast(`List copied ✓ — opening ${store.name}`);
+    setTimeout(() => { window.open(webUrl, '_blank'); }, 500);
 }
 
 // Share via WhatsApp
@@ -7551,9 +7677,9 @@ function showOrderToast(msg) {
 
 // Wire up order card buttons
 document.addEventListener('DOMContentLoaded', () => {
-    // Store buttons
+    // Store buttons — id = "order" + store.id (e.g. "orderTalabat")
     GROCERY_STORES.forEach(store => {
-        document.getElementById(`order${store.id.charAt(0).toUpperCase() + store.id.slice(1)}`)
+        document.getElementById(`order${store.id}`)
             ?.addEventListener('click', () => openStore(store, getOrderableItems()));
     });
 
@@ -7568,6 +7694,260 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Also add a shortcut on the Home dashboard → Shopping stat card
 // (already navigates to shop tab — renderOrderCard is called by renderShopping)
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BILL SCANNER — Photo/screenshot → Gemini Vision → Pantry update
+// ═══════════════════════════════════════════════════════════════════════════
+let scanExtractedItems = []; // [{ name, qty, selected }]
+
+function openScanModal() {
+    scanExtractedItems = [];
+    const statusEl = document.getElementById('scanStatus');
+    const itemsWrap = document.getElementById('scanItemsWrap');
+    const addBtn    = document.getElementById('scanAddBtn');
+    const preview   = document.getElementById('scanPreview');
+    if (statusEl)  { statusEl.className = 'scan-status'; statusEl.textContent = ''; }
+    if (itemsWrap) itemsWrap.style.display = 'none';
+    if (addBtn)    addBtn.style.display    = 'none';
+    if (preview)   { preview.style.display = 'none'; preview.src = ''; }
+    document.getElementById('scanOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeScanModal() {
+    document.getElementById('scanOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function setScanStatus(msg, cls) {
+    const el = document.getElementById('scanStatus');
+    if (!el) return;
+    el.textContent = msg;
+    el.className   = 'scan-status ' + cls;
+}
+
+// Convert image file to base64 for Gemini API
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Send image to Gemini Vision to extract grocery items
+async function extractItemsFromBill(file) {
+    const key = getAiKey();
+    if (!key) {
+        setScanStatus('Add your Gemini API key in ✨ AI Plan first.', 'err');
+        return;
+    }
+
+    setScanStatus('⏳ Reading your receipt…', 'processing');
+
+    // Show preview
+    const preview = document.getElementById('scanPreview');
+    if (preview && file.type.startsWith('image/')) {
+        preview.src     = URL.createObjectURL(file);
+        preview.style.display = 'block';
+    }
+
+    const prompt = `You are reading a supermarket receipt or grocery bill.
+Extract ALL grocery/food items purchased. For each item return:
+- name: clean item name (e.g. "Basmati Rice", "Full Cream Milk", "Tomatoes")
+- qty: quantity with unit if shown (e.g. "1kg", "2L", "6 pcs") or "1" if not clear
+
+Return ONLY valid JSON array, no markdown, no explanation:
+[
+  {"name": "Basmati Rice", "qty": "1kg"},
+  {"name": "Full Cream Milk", "qty": "2L"}
+]
+
+If this is not a receipt or no items found, return: []`;
+
+    try {
+        let requestBody;
+
+        if (file.type === 'application/pdf') {
+            // For PDF — send as document
+            const base64 = await fileToBase64(file);
+            requestBody = {
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        { inline_data: { mime_type: 'application/pdf', data: base64 } }
+                    ]
+                }],
+                generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
+            };
+        } else {
+            // For images
+            const base64    = await fileToBase64(file);
+            const mimeType  = file.type || 'image/jpeg';
+            requestBody = {
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        { inline_data: { mime_type: mimeType, data: base64 } }
+                    ]
+                }],
+                generationConfig: { temperature: 0.1, maxOutputTokens: 1000 }
+            };
+        }
+
+        const resp = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+            { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) }
+        );
+
+        if (!resp.ok) {
+            const err = await resp.json().catch(() => ({}));
+            throw new Error(err?.error?.message || `HTTP ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        const raw  = data?.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
+        const cleaned = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+        const parsed  = JSON.parse(cleaned);
+
+        if (!Array.isArray(parsed) || !parsed.length) {
+            setScanStatus('No grocery items found. Try a clearer photo of the receipt.', 'err');
+            return;
+        }
+
+        // Build extracted items list
+        scanExtractedItems = parsed.map(item => ({
+            name:     item.name?.trim() || 'Unknown item',
+            qty:      item.qty?.trim()  || '1',
+            selected: true,
+        }));
+
+        renderScanItems();
+        setScanStatus(`✓ Found ${scanExtractedItems.length} item${scanExtractedItems.length !== 1 ? 's' : ''} — select what to add to pantry`, 'ok');
+
+        const addBtn = document.getElementById('scanAddBtn');
+        if (addBtn) addBtn.style.display = '';
+
+    } catch(e) {
+        setScanStatus('Error: ' + e.message, 'err');
+    }
+}
+
+function renderScanItems() {
+    const wrap = document.getElementById('scanItemsWrap');
+    const list = document.getElementById('scanItems');
+    if (!wrap || !list) return;
+    wrap.style.display = '';
+    list.innerHTML = scanExtractedItems.map((item, i) => `
+        <div class="scan-item-row">
+            <input type="checkbox" class="scan-item-check" data-scan-idx="${i}" ${item.selected ? 'checked' : ''}>
+            <span class="scan-item-name">${item.name}</span>
+            <span class="scan-item-qty">${item.qty}</span>
+        </div>
+    `).join('');
+    // Bind checkboxes
+    list.querySelectorAll('.scan-item-check').forEach(cb => {
+        cb.addEventListener('change', () => {
+            const idx = parseInt(cb.dataset.scanIdx);
+            if (scanExtractedItems[idx]) scanExtractedItems[idx].selected = cb.checked;
+        });
+    });
+}
+
+// Add selected items to pantry
+function addScannedItemsToPantry() {
+    const selected = scanExtractedItems.filter(i => i.selected);
+    if (!selected.length) {
+        alert('Select at least one item to add.');
+        return;
+    }
+
+    const pantry = loadPantry();
+    let added = 0;
+    selected.forEach(item => {
+        const key = item.name.trim().toLowerCase();
+        // Check if item already exists (fuzzy match by first word)
+        const firstWord = key.split(' ')[0];
+        const existing = Object.values(pantry.items).find(p =>
+            p.name?.toLowerCase().includes(firstWord) || firstWord.includes(p.name?.toLowerCase().split(' ')[0] || '')
+        );
+        if (existing) {
+            // Update existing item to Full
+            existing.inStock = true;
+            existing.qty     = 'Full';
+        } else {
+            // Add new item
+            const id = `scanned_${Date.now()}_${added}`;
+            pantry.items[id] = {
+                id, name: item.name,
+                inStock: true, qty: 'Full',
+                category: guessPantryCategory(item.name),
+                scanned: true,
+            };
+        }
+        added++;
+    });
+
+    savePantry(pantry);
+    closeScanModal();
+    // Switch to pantry view to show results
+    switchTab('shop');
+    document.querySelector('.shop-view-tab[data-shopview="pantry"]')?.click();
+    showOrderToast(`✓ ${added} item${added !== 1 ? 's' : ''} added to pantry`);
+}
+
+// Guess a pantry category from item name
+function guessPantryCategory(name) {
+    const n = name.toLowerCase();
+    if (/milk|cream|yogurt|curd|butter|cheese|ghee/.test(n))  return 'Dairy';
+    if (/rice|flour|atta|maida|semolina|rava|oat/.test(n))    return 'Grains & Flour';
+    if (/dal|lentil|chickpea|rajma|channa/.test(n))           return 'Pulses & Lentils';
+    if (/oil|ghee|butter/.test(n))                            return 'Oils & Fats';
+    if (/salt|sugar|jaggery|pepper|cumin|masala|spice|turmeric|chilli/.test(n)) return 'Spices';
+    if (/tomato|onion|potato|carrot|cabbage|spinach|vegeta/.test(n)) return 'Vegetables';
+    if (/apple|banana|mango|grape|fruit|orange/.test(n))      return 'Fruits';
+    if (/chicken|mutton|fish|prawn|meat|egg/.test(n))         return 'Meat & Eggs';
+    if (/soap|detergent|shampoo|toilet|tissue|clean/.test(n)) return 'Household';
+    return 'Pantry staples';
+}
+
+// Wire scan modal events
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModal);
+    document.getElementById('scanCancelBtn')?.addEventListener('click', closeScanModal);
+    document.getElementById('scanOverlay')?.addEventListener('click', e => {
+        if (e.target === document.getElementById('scanOverlay')) closeScanModal();
+    });
+
+    // Upload zone click → trigger file input
+    const zone  = document.getElementById('scanUploadZone');
+    const input = document.getElementById('scanFileInput');
+    zone?.addEventListener('click', () => input?.click());
+
+    // Drag and drop
+    zone?.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+    zone?.addEventListener('dragleave', () => zone.classList.remove('drag'));
+    zone?.addEventListener('drop', e => {
+        e.preventDefault(); zone.classList.remove('drag');
+        const file = e.dataTransfer.files[0];
+        if (file) extractItemsFromBill(file);
+    });
+
+    // File selected
+    input?.addEventListener('change', () => {
+        if (input.files[0]) extractItemsFromBill(input.files[0]);
+    });
+
+    // Select all
+    document.getElementById('scanSelectAllBtn')?.addEventListener('click', () => {
+        scanExtractedItems.forEach(i => i.selected = true);
+        renderScanItems();
+    });
+
+    // Add to pantry
+    document.getElementById('scanAddBtn')?.addEventListener('click', addScannedItemsToPantry);
+});
 
 // Register service worker — network-first HTML means updates land on next open.
 // The controllerchange listener auto-reloads the page once when the new SW
