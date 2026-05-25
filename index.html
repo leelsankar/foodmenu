@@ -1588,6 +1588,86 @@
             font-size: .68rem; color: var(--text-3); margin-top: 2px;
         }
 
+        /* ── GROCERY DELIVERY ORDER CARD ────────────────────────── */
+        .order-card {
+            background: linear-gradient(135deg, #0f4c35 0%, #1a7a52 100%);
+            border-radius: var(--r-xl); padding: var(--sp-5);
+            margin-bottom: var(--sp-4); color: #fff;
+            position: relative; overflow: hidden;
+        }
+        .order-card::after {
+            content: '🛒'; position: absolute;
+            right: var(--sp-4); top: 50%; transform: translateY(-50%);
+            font-size: 3.5rem; opacity: .15; line-height: 1;
+        }
+        .order-card-label {
+            font-size: .68rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .08em; opacity: .75; margin-bottom: var(--sp-2);
+        }
+        .order-card-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.15rem; font-weight: 700; margin-bottom: var(--sp-1);
+        }
+        .order-card-sub {
+            font-size: .8rem; opacity: .8; margin-bottom: var(--sp-4);
+            line-height: 1.5;
+        }
+        .order-card-count {
+            display: inline-block;
+            background: rgba(255,255,255,.2); border-radius: var(--r-full);
+            padding: .2rem .65rem; font-size: .75rem; font-weight: 700;
+            margin-bottom: var(--sp-4);
+        }
+        /* Store buttons grid */
+        .order-stores {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: var(--sp-2); margin-bottom: var(--sp-3);
+        }
+        .store-btn {
+            display: flex; align-items: center; gap: var(--sp-2);
+            background: rgba(255,255,255,.15);
+            border: 1.5px solid rgba(255,255,255,.25);
+            border-radius: var(--r-md); padding: var(--sp-3);
+            cursor: pointer; transition: background .15s, transform .1s;
+            text-align: left; color: #fff; font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .store-btn:hover  { background: rgba(255,255,255,.25); }
+        .store-btn:active { transform: scale(.97); }
+        .store-icon {
+            width: 32px; height: 32px; border-radius: var(--r-sm);
+            flex-shrink: 0; object-fit: contain;
+            background: #fff; display: flex; align-items: center;
+            justify-content: center; font-size: 1.1rem;
+        }
+        .store-name  { font-size: .8rem; font-weight: 800; line-height: 1.2; }
+        .store-label { font-size: .65rem; opacity: .75; }
+        /* Copy & open row */
+        .order-copy-row {
+            display: flex; gap: var(--sp-2);
+        }
+        .order-copy-btn {
+            flex: 1; background: rgba(255,255,255,.2);
+            border: 1.5px solid rgba(255,255,255,.3);
+            border-radius: var(--r-full); padding: .45rem .75rem;
+            color: #fff; font-size: .75rem; font-weight: 700;
+            cursor: pointer; font-family: inherit; text-align: center;
+            transition: background .15s; -webkit-tap-highlight-color: transparent;
+        }
+        .order-copy-btn:hover  { background: rgba(255,255,255,.3); }
+        .order-copy-btn:active { transform: scale(.97); }
+        .order-copy-btn.wa {
+            background: #25D366; border-color: #25D366;
+        }
+        .order-copy-btn.wa:hover { background: #1EBE57; }
+
+        /* No items state */
+        .order-card-empty {
+            font-size: .85rem; opacity: .75; font-style: italic;
+            margin-bottom: var(--sp-3);
+        }
+        body.dark .order-card { background: linear-gradient(135deg, #0a2e1e 0%, #0f4c35 100%); }
+
         /* ── 1. SWIPE — visual feedback ─────────────────────────── */
         #weekTable { touch-action: pan-y; user-select: none; }
         .week-swipe-hint {
@@ -1943,7 +2023,57 @@
         <div id="menuCatalog"></div>
     </section>
 
-    <section id="panel-shop" class="panel">
+     <section id="panel-shop" class="panel">
+
+        <!-- ── ORDER GROCERIES CARD ─────────────────────────────── -->
+        <div class="order-card" id="orderCard">
+            <div class="order-card-label">Ready to order?</div>
+            <div class="order-card-title">Order groceries now</div>
+            <div id="orderCardSub" class="order-card-sub">Plan meals first to auto-generate your list</div>
+            <div id="orderCardCount" style="display:none" class="order-card-count"></div>
+            <div class="order-stores" id="orderStores">
+                <!-- Instashop -->
+                <button class="store-btn" id="orderInstashop">
+                    <span class="store-icon">🟢</span>
+                    <div>
+                        <div class="store-name">Instashop</div>
+                        <div class="store-label">UAE · Fast delivery</div>
+                    </div>
+                </button>
+                <!-- Talabat Mart -->
+                <button class="store-btn" id="orderTalabat">
+                    <span class="store-icon">🟠</span>
+                    <div>
+                        <div class="store-name">Talabat</div>
+                        <div class="store-label">UAE · GCC</div>
+                    </div>
+                </button>
+                <!-- Noon Daily -->
+                <button class="store-btn" id="orderNoon">
+                    <span class="store-icon">🟡</span>
+                    <div>
+                        <div class="store-name">Noon Daily</div>
+                        <div class="store-label">UAE · KSA · Egypt</div>
+                    </div>
+                </button>
+                <!-- Carrefour -->
+                <button class="store-btn" id="orderCarrefour">
+                    <span class="store-icon">🔵</span>
+                    <div>
+                        <div class="store-name">Carrefour</div>
+                        <div class="store-label">UAE · GCC</div>
+                    </div>
+                </button>
+            </div>
+            <div class="order-copy-row">
+                <button class="order-copy-btn" id="orderCopyList">📋 Copy list</button>
+                <button class="order-copy-btn wa" id="orderWaShare">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                </button>
+            </div>
+        </div>
+
         <div class="shop-view-tabs">
             <button type="button" class="shop-view-tab on" data-shopview="meals">📋 By meal</button>
             <button type="button" class="shop-view-tab" data-shopview="trip">🛒 Shop list</button>
@@ -5579,6 +5709,7 @@ function renderShopping() {
     const planItems = collectWeekPlanItems();
     renderTripPills();
     updatePantryNudge();
+    renderOrderCard(); // update order card item count
 
     if (shopView === 'pantry') {
         document.getElementById('shopSummary').textContent = 'What you have at home';
@@ -7263,6 +7394,180 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(shuffleWeek, 100);
     });
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GROCERY DELIVERY — ORDER CARD
+// Closes the plan → list → order loop so users come back every Sunday.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Store definitions — deep-link URLs and search patterns for GCC
+const GROCERY_STORES = [
+    {
+        id:    'instashop',
+        name:  'Instashop',
+        // Instashop web search (UAE)
+        url:   (q) => `https://www.instashop.ae/search?query=${encodeURIComponent(q)}`,
+        // App deep link (best effort — falls back to web)
+        app:   (q) => `instashop://search?query=${encodeURIComponent(q)}`,
+        hint:  'Opens Instashop search for your items',
+    },
+    {
+        id:    'talabat',
+        name:  'Talabat Mart',
+        url:   (q) => `https://www.talabat.com/uae/groceries/search?q=${encodeURIComponent(q)}`,
+        app:   (q) => `talabat://search?q=${encodeURIComponent(q)}`,
+        hint:  'Opens Talabat grocery search',
+    },
+    {
+        id:    'noon',
+        name:  'Noon Daily',
+        url:   (q) => `https://www.noon.com/uae-en/search/?q=${encodeURIComponent(q)}&f[]=fulfilment_type_online.NOON_DAILY`,
+        app:   (q) => `noon://search?q=${encodeURIComponent(q)}`,
+        hint:  'Opens Noon Daily groceries',
+    },
+    {
+        id:    'carrefour',
+        name:  'Carrefour',
+        url:   (q) => `https://www.carrefouruae.com/mafuae/en/search-page?query=${encodeURIComponent(q)}`,
+        app:   (q) => `carrefoururae://search?query=${encodeURIComponent(q)}`,
+        hint:  'Opens Carrefour UAE search',
+    },
+];
+
+// Build the list of items to order (not in pantry, not already checked off)
+function getOrderableItems() {
+    const days = [...DAYS];
+    const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
+    const extra = getExtraShopItems();
+    if (!planItems.length && !extra.length) return [];
+
+    let items = [];
+    try {
+        const agg = aggregateIngredients(planItems);
+        items = agg
+            .filter(g => !g.atHome && !isShopChecked(g.key))
+            .map(g => g.name);
+    } catch(e) { /* aggregation fails before app ready */ }
+
+    // Add extra shop items
+    extra.forEach(x => { if (!items.includes(x)) items.push(x); });
+    return items;
+}
+
+// Render / update the order card state
+function renderOrderCard() {
+    const items   = getOrderableItems();
+    const subEl   = document.getElementById('orderCardSub');
+    const countEl = document.getElementById('orderCardCount');
+    if (!subEl) return;
+
+    if (!items.length) {
+        subEl.textContent      = 'Plan your meals first — the order list will appear here.';
+        if (countEl) countEl.style.display = 'none';
+    } else {
+        subEl.textContent = `${items.length} ingredient${items.length !== 1 ? 's' : ''} to buy this week`;
+        if (countEl) {
+            countEl.style.display = '';
+            countEl.textContent   = `${items.length} items ready to order`;
+        }
+    }
+}
+
+// Open a store — try app deep link first, fall back to web URL
+function openStore(store, items) {
+    if (!items.length) {
+        alert('Plan your meals first so we know what to order!');
+        return;
+    }
+    // Use first 3 items as the search query (most stores only support one query)
+    // The real value is copying the full list — stores do the rest
+    const firstItem = items[0];
+    const webUrl    = store.url(firstItem);
+
+    // Copy full list to clipboard so user can paste into any store
+    const listText = items.map(i => `• ${i}`).join('\n');
+    const fullText = `🛒 Gatherly shopping list\n\n${listText}\n\n(${items.length} items)`;
+    navigator.clipboard?.writeText(fullText).catch(() => {});
+
+    // Show a brief toast then open the store
+    showOrderToast(`List copied! Opening ${store.name}…`);
+    setTimeout(() => { window.open(webUrl, '_blank'); }, 400);
+}
+
+// Share via WhatsApp
+function shareListWhatsApp() {
+    const items = getOrderableItems();
+    if (!items.length) {
+        alert('Plan your meals first to generate the shopping list.');
+        return;
+    }
+    const profile   = getProfile();
+    const name      = profile.plannerName || 'Family';
+    const week      = fmtLong(weekKey());
+    const listText  = items.map(i => `• ${i}`).join('\n');
+    const msg = `🛒 *${name}'s Grocery List*\n_Week of ${week}_\n\n${listText}\n\n_${items.length} items · via Gatherly_`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// Copy list to clipboard
+function copyOrderList() {
+    const items = getOrderableItems();
+    if (!items.length) {
+        alert('Plan meals first to generate the list.');
+        return;
+    }
+    const listText = items.map(i => `• ${i}`).join('\n');
+    const full = `🛒 Shopping list (${items.length} items)\n\n${listText}\n\nvia Gatherly`;
+    navigator.clipboard?.writeText(full).then(() => {
+        showOrderToast('List copied to clipboard! ✓');
+    }).catch(() => {
+        showOrderToast('Could not copy — try sharing via WhatsApp instead.');
+    });
+}
+
+// Brief toast message at bottom of screen
+let orderToastTimer = null;
+function showOrderToast(msg) {
+    let toast = document.getElementById('orderToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'orderToast';
+        toast.style.cssText = `
+            position:fixed; bottom:calc(var(--bnav-h) + 12px); left:50%;
+            transform:translateX(-50%);
+            background:var(--text-1); color:var(--surface);
+            padding:.5rem 1.1rem; border-radius:var(--r-full);
+            font-size:.8rem; font-weight:700; z-index:9999;
+            box-shadow:var(--shadow-md); white-space:nowrap;
+            transition:opacity .25s;
+        `;
+        document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    clearTimeout(orderToastTimer);
+    orderToastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+}
+
+// Wire up order card buttons
+document.addEventListener('DOMContentLoaded', () => {
+    // Store buttons
+    GROCERY_STORES.forEach(store => {
+        document.getElementById(`order${store.id.charAt(0).toUpperCase() + store.id.slice(1)}`)
+            ?.addEventListener('click', () => openStore(store, getOrderableItems()));
+    });
+
+    // Copy list
+    document.getElementById('orderCopyList')
+        ?.addEventListener('click', copyOrderList);
+
+    // WhatsApp share
+    document.getElementById('orderWaShare')
+        ?.addEventListener('click', shareListWhatsApp);
+});
+
+// Also add a shortcut on the Home dashboard → Shopping stat card
+// (already navigates to shop tab — renderOrderCard is called by renderShopping)
 
 // Register service worker — network-first HTML means updates land on next open.
 // The controllerchange listener auto-reloads the page once when the new SW
