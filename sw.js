@@ -1,7 +1,7 @@
 // Service Worker — network-first for HTML so updates land immediately,
 // cache-first with background refresh for static assets (fonts/icons),
 // network-first for JSON data.
-const CACHE = 'gatherly-v7';
+const CACHE = 'gatherly-v8';
 const OFFLINE_SHELL = [
     '/foodmenu/index.html',
     '/foodmenu/menus.json',
@@ -11,6 +11,12 @@ const OFFLINE_SHELL = [
     '/foodmenu/icon-180.png',
     '/foodmenu/favicon.ico',
     '/foodmenu/favicon-32.png',
+    '/foodmenu/store-instashop.png',
+    '/foodmenu/store-talabat.png',
+    '/foodmenu/store-noon.png',
+    '/foodmenu/store-carrefour.png',
+    '/foodmenu/store-amazon.png',
+    '/foodmenu/store-careem.png',
 ];
 
 // ── Install: pre-cache the shell so the app works fully offline ──────────────
