@@ -1588,86 +1588,47 @@
             font-size: .68rem; color: var(--text-3); margin-top: 2px;
         }
 
-        /* ── GROCERY DELIVERY ORDER CARD ────────────────────────── */
-        .order-card {
-            background: linear-gradient(135deg, #0f4c35 0%, #1a7a52 100%);
-            border-radius: var(--r-xl); padding: var(--sp-5);
-            margin-bottom: var(--sp-4); color: #fff;
-            position: relative; overflow: hidden;
+        /* ── ORDER STRIP (compact single-row) ───────────────────── */
+        .order-strip {
+            display: flex; align-items: center; gap: var(--sp-3);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-lg); padding: var(--sp-3) var(--sp-4);
+            margin-bottom: var(--sp-3); box-shadow: var(--shadow-sm);
         }
-        .order-card::after {
-            content: '🛒'; position: absolute;
-            right: var(--sp-4); top: 50%; transform: translateY(-50%);
-            font-size: 3.5rem; opacity: .15; line-height: 1;
-        }
-        .order-card-label {
-            font-size: .68rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: .08em; opacity: .75; margin-bottom: var(--sp-2);
-        }
-        .order-card-title {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 1.15rem; font-weight: 700; margin-bottom: var(--sp-1);
-        }
-        .order-card-sub {
-            font-size: .8rem; opacity: .8; margin-bottom: var(--sp-4);
-            line-height: 1.5;
-        }
-        .order-card-count {
-            display: inline-block;
-            background: rgba(255,255,255,.2); border-radius: var(--r-full);
-            padding: .2rem .65rem; font-size: .75rem; font-weight: 700;
-            margin-bottom: var(--sp-4);
-        }
-        /* Store icon buttons — compact single row */
+        .order-strip-left { display: flex; flex-direction: column; min-width: 3rem; }
+        .order-strip-count { font-family:'Fraunces',serif; font-size:1.25rem; font-weight:700; color:var(--brand); line-height:1; }
+        .order-strip-label { font-size:.62rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:.04em; }
+        body.dark .order-strip { background:var(--surface); border-color:var(--border); }
+
+        /* Store icon row — compact */
         .order-stores {
-            display: flex; justify-content: space-between;
-            gap: var(--sp-1); margin-bottom: var(--sp-3);
+            display: flex; gap: var(--sp-2); flex: 1; justify-content: flex-end;
         }
         .store-btn {
             display: flex; flex-direction: column; align-items: center;
-            gap: 5px; flex: 1;
-            background: none; border: none;
+            gap: 0; background: none; border: none;
             cursor: pointer; padding: 0;
             -webkit-tap-highlight-color: transparent;
             transition: transform .12s, opacity .12s;
         }
-        .store-btn:active { transform: scale(.92); opacity: .8; }
+        .store-btn:active { transform: scale(.88); opacity: .7; }
         .store-icon {
-            width: 48px; height: 48px; border-radius: 14px;
-            background: #fff; overflow: hidden; flex-shrink: 0;
+            width: 38px; height: 38px; border-radius: 10px;
+            background: var(--surface-2); overflow: hidden;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,.18);
-            transition: box-shadow .15s, transform .15s;
+            box-shadow: var(--shadow-xs);
+            transition: box-shadow .15s, transform .12s;
         }
-        .store-btn:hover .store-icon { box-shadow: 0 4px 12px rgba(0,0,0,.28); transform: translateY(-2px); }
+        .store-btn:hover .store-icon { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
         .store-icon img, .store-icon svg { width: 100%; height: 100%; object-fit: cover; }
-        .store-name  { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.9); text-align: center; line-height: 1.2; }
-        .store-label { display: none; } /* hidden in icon mode */
-        /* Copy & open row */
-        .order-copy-row {
-            display: flex; gap: var(--sp-2);
-        }
-        .order-copy-btn {
-            flex: 1; background: rgba(255,255,255,.2);
-            border: 1.5px solid rgba(255,255,255,.3);
-            border-radius: var(--r-full); padding: .45rem .75rem;
-            color: #fff; font-size: .75rem; font-weight: 700;
-            cursor: pointer; font-family: inherit; text-align: center;
-            transition: background .15s; -webkit-tap-highlight-color: transparent;
-        }
-        .order-copy-btn:hover  { background: rgba(255,255,255,.3); }
-        .order-copy-btn:active { transform: scale(.97); }
-        .order-copy-btn.wa {
-            background: #25D366; border-color: #25D366;
-        }
-        .order-copy-btn.wa:hover { background: #1EBE57; }
+        .store-name  { display: none; } /* hidden — icons only in strip mode */
+        .store-label { display: none; }
 
-        /* No items state */
-        .order-card-empty {
-            font-size: .85rem; opacity: .75; font-style: italic;
-            margin-bottom: var(--sp-3);
-        }
-        body.dark .order-card { background: linear-gradient(135deg, #0a2e1e 0%, #0f4c35 100%); }
+        /* Legacy compat */
+        .order-card-count { display:none; }
+        .order-card-sub   { display:none; }
+        .order-copy-row   { display:none; }
+        .order-copy-btn   { display:none; }
 
         /* ── BILL SCANNER ────────────────────────────────────────── */
         .scan-btn {
@@ -2013,37 +1974,10 @@
             <div class="home-week-days" id="homeWeekDays"></div>
         </div>
 
-        <!-- Quick actions -->
-        <div class="home-actions">
-            <div class="home-action" id="homeActionAI">
-                <div class="home-action-icon purple">✨</div>
-                <div>
-                    <div class="home-action-label">AI Plan</div>
-                    <div class="home-action-sub">Generate this week</div>
-                </div>
-            </div>
-            <div class="home-action" id="homeActionShop">
-                <div class="home-action-icon green">🛒</div>
-                <div>
-                    <div class="home-action-label">Shopping</div>
-                    <div class="home-action-sub" id="homeActionShopSub">View list</div>
-                </div>
-            </div>
-            <div class="home-action" id="homeActionMenu">
-                <div class="home-action-icon amber">📚</div>
-                <div>
-                    <div class="home-action-label">Browse menu</div>
-                    <div class="home-action-sub">All dishes</div>
-                </div>
-            </div>
-            <div class="home-action" id="homeActionShuffle">
-                <div class="home-action-icon brand">🎲</div>
-                <div>
-                    <div class="home-action-label">Shuffle week</div>
-                    <div class="home-action-sub">Random plan</div>
-                </div>
-            </div>
-        </div>
+        <!-- AI Plan shortcut — only non-nav shortcut worth keeping -->
+        <button class="btn-ai" id="homeActionAI" style="width:100%;justify-content:center;padding:.7rem 1rem;font-size:.88rem;border-radius:var(--r-md)">
+            ✨ Generate this week with AI
+        </button>
     </section>
 
     <!-- ── WEEK PLAN ─────────────────────────────────────────────── -->
@@ -2058,12 +1992,10 @@
                 <button class="btn-ai" id="aiGenBtn">✨ AI Plan</button>
                 <button class="btn btn-shuffle" id="shuffleBtn" title="Random plan for all 7 days">🎲 Shuffle</button>
                 <button class="btn btn-s" id="copyWeekBtn" title="Copy last week's meals to this week">📋 Copy</button>
-                <button class="btn-wa" id="waTodayBtn" title="Share today's menu on WhatsApp">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    Today
-                </button>
-                <button class="btn btn-s" id="shareWeekBtn" title="Share week plan as image">📤 Share</button>
-                <button class="btn btn-x" id="exportBtn">📥 Excel</button>
+                <button class="btn btn-s" id="shareWeekBtn" title="Share week plan">📤 Share</button>
+                <!-- waTodayBtn kept hidden for JS compat — accessible from Home tab -->
+                <button type="button" id="waTodayBtn" style="display:none"></button>
+                <button type="button" id="exportBtn" style="display:none"></button>
             </div>
         </div>
         <!-- Budget bar (hidden until meals are planned) -->
@@ -2093,52 +2025,44 @@
 
      <section id="panel-shop" class="panel">
 
-        <!-- ── ORDER GROCERIES CARD ─────────────────────────────── -->
-        <div class="order-card" id="orderCard">
-            <div class="order-card-label">Ready to order?</div>
-            <div class="order-card-title">Order groceries now</div>
-            <div id="orderCardSub" class="order-card-sub">Plan meals first to auto-generate your list</div>
-            <div id="orderCardCount" style="display:none" class="order-card-count"></div>
+        <!-- ── ORDER STRIP (compact) ──────────────────────────────── -->
+        <div class="order-strip" id="orderCard">
+            <div class="order-strip-left">
+                <span class="order-strip-count" id="orderCardCount">—</span>
+                <span class="order-strip-label" id="orderCardSub">items to buy</span>
+            </div>
             <div class="order-stores" id="orderStores">
                 <button class="store-btn" id="orderInstashop" title="Instashop">
                     <span class="store-icon"><img src="store-instashop.png" alt="Instashop" loading="lazy"></span>
-                    <span class="store-name">Instashop</span>
                 </button>
                 <button class="store-btn" id="orderTalabat" title="Talabat">
                     <span class="store-icon"><img src="store-talabat.png" alt="Talabat" loading="lazy"></span>
-                    <span class="store-name">Talabat</span>
                 </button>
-                <button class="store-btn" id="orderNoon" title="Noon Daily">
+                <button class="store-btn" id="orderNoon" title="Noon">
                     <span class="store-icon"><img src="store-noon.png" alt="Noon" loading="lazy"></span>
-                    <span class="store-name">Noon</span>
                 </button>
                 <button class="store-btn" id="orderCarrefour" title="Carrefour">
                     <span class="store-icon"><img src="store-carrefour.png" alt="Carrefour" loading="lazy"></span>
-                    <span class="store-name">Carrefour</span>
                 </button>
-                <button class="store-btn" id="orderAmazon" title="Amazon Fresh">
+                <button class="store-btn" id="orderAmazon" title="Amazon">
                     <span class="store-icon"><img src="store-amazon.png" alt="Amazon" loading="lazy"></span>
-                    <span class="store-name">Amazon</span>
                 </button>
-                <button class="store-btn" id="orderCareem" title="Careem Now">
+                <button class="store-btn" id="orderCareem" title="Careem">
                     <span class="store-icon"><img src="store-careem.png" alt="Careem" loading="lazy"></span>
-                    <span class="store-name">Careem</span>
                 </button>
             </div>
-            <div class="order-copy-row">
-                <button class="order-copy-btn" id="orderCopyList">📋 Copy list</button>
-                <button class="order-copy-btn wa" id="orderWaShare">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    WhatsApp
-                </button>
-            </div>
+            <!-- hidden elements kept for JS compatibility -->
+            <div id="orderCardCount2" style="display:none"></div>
         </div>
 
+        <!-- ── TABS ───────────────────────────────────────────────── -->
         <div class="shop-view-tabs">
-            <button type="button" class="shop-view-tab on" data-shopview="meals">📋 By meal</button>
-            <button type="button" class="shop-view-tab" data-shopview="trip">🛒 Shop list</button>
-            <button type="button" class="shop-view-tab" data-shopview="pantry">🏠 My pantry</button>
+            <button type="button" class="shop-view-tab on" data-shopview="list">✓ My list</button>
+            <button type="button" class="shop-view-tab" data-shopview="meals">🍽 By meal</button>
+            <button type="button" class="shop-view-tab" data-shopview="pantry">🏠 Pantry</button>
         </div>
+
+        <!-- hidden legacy elements kept for JS compatibility -->
         <div id="shopMealFilters" class="shop-filters" style="display:none">
             <button type="button" class="shop-filter-btn on" data-shopfilter="all">All</button>
             <button type="button" class="shop-filter-btn" data-shopfilter="buy">To buy</button>
@@ -2148,15 +2072,25 @@
             <span class="trip-lbl">Shop for:</span>
             <div class="day-pills" id="shopTripPills"></div>
         </div>
-        <div class="progress-bar"><span id="shopProgress" style="width:0%"></span></div>
-        <p class="hint" id="shopSummary"></p>
+
+        <div class="progress-bar" id="shopProgressBar"><span id="shopProgress" style="width:0%"></span></div>
+        <p class="hint" id="shopSummary" style="display:none"></p>
+
+        <!-- Actions row — minimal -->
         <div class="shop-acts">
-            <button type="button" class="btn btn-s shop-act-btn" id="setupPantryBtn">🏠 Pantry</button>
-            <button type="button" class="btn btn-s shop-act-btn" id="markAllBoughtBtn">✓ Bought</button>
-            <button type="button" class="btn btn-s shop-act-btn" id="clearShopChecks">✗ Clear</button>
-            <button type="button" class="btn btn-s shop-act-btn" id="shareShopBtn">🔗 Share</button>
-            <button type="button" class="btn btn-x shop-act-btn" id="exportShopBtn">📥 Excel</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="markAllBoughtBtn">✓ All bought</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="clearShopChecks">↺ Reset</button>
+            <button type="button" class="btn btn-s shop-act-btn" id="orderCopyList">📋 Copy</button>
+            <button type="button" class="btn-wa shop-act-btn" id="orderWaShare" style="padding:.38rem .65rem;font-size:.72rem;border-radius:var(--r-full)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Share
+            </button>
+            <!-- kept for JS compat, hidden -->
+            <button type="button" id="setupPantryBtn" style="display:none"></button>
+            <button type="button" id="shareShopBtn" style="display:none"></button>
+            <button type="button" id="exportShopBtn" style="display:none"></button>
         </div>
+
         <div id="shopContent"></div>
     </section>
 </main>
@@ -2883,7 +2817,7 @@ const DARK_MODE_KEY = 'familyMenu_darkMode_v1';
 const TRIP_CHUNKS = [['Monday', 'Tuesday', 'Wednesday'], ['Thursday', 'Friday', 'Saturday'], ['Sunday']];
 const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
-let shopView = 'meals';
+let shopView = 'list'; // 'list' (aggregated) | 'meals' | 'pantry'
 let shopIngFilter = 'all';
 let shopTrip = 'next3';
 let INGREDIENT_DB = { dishes: {}, staples: [] };
@@ -3200,7 +3134,7 @@ function addCustomItem(listKey, name, nonveg) {
     if (!seg) return false;
     const all = mergedItems(listKey);
     if (all.some(i => i.name.toLowerCase() === trimmed.toLowerCase())) {
-        alert('This dish is already in the list.');
+        showOrderToast('This dish is already in the list.');
         return false;
     }
     const id = `cus_${listKey}_${Date.now()}`;
@@ -4180,7 +4114,7 @@ function exportExcel() {
     if (isChildPlanner()) {
         const child = activeChild();
         if (!DAYS.some(d => { const x = week.days[d]||{}; return x.breakfast||x.lunch||x.snack||x.dinner; })) {
-            alert('No meals planned for this child yet.'); return;
+            showOrderToast('No meals planned for this child yet.'); return;
         }
         const label = child?.name || 'Child';
         const age = child ? childAgeShort(child.ageMonths) : '';
@@ -4202,7 +4136,7 @@ function exportExcel() {
         return;
     }
     if (!DAYS.some(d => week.days[d]?.breakfast || week.days[d]?.lunch || week.days[d]?.dinner)) {
-        alert('No meals planned yet.'); return;
+        showOrderToast('No meals planned yet'); return;
     }
     const rows = [
         ['Family Weekly Menu — Indian'], [],
@@ -5004,7 +4938,7 @@ function copyLastWeek() {
     const all = (() => { try { return JSON.parse(localStorage.getItem(storeKey)) || {}; } catch { return {}; } })();
     const lastWeek = all[lastKey];
     if (!lastWeek?.days || !Object.keys(lastWeek.days).length) {
-        alert('No meals found in last week — plan at least one day first.');
+        showOrderToast('No meals in last week to copy.'); return;
         return;
     }
     const current = getWeek();
@@ -5258,7 +5192,7 @@ function exportAllData() {
         const k = localStorage.key(i);
         if (BACKUP_KEYS_RE.test(k)) out[k] = localStorage.getItem(k);
     }
-    if (!Object.keys(out).length) { alert('Nothing to backup yet — set up the app first.'); return; }
+    if (!Object.keys(out).length) { showOrderToast('Nothing to backup yet.'); return; }
     const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -5277,7 +5211,7 @@ function importAllData(file) {
             if (!keys.length) { alert('This file does not look like a Gatherly backup.'); return; }
             if (!confirm(`Restore ${keys.length} data entries from backup?\nThis will replace your current data.`)) return;
             keys.forEach(k => localStorage.setItem(k, data[k]));
-            alert('✅ Data restored! The app will reload now.');
+            showOrderToast('Restored ✓ — reloading…');
             location.reload();
         } catch { alert('Could not read the backup file. Make sure it is a valid JSON backup.'); }
     };
@@ -5321,7 +5255,7 @@ async function shareShoppingList() {
     const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
     const agg = aggregateIngredients(planItems);
     const extra = getExtraShopItems();
-    if (!agg.length && !extra.length) { alert('Nothing on the shopping list yet.'); return; }
+    if (!agg.length && !extra.length) { showOrderToast('Plan meals first to build your list.'); return; return; }
     const toBuy = agg.filter(g => !pantryHas(g.name) && !isShopChecked(g.key)).map(g => `• ${g.name}`);
     const extraLines = extra.map(x => `• ${x} (extra)`);
     const lines = [...toBuy, ...extraLines];
@@ -5330,7 +5264,7 @@ async function shareShoppingList() {
         try { await navigator.share({ title: 'Shopping list', text }); return; } catch {}
     }
     await navigator.clipboard.writeText(text).catch(() => {});
-    alert('List copied to clipboard — paste into WhatsApp or any app!');
+    showOrderToast('Copied to clipboard ✓');
 }
 
 // ─── MARK ALL BOUGHT ─────────────────────────────────────────────────────────
@@ -5339,7 +5273,7 @@ function markAllBought() {
     const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
     const agg = aggregateIngredients(planItems);
     const toBuy = agg.filter(g => !pantryHas(g.name) && !isShopChecked(g.key));
-    if (!toBuy.length) { alert('Nothing left to mark — all items already ticked!'); return; }
+    if (!toBuy.length) { showOrderToast('All items already ticked!'); return; }
     if (!confirm(`Mark all ${toBuy.length} remaining items as bought?`)) return;
     const checks = loadShopChecks();
     const wk = weekKey();
@@ -5557,7 +5491,7 @@ function bindIngredientRows(root) {
             const day = btn.dataset.cookedDay;
             if (!confirm(`Mark ${day} as cooked?\n\nWe'll assume ingredients used that day are finished — pantry items will be marked "need to buy" again.`)) return;
             const n = deductPantryForDay(day);
-            alert(n ? `Updated pantry (${n} items marked used).` : 'No ingredients to update — add dishes to this day first.');
+            showOrderToast(n ? `Pantry updated — ${n} items marked used ✓` : 'No ingredients to update.');
             renderShopping();
         });
     });
@@ -5825,14 +5759,15 @@ function renderShopping() {
     renderOrderCard(); // update order card item count
 
     if (shopView === 'pantry') {
-        document.getElementById('shopSummary').textContent = 'What you have at home';
-        document.getElementById('shopProgress').style.width = '100%';
         document.getElementById('shopMealFilters').style.display = 'none';
+        document.getElementById('shopProgressBar').style.display = 'none';
         renderPantry(el);
         return;
     }
+    document.getElementById('shopProgressBar').style.display = '';
 
-    if (shopView === 'trip') {
+    // 'list' = clean aggregated checklist (default, like Mealime)
+    if (shopView === 'list' || shopView === 'trip') {
         document.getElementById('shopMealFilters').style.display = 'none';
         renderShoppingTrip(el, planItems);
         return;
@@ -5866,7 +5801,7 @@ function exportShoppingExcel() {
     const days = shopView === 'trip' ? daysForShopTrip() : [...DAYS];
     const planItems = collectWeekPlanItems().filter(p => days.includes(p.day));
     const agg = aggregateIngredients(planItems);
-    if (!agg.length) { alert('Nothing on the shopping list.'); return; }
+    if (!agg.length) { showOrderToast('Add meals first to build your list.'); return; return; }
     const checks = loadShopChecks()[weekKey()] || {};
     const aoa = [
         ['Gatherly — Shopping list'], [],
@@ -5942,7 +5877,7 @@ document.querySelectorAll('.shop-view-tab').forEach(btn => {
         btn.classList.add('on');
         shopView = btn.dataset.shopview;
         const filters = document.getElementById('shopMealFilters');
-        if (filters) filters.style.display = shopView === 'meals' ? '' : 'none';
+        if (filters) filters.style.display = 'none'; // filters hidden on all views now
         renderShopping();
     });
 });
@@ -5964,7 +5899,7 @@ document.getElementById('setupPantryBtn').addEventListener('click', () => {
     const has = Object.keys(loadPantry().items || {}).length;
     if (has && !confirm('Reset pantry to common staples? (You can tick items again.)')) return;
     initPantryFromStaples();
-    alert('Pantry ready — tick what you have at home under My pantry.');
+    showOrderToast('Pantry set up ✓ — tick what you have');
     renderShopping();
 });
 
@@ -7591,27 +7526,18 @@ function getOrderableItems() {
 
 // Render / update the order card state
 function renderOrderCard() {
-    const items   = getOrderableItems();
-    const subEl   = document.getElementById('orderCardSub');
-    const countEl = document.getElementById('orderCardCount');
-    if (!subEl) return;
-
-    if (!items.length) {
-        subEl.textContent      = 'Plan your meals first — the order list will appear here.';
-        if (countEl) countEl.style.display = 'none';
-    } else {
-        subEl.textContent = `${items.length} ingredient${items.length !== 1 ? 's' : ''} to buy this week`;
-        if (countEl) {
-            countEl.style.display = '';
-            countEl.textContent   = `${items.length} items ready to order`;
-        }
-    }
+    const items    = getOrderableItems();
+    const countEl  = document.getElementById('orderCardCount');
+    const labelEl  = document.getElementById('orderCardSub');
+    if (!countEl) return;
+    countEl.textContent = items.length || '—';
+    if (labelEl) labelEl.textContent = items.length === 1 ? 'item to buy' : 'items to buy';
 }
 
 // Open a store — copy list to clipboard then open the store's search page
 function openStore(store, items) {
     if (!items.length) {
-        alert('Plan your meals first so we know what to order!');
+        showOrderToast('Plan meals first to generate your list.'); return;
         return;
     }
 
